@@ -1,0 +1,7 @@
+# Aprobar scripts de build de dependencias nativas (pnpm v10+ los bloquea por defecto).
+# sharp = optimización de imágenes; el resto son binarios de swc/eslint/next.
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  sharp: true
+  unrs-resolver: true

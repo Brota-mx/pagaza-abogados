@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/* === Tokens de marca Pagaza (Tailwind v4 @theme) ===
+   Generan utilidades: bg-navy, text-bronze, border-line, font-serif, etc. */
+@theme {
+  --color-navy: #16243b;
+  --color-navy-2: #1e2f4a;
+  --color-navy-ink: #101b2d;
+  --color-bronze: #b0894e;
+  --color-bronze-soft: #c9a96a;
+  --color-bg: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-line: #e6e8eb;
+  --color-ink: #1c1d1f;
+  --color-muted: #55606e;
+  --color-success: #15803d;
+  --color-error: #b91c1c;
+
+  --font-serif: var(--font-eb-garamond), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Accesibilidad: respetar reduced-motion en todo el sitio */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

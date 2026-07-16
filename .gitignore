@@ -1,0 +1,41 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+
+# production
+/dist
+
+# misc
+.DS_Store
+*.pem
+*.tsbuildinfo
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (secretos)
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# testing
+/coverage
+/playwright-report
+/test-results
+/blob-report
+/.cache
+
+# material fuente del cliente (referencia local — no se publica)
+/work
