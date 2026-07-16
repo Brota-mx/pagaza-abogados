@@ -29,6 +29,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Offset del header fijo (h-20 = 5rem) para que las anclas #seccion no queden ocultas. */
+  scroll-padding-top: 5rem;
 }
 
 body {

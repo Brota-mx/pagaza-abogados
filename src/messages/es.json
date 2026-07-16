@@ -9,5 +9,42 @@
     "stat2Value": "$55M",
     "stat2Label": "de beneficio fiscal — Grupo papelero",
     "scaffoldNote": "Scaffold inicial listo. La construcción sigue el orden numerado de BLUEPRINT.md."
+  },
+  "metadata": {
+    "brand": "Pagaza Abogados Tributarios",
+    "title": "Pagaza Abogados Tributarios · Estrategia fiscal de élite en CDMX",
+    "description": "Despacho fiscalista boutique en Lomas de Chapultepec. Protección patrimonial, consultoría y litigio fiscal, administrativo y constitucional para empresas y patrimonios de alto perfil."
+  },
+  "nav": {
+    "compromiso": "Firma",
+    "pilares": "Servicios",
+    "metodologia": "Metodología",
+    "sectores": "Sectores",
+    "alianzas": "Alianzas",
+    "contacto": "Contacto",
+    "menu": "Menú principal",
+    "open": "Abrir menú",
+    "close": "Cerrar menú"
+  },
+  "cta": {
+    "consulta": "Agendar consulta"
+  },
+  "localeSwitcher": {
+    "label": "Idioma / Language"
+  },
+  "a11y": {
+    "skipToContent": "Saltar al contenido"
+  },
+  "footer": {
+    "sections": "Navegación",
+    "contact": "Contacto",
+    "rights": "Todos los derechos reservados.",
+    "brotaBy": "Sitio por Brota Mx"
+  },
+  "notFound": {
+    "eyebrow": "Error 404",
+    "title": "Página no encontrada",
+    "description": "La página que buscas no existe o cambió de ubicación.",
+    "back": "Volver al inicio"
   }
 }

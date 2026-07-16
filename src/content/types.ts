@@ -46,6 +46,38 @@ export interface Cobertura {
   tipo: "nacional" | "internacional";
 }
 
+/** Valor / principio de la filosofía de la firma (sección Compromiso). */
+export interface Valor {
+  id: "excelencia" | "atencion" | "practico";
+  titulo: LocalizedText;
+  descripcion: LocalizedText;
+}
+
+/** Contenido de la sección Compromiso (filosofía / propuesta de valor). */
+export interface CompromisoContent {
+  eyebrow: LocalizedText;
+  titulo: LocalizedText;
+  intro: LocalizedText;
+  valores: Valor[];
+}
+
+/** Disciplina de la metodología de atención integral (3 en total). */
+export interface Disciplina {
+  numero: "01" | "02" | "03";
+  titulo: LocalizedText;
+  descripcion: LocalizedText;
+}
+
+/** Contenido de la sección Metodología (atención integral en cada expediente). */
+export interface MetodologiaContent {
+  eyebrow: LocalizedText;
+  titulo: LocalizedText;
+  intro: LocalizedText;
+  disciplinas: Disciplina[];
+  /** Alcance de la defensa: los tres niveles de gobierno. */
+  esferaDefensa: LocalizedText;
+}
+
 /** Datos globales del sitio / contacto. */
 export interface SiteInfo {
   slogan: LocalizedText;
@@ -53,4 +85,10 @@ export interface SiteInfo {
   telefono: string;
   email: string;
   direccion: LocalizedText;
+  /**
+   * Link WhatsApp normalizado (p.ej. "https://wa.me/525578918865"). Opcional: el número de
+   * atención está en formato fijo local, por lo que aún NO se confirma que sea WhatsApp (M9).
+   * Poblar solo cuando el cliente lo confirme.
+   */
+  whatsapp?: string;
 }
