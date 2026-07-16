@@ -80,7 +80,12 @@ export function ContactForm({
 
   if (status === "success") {
     return (
-      <div className="border-line bg-surface rounded-[4px] border p-8 text-center">
+      <div
+        role="status"
+        tabIndex={-1}
+        ref={(el) => el?.focus()}
+        className="border-line bg-surface rounded-[4px] border p-8 text-center focus-visible:outline-none"
+      >
         <CheckCircle2 aria-hidden className="text-success mx-auto" size={40} />
         <h3 className="text-navy mt-4 font-serif text-2xl">
           {t("successTitle")}
