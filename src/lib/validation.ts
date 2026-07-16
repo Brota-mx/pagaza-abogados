@@ -42,7 +42,12 @@ const userFields = {
     .regex(/^[0-9+()\s-]*$/)
     .optional()
     .or(z.literal("")),
-  sector: z.enum(SECTOR_IDS).optional(),
+  // El select vacío envía "" (placeholder). Normalizar "" → undefined ANTES del enum, para que
+  // "sector opcional sin elegir" sea válido (si no, la validación falla en silencio y no envía).
+  sector: z.preprocess(
+    (v) => (v === "" ? undefined : v),
+    z.enum(SECTOR_IDS).optional(),
+  ),
   mensaje: z.string().trim().min(10).max(2000), // saltos de línea permitidos (cuerpo, no cabecera)
 };
 
