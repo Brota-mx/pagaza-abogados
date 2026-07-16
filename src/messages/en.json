@@ -9,5 +9,42 @@
     "stat2Value": "$55M",
     "stat2Label": "in tax savings — Paper industry group",
     "scaffoldNote": "Initial scaffold ready. The build follows the numbered order in BLUEPRINT.md."
+  },
+  "metadata": {
+    "brand": "Pagaza Abogados Tributarios",
+    "title": "Pagaza Abogados Tributarios · Elite Tax Strategy in Mexico City",
+    "description": "Boutique tax law firm in Lomas de Chapultepec. Wealth protection, advisory, and tax, administrative, and constitutional litigation for high-profile companies and estates."
+  },
+  "nav": {
+    "compromiso": "Firm",
+    "pilares": "Services",
+    "metodologia": "Methodology",
+    "sectores": "Sectors",
+    "alianzas": "Alliances",
+    "contacto": "Contact",
+    "menu": "Main menu",
+    "open": "Open menu",
+    "close": "Close menu"
+  },
+  "cta": {
+    "consulta": "Schedule a consultation"
+  },
+  "localeSwitcher": {
+    "label": "Idioma / Language"
+  },
+  "a11y": {
+    "skipToContent": "Skip to content"
+  },
+  "footer": {
+    "sections": "Navigation",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "brotaBy": "Site by Brota Mx"
+  },
+  "notFound": {
+    "eyebrow": "Error 404",
+    "title": "Page not found",
+    "description": "The page you are looking for doesn't exist or has moved.",
+    "back": "Back to home"
   }
 }
