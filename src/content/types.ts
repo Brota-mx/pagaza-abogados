@@ -8,6 +8,13 @@ export function t(text: LocalizedText, locale: Locale): string {
   return text[locale];
 }
 
+/** Encabezado bilingüe reutilizable de una sección (eyebrow + título + intro). */
+export interface SectionIntro {
+  eyebrow: LocalizedText;
+  titulo: LocalizedText;
+  intro: LocalizedText;
+}
+
 /** Pilar de servicio (3 en total). */
 export interface Pilar {
   id: "proteccion" | "consultoria" | "litigio";
@@ -38,6 +45,8 @@ export interface Sector {
 export interface Alianza {
   id: string;
   nombre: LocalizedText;
+  /** Descripción breve de la materia que cubre la alianza. */
+  descripcion?: LocalizedText;
 }
 
 /** Cobertura geográfica. */
