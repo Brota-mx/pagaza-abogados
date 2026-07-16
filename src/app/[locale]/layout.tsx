@@ -10,7 +10,8 @@ import "@/styles/globals.css";
 
 const ebGaramond = EB_Garamond({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
   variable: "--font-eb-garamond",
   display: "swap",
 });

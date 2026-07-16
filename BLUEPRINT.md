@@ -3,7 +3,7 @@
 > Generado por **The Architect** (en-sesión) el 2026-07-16
 > Arquetipo: **Marketing / Landing Site** (one-page, bilingüe)
 > Cliente: Pagaza Abogados Tributarios · Agencia: **Brota Mx** · Relación: **Standalone**
-> Repo destino: `Brota.mx/pagaza-abogados` · Hosting: **Vercel (Team Brota)**
+> Repo destino: `Brota-mx/pagaza-abogados` · Hosting: **Vercel (Team Brota)**
 
 Este documento es **100% autocontenido**. Una instancia de Claude Code sin contexto previo debe poder construir el sitio completo siguiendo el **Orden de Construcción (§9)** sin hacer preguntas. Todo el contenido real del despacho está en `work/complemento pdf.md` y resumido aquí.
 
@@ -338,7 +338,7 @@ Metadata por sección/locale, `JSON-LD` `LegalService` + `LocalBusiness` (direcc
 Accesibilidad (WCAG AA, foco, teclado, `alt`, `prefers-reduced-motion`), responsive (375/768/1024/1440), Lighthouse ≥95, E2E smoke con Playwright (todas las secciones cargan, idioma cambia, formulario envía).
 
 **Paso 11 — Deploy**
-Team **Brota** en Vercel → importar `Brota.mx/pagaza-abogados` → env vars → deploy → link público en el README. Dominio `pagaza.mx` cuando el cliente lo entregue (verificar Resend con ese dominio).
+Team **Brota** en Vercel → importar `Brota-mx/pagaza-abogados` → env vars → deploy → link público en el README. Dominio `pagaza.mx` cuando el cliente lo entregue (verificar Resend con ese dominio).
 
 ---
 
@@ -399,7 +399,7 @@ pnpm dev                     # http://localhost:3000
 
 ## 12. Estrategia de Deployment
 
-- **Hosting:** Vercel, **Team "Brota"** (crear si no existe; NO usar el scope personal de Galarza). Importar repo `Brota.mx/pagaza-abogados`.
+- **Hosting:** Vercel, **Team "Brota"** (crear si no existe; NO usar el scope personal de Galarza). Importar repo `Brota-mx/pagaza-abogados`.
 - **CI/CD:** cada push a `main` → producción; cada PR → preview URL automática (el "link para ver el borrador" que pidió el cliente/Brota).
 - **Env vars:** cargar las de §10 en el proyecto Vercel (Production + Preview).
 - **Dominio:** temporal `*.vercel.app`; migrar a **`pagaza.mx`** cuando el cliente entregue DNS (configurar dominio en Vercel + verificar dominio en Resend para envío profesional).

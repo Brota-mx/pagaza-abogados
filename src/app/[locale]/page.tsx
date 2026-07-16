@@ -26,13 +26,13 @@ export default async function HomePage({
 
         <div className="mt-12 flex flex-col gap-10 border-t border-line pt-10 sm:flex-row sm:gap-16">
           <div className="max-w-xs">
-            <p className="font-serif text-5xl text-bronze">{t("stat1Value")}</p>
+            <p className="font-serif text-5xl text-bronze-ink">{t("stat1Value")}</p>
             <p className="mt-2 text-sm leading-relaxed text-muted">
               {t("stat1Label")}
             </p>
           </div>
           <div className="max-w-xs">
-            <p className="font-serif text-5xl text-bronze">{t("stat2Value")}</p>
+            <p className="font-serif text-5xl text-bronze-ink">{t("stat2Value")}</p>
             <p className="mt-2 text-sm leading-relaxed text-muted">
               {t("stat2Label")}
             </p>

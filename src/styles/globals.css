@@ -8,6 +8,9 @@
   --color-navy-ink: #101b2d;
   --color-bronze: #b0894e;
   --color-bronze-soft: #c9a96a;
+  /* Bronce para TEXTO sobre fondos claros (WCAG AA: ~6:1). Reservar #b0894e para
+     texto sobre navy, hairlines y decoracion. Ver docs/BUILD-NOTES.md (A2). */
+  --color-bronze-ink: #7a5c2e;
   --color-bg: #f5f6f8;
   --color-surface: #ffffff;
   --color-line: #e6e8eb;
