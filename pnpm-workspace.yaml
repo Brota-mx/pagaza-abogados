@@ -5,3 +5,7 @@ allowBuilds:
   '@swc/core': true
   sharp: true
   unrs-resolver: true
+
+# Forzar postcss parcheado (>=8.5.10, GHSA-qx2v-qp2m-jg93) en transitivas de next/tailwind.
+overrides:
+  postcss: '>=8.5.10'
