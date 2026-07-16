@@ -10,7 +10,12 @@ import {
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { routing } from "@/i18n/routing";
-import { SITE_URL, localeAlternates } from "@/lib/seo";
+import {
+  SITE_URL,
+  SEO_KEYWORDS,
+  legalServiceJsonLd,
+  localeAlternates,
+} from "@/lib/seo";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import type { Locale } from "@/content/types";
@@ -50,8 +55,10 @@ export async function generateMetadata({
     metadataBase: new URL(SITE_URL),
     title: { default: t("title"), template: `%s · ${t("brand")}` },
     description: t("description"),
+    keywords: SEO_KEYWORDS,
     alternates: localeAlternates(locale),
     openGraph: {
+      // La imagen OG la aporta app/[locale]/opengraph-image.tsx (convención de Next).
       type: "website",
       siteName: t("brand"),
       title: t("title"),
@@ -59,7 +66,11 @@ export async function generateMetadata({
       url: `/${locale}`,
       locale: locale === "es" ? "es_MX" : "en_US",
       alternateLocale: locale === "es" ? "en_US" : "es_MX",
-      images: ["/og-image.png"], // placeholder; OG real en el Paso 8.
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
     },
     robots: { index: true, follow: true },
     icons: { icon: "/favicon.svg" },
@@ -79,12 +90,19 @@ export default async function LocaleLayout({
   }
   setRequestLocale(locale);
   const t = await getTranslations("a11y");
+  const tMeta = await getTranslations("metadata");
   // Mensajes explícitos al cliente (resuelve M7: no dependemos de la herencia automática v4).
   const messages = await getMessages();
+  const jsonLd = legalServiceJsonLd(locale as Locale, tMeta("description"));
 
   return (
     <html lang={locale} className={`${ebGaramond.variable} ${inter.variable}`}>
       <body>
+        <script
+          type="application/ld+json"
+          // JSON-LD (LegalService/LocalBusiness) — datos controlados, sin input de usuario.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <NextIntlClientProvider messages={messages}>
           <a
             href="#contenido"
