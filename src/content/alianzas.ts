@@ -146,3 +146,14 @@ export const cobertura: Cobertura[] = [
     tipo: "internacional",
   },
 ];
+
+/** Etiquetas del bloque de cobertura (CoverageMap). */
+export const coberturaLabels = {
+  titulo: { es: "Cobertura", en: "Coverage" },
+  nacional: { es: "Nacional", en: "Nationwide" },
+  internacional: { es: "Internacional", en: "International" },
+  nota: {
+    es: "Red de corresponsalías y despachos aliados en los estados clave de la República, con alianzas transfronterizas de prestigio.",
+    en: "A network of correspondents and allied firms across Mexico's key states, with prestigious cross-border alliances.",
+  },
+} as const;
