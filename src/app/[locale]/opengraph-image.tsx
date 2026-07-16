@@ -8,8 +8,8 @@ export const contentType = "image/png";
 
 const NAVY = "#16243b";
 const NAVY_INK = "#101b2d";
-const BRONZE = "#b0894e";
-const BRONZE_SOFT = "#c9a96a";
+// Acentos en azul de marca / acero claro (no bronce — se alinea al logo real).
+const STEEL = "#9db4d0";
 
 export default async function Image({
   params,
@@ -39,13 +39,13 @@ export default async function Image({
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <div style={{ width: 56, height: 2, background: BRONZE }} />
+        <div style={{ width: 56, height: 2, background: STEEL }} />
         <div
           style={{
             fontSize: 22,
             letterSpacing: 6,
             textTransform: "uppercase",
-            color: BRONZE_SOFT,
+            color: STEEL,
           }}
         >
           {kicker}
@@ -57,13 +57,12 @@ export default async function Image({
           style={{
             display: "flex",
             alignItems: "flex-end",
-            fontSize: 132,
+            fontSize: 128,
             fontWeight: 700,
-            letterSpacing: 2,
+            letterSpacing: 10,
           }}
         >
           <span>PAGAZA</span>
-          <span style={{ color: BRONZE }}>.</span>
         </div>
         <div
           style={{
@@ -90,7 +89,7 @@ export default async function Image({
         }}
       >
         <span>{tagline}</span>
-        <span style={{ color: BRONZE_SOFT }}>pagaza.mx</span>
+        <span style={{ color: STEEL }}>pagaza.mx</span>
       </div>
     </div>,
     { ...size },

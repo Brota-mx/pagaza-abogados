@@ -6,6 +6,9 @@
   --color-navy: #16243b;
   --color-navy-2: #1e2f4a;
   --color-navy-ink: #101b2d;
+  /* Azul de la MARCA (muestreado del logo real work/LOGO.jpeg). Para el wordmark y acentos sobre
+     claro. Distinto del navy (#16243b, casi negro) que se reserva a fondos. Ver auditoría de diseño. */
+  --color-brand: #123b73;
   --color-bronze: #b0894e;
   --color-bronze-soft: #c9a96a;
   /* Bronce para TEXTO sobre fondos claros (WCAG AA: ~6:1). Reservar #b0894e para
@@ -21,6 +24,9 @@
 
   --font-serif: var(--font-eb-garamond), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  /* Wordmark: sans geométrico que iguala el logo real (no serif, no punto). */
+  --font-wordmark:
+    var(--font-montserrat), var(--font-inter), system-ui, sans-serif;
 }
 
 :root {

@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { NAV_SECTIONS } from "@/content/site";
 import { Container } from "@/components/ui/Container";
+import { Wordmark } from "@/components/ui/Wordmark";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { cn } from "@/lib/utils";
 
@@ -56,10 +57,12 @@ export function Header() {
         <Link
           href="/"
           aria-label="Pagaza Abogados Tributarios — inicio"
-          className="focus-visible:ring-bronze rounded-[2px] font-serif text-xl tracking-[0.02em] transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-transparent focus-visible:outline-none"
+          className={cn(
+            "focus-visible:ring-brand rounded-[2px] transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-transparent focus-visible:outline-none",
+            solid ? "text-brand" : "text-white",
+          )}
         >
-          PAGAZA
-          <span className="text-bronze">.</span>
+          <Wordmark className="text-lg" />
         </Link>
 
         <nav

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { StatBlock } from "@/components/ui/StatBlock";
@@ -15,10 +16,25 @@ export async function Hero() {
       id="inicio"
       className="bg-navy relative flex min-h-screen items-center overflow-hidden text-white"
     >
-      {/* Profundidad sutil + eco de la "P" serif (mismo signature que el footer). */}
+      {/* Fotografía de fondo (arquitectura clásica) tratada B/N-duotono navy. Decorativa. */}
+      <Image
+        src="/images/hero-arquitectura.jpg"
+        alt=""
+        aria-hidden
+        fill
+        priority
+        sizes="100vw"
+        className="pointer-events-none object-cover object-center opacity-55 grayscale"
+      />
+      {/* Scrim navy en duotono: más denso a la izquierda (texto legible sobre ~90% navy → AA) y
+          abajo, dejando ver la arquitectura B/N en el centro/derecha. */}
       <div
         aria-hidden
-        className="from-navy-ink/60 via-navy to-navy-ink/40 pointer-events-none absolute inset-0 bg-gradient-to-b"
+        className="from-navy via-navy/70 to-navy/45 pointer-events-none absolute inset-0 bg-gradient-to-r"
+      />
+      <div
+        aria-hidden
+        className="from-navy-ink/70 pointer-events-none absolute inset-0 bg-gradient-to-t to-transparent to-60%"
       />
       <span
         aria-hidden

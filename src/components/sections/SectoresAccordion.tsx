@@ -50,7 +50,7 @@ export function SectoresAccordion({
           >
             <Accordion.Header className="flex">
               <Accordion.Trigger className="group focus-visible:ring-bronze flex flex-1 cursor-pointer items-center gap-4 rounded-[2px] py-6 text-left transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none">
-                <span className="text-bronze-ink/50 w-6 shrink-0 font-serif text-sm tabular-nums">
+                <span className="text-bronze-ink/80 w-6 shrink-0 font-serif text-sm tabular-nums">
                   {sector.numero}
                 </span>
                 <span className="text-navy group-hover:text-bronze-ink flex-1 font-serif text-xl transition-colors md:text-2xl">
