@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { EB_Garamond, Inter } from "next/font/google";
+import { EB_Garamond, Inter, Montserrat } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import {
   getMessages,
@@ -32,6 +32,14 @@ const ebGaramond = EB_Garamond({
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+// Sans geométrico para el WORDMARK (iguala el logo real: "PAGAZA" sans, tracking amplio).
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -96,7 +104,10 @@ export default async function LocaleLayout({
   const jsonLd = legalServiceJsonLd(locale as Locale, tMeta("description"));
 
   return (
-    <html lang={locale} className={`${ebGaramond.variable} ${inter.variable}`}>
+    <html
+      lang={locale}
+      className={`${ebGaramond.variable} ${inter.variable} ${montserrat.variable}`}
+    >
       <body>
         <script
           type="application/ld+json"

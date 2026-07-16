@@ -1,12 +1,12 @@
 import { getTranslations } from "next-intl/server";
 import { siteInfo, NAV_SECTIONS } from "@/content/site";
 import { Container } from "@/components/ui/Container";
+import { Wordmark } from "@/components/ui/Wordmark";
 import type { Locale } from "@/content/types";
 
 /**
- * Footer institucional sobre navy. Signature de marca: la "P" serif de gran tamaño como marca de
- * agua sutil de fondo (la misma "P" tallada de la identidad). Datos de contacto en <address> real
- * con tel:/mailto:. Eyebrows en bronze-soft (AA sobre navy).
+ * Footer institucional sobre navy. Signature de marca: la "P" de gran tamaño como marca de agua de
+ * fondo (en la sans del logo, no serif). Datos de contacto en <address> real con tel:/mailto:.
  */
 export async function Footer({ locale }: { locale: Locale }) {
   const t = await getTranslations("footer");
@@ -16,20 +16,18 @@ export async function Footer({ locale }: { locale: Locale }) {
 
   return (
     <footer className="bg-navy relative overflow-hidden text-white">
-      {/* Marca de agua "P" serif de fondo. */}
+      {/* Marca de agua "P" de fondo, en la sans del logo (no serif). */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -right-4 -bottom-24 font-serif text-[22rem] leading-none text-white/[0.04] select-none md:text-[30rem]"
+        className="font-wordmark pointer-events-none absolute -right-4 -bottom-28 text-[22rem] leading-none font-semibold text-white/[0.05] select-none md:text-[30rem]"
       >
         P
       </span>
 
       <Container className="relative grid gap-12 py-16 md:grid-cols-3 md:py-20">
         <div>
-          <p className="font-serif text-2xl tracking-[0.02em]">
-            PAGAZA<span className="text-bronze">.</span>
-          </p>
-          <p className="mt-4 max-w-xs font-serif text-lg leading-relaxed text-white/80 italic">
+          <Wordmark className="text-2xl" sublabel />
+          <p className="mt-5 max-w-xs font-serif text-lg leading-relaxed text-white/80 italic">
             {siteInfo.slogan[locale]}
           </p>
         </div>
