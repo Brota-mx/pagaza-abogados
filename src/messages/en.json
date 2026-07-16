@@ -46,5 +46,41 @@
     "title": "Page not found",
     "description": "The page you are looking for doesn't exist or has moved.",
     "back": "Back to home"
+  },
+  "form": {
+    "eyebrow": "Contact",
+    "title": "Schedule a consultation.",
+    "intro": "Tell us about your situation. The first conversation is confidential and without obligation.",
+    "nombre": "Full name",
+    "empresa": "Company",
+    "email": "Email",
+    "telefono": "Phone",
+    "sector": "Sector",
+    "sectorPlaceholder": "Select a sector",
+    "mensaje": "Message",
+    "optional": "optional",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "successTitle": "Message sent",
+    "successMessage": "Thank you for reaching out. We'll be in touch shortly.",
+    "sendAnother": "Send another message",
+    "turnstilePending": "Complete the security check to send.",
+    "directTitle": "Or contact us directly",
+    "hp": "Do not fill this field",
+    "fieldErrors": {
+      "nombre": "Enter your name (at least 2 characters).",
+      "email": "Enter a valid email address.",
+      "telefono": "Phone accepts only numbers, spaces, and + ( ) -.",
+      "mensaje": "Write your message (at least 10 characters)."
+    },
+    "errors": {
+      "RATE_LIMITED": "Too many attempts. Please wait a few minutes and try again.",
+      "CAPTCHA_FAILED": "We couldn't verify you're human. Please reload the page and try again.",
+      "CAPTCHA_UNAVAILABLE": "Verification is unavailable right now. Please try again later.",
+      "VALIDATION_ERROR": "Please review the form fields and try again.",
+      "BAD_REQUEST": "We couldn't process the request. Please try again.",
+      "INTERNAL_ERROR": "We couldn't send your message. Please email us directly at a@pagaza.mx.",
+      "NETWORK": "We couldn't connect. Please check your connection and try again."
+    }
   }
 }

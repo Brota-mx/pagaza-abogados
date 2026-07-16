@@ -46,5 +46,41 @@
     "title": "Página no encontrada",
     "description": "La página que buscas no existe o cambió de ubicación.",
     "back": "Volver al inicio"
+  },
+  "form": {
+    "eyebrow": "Contacto",
+    "title": "Agenda una consulta.",
+    "intro": "Cuéntanos tu situación. La primera conversación es confidencial y sin compromiso.",
+    "nombre": "Nombre completo",
+    "empresa": "Empresa",
+    "email": "Correo electrónico",
+    "telefono": "Teléfono",
+    "sector": "Sector",
+    "sectorPlaceholder": "Selecciona un sector",
+    "mensaje": "Mensaje",
+    "optional": "opcional",
+    "submit": "Enviar mensaje",
+    "submitting": "Enviando…",
+    "successTitle": "Mensaje enviado",
+    "successMessage": "Gracias por escribirnos. Te contactaremos a la brevedad.",
+    "sendAnother": "Enviar otro mensaje",
+    "turnstilePending": "Completa la verificación de seguridad para enviar.",
+    "directTitle": "O contáctanos directo",
+    "hp": "No llenar este campo",
+    "fieldErrors": {
+      "nombre": "Ingresa tu nombre (mínimo 2 caracteres).",
+      "email": "Ingresa un correo electrónico válido.",
+      "telefono": "El teléfono solo admite números, espacios y + ( ) -.",
+      "mensaje": "Escribe tu mensaje (mínimo 10 caracteres)."
+    },
+    "errors": {
+      "RATE_LIMITED": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+      "CAPTCHA_FAILED": "No pudimos verificar que eres humano. Recarga la página e inténtalo de nuevo.",
+      "CAPTCHA_UNAVAILABLE": "La verificación no está disponible por el momento. Inténtalo más tarde.",
+      "VALIDATION_ERROR": "Revisa los campos del formulario e inténtalo de nuevo.",
+      "BAD_REQUEST": "No pudimos procesar la solicitud. Inténtalo de nuevo.",
+      "INTERNAL_ERROR": "No pudimos enviar tu mensaje. Escríbenos directo a a@pagaza.mx.",
+      "NETWORK": "No pudimos conectar. Revisa tu conexión e inténtalo de nuevo."
+    }
   }
 }
