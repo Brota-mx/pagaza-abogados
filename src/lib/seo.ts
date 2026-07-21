@@ -39,11 +39,9 @@ export function legalServiceJsonLd(locale: Locale, description: string) {
       { "@type": "Country", name: "México" },
       { "@type": "Country", name: "Estados Unidos" },
     ],
-    founder: {
-      "@type": "Person",
-      name: siteInfo.socio,
-      jobTitle: "Socio Fundador",
-    },
+    // Sin `founder`: el cliente pidió que su nombre no figure en el sitio mientras define la
+    // sección de equipo. Se retira también del JSON-LD para no publicar por la puerta de atrás lo
+    // que se quitó de la interfaz.
     address: {
       "@type": "PostalAddress",
       streetAddress: "Prado Sur 525, Lomas de Chapultepec",
@@ -65,7 +63,8 @@ export function localeAlternates(locale: string) {
     languages: {
       es: "/es",
       en: "/en",
-      "x-default": "/es",
+      // x-default es la puerta de entrada: la raíz no elige idioma por el visitante, se lo ofrece.
+      "x-default": "/",
     },
   } as const;
 }

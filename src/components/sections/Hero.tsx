@@ -44,8 +44,8 @@ export async function Hero() {
       </span>
 
       <Container className="relative py-32 md:py-40">
-        <p className="text-bronze-soft mb-6 flex items-center gap-3 text-xs font-medium tracking-[0.18em] uppercase">
-          <span aria-hidden className="bg-bronze/60 h-px w-10" />
+        <p className="text-steel-soft mb-6 flex items-center gap-3 text-xs font-medium tracking-[0.18em] uppercase">
+          <span aria-hidden className="bg-steel h-px w-10" />
           {t("eyebrow")}
         </p>
 
@@ -60,7 +60,7 @@ export async function Hero() {
         <div className="mt-10">
           <a
             href="#contacto"
-            className="bg-bronze text-navy-ink hover:bg-bronze-soft focus-visible:ring-bronze focus-visible:ring-offset-navy inline-flex cursor-pointer items-center rounded-[2px] px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+            className="text-navy hover:bg-steel-soft focus-visible:ring-offset-navy inline-flex cursor-pointer items-center rounded-[2px] bg-white px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             {t("cta")}
           </a>

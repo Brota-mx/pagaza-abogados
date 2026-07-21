@@ -5,9 +5,10 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
 /**
- * Compromiso — filosofía y propuesta de valor. Los tres principios (excelencia técnica, atención
- * humana, enfoque práctico) son paralelos, no una secuencia: se marcan con una regla bronce sobre
- * hairline, no con numeración. Server component; resuelve el contenido por `locale` (prop).
+ * "Nuestro compromiso" — filosofía y propuesta de valor. Los tres principios (excelencia técnica,
+ * atención humana, enfoque práctico) son paralelos, no una secuencia: se marcan con una regla
+ * sobre hairline, no con numeración. Cierra con la declaración de especialización única.
+ * Server component; resuelve el contenido por `locale` (prop).
  */
 export function Compromiso({ locale }: { locale: Locale }) {
   return (
@@ -25,18 +26,22 @@ export function Compromiso({ locale }: { locale: Locale }) {
               <div className="border-line relative border-t pt-6">
                 <span
                   aria-hidden
-                  className="bg-bronze absolute -top-px left-0 h-px w-12"
+                  className="bg-brand absolute -top-px left-0 h-px w-12"
                 />
                 <h3 className="text-navy font-serif text-xl md:text-2xl">
                   {t(valor.titulo, locale)}
                 </h3>
-                <p className="text-muted mt-3 leading-relaxed">
+                <p className="prose-justificado text-muted mt-3 leading-relaxed">
                   {t(valor.descripcion, locale)}
                 </p>
               </div>
             </Reveal>
           ))}
         </div>
+
+        <p className="text-navy border-line mt-16 max-w-3xl border-t pt-8 font-serif text-xl leading-snug md:text-2xl">
+          {t(compromiso.cierre, locale)}
+        </p>
       </Container>
     </section>
   );

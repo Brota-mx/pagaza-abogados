@@ -12,9 +12,11 @@ Este documento es **100% autocontenido**. Una instancia de Claude Code sin conte
 ## 1. Visión del Proyecto
 
 ### Visión
+
 Sitio web institucional de **Pagaza Abogados Tributarios**, un despacho fiscalista boutique de élite en Lomas de Chapultepec (CDMX), fundado por **Alfonso Pagaza**. El sitio debe transmitir **seriedad, autoridad, confianza fiscal y discreción de alto patrimonio**, y convertir visitantes de alto perfil (directores, empresarios, PEPs) en consultas agendadas. Reemplaza un primer borrador (referencia de contenido, no de diseño) que se sentía "administrativo": el objetivo es **elevar el nivel** a un sitio premium, sobrio y con jerarquía real, destacando las **cifras de impacto** del despacho.
 
 ### Objetivos
+
 - Comunicar los **3 pilares de servicio** y la especialidad fiscal con claridad y peso.
 - Exhibir **credibilidad cuantificable**: casos de éxito por sector con cifras (Textil **98%** sobre $25M MXN; Retail **$55M MXN**).
 - Capturar leads calificados vía **formulario seguro** + canales directos (WhatsApp/tel/correo).
@@ -22,6 +24,7 @@ Sitio web institucional de **Pagaza Abogados Tributarios**, un despacho fiscalis
 - **SEO local + temático** fuerte ("abogados tributarios CDMX", "litigio fiscal México", etc.).
 
 ### Métricas de Éxito
+
 - Lighthouse ≥ 95 en Performance/SEO/Best Practices/Accessibility (mobile).
 - Formulario funcional con entregabilidad verificada y 0 spam pasando los filtros.
 - WCAG 2.1 **AA** en todo el sitio.
@@ -31,23 +34,23 @@ Sitio web institucional de **Pagaza Abogados Tributarios**, un despacho fiscalis
 
 ## 2. Tech Stack
 
-| Capa | Tecnología | Por qué |
-|------|-----------|-----|
-| Framework | **Next.js 15** (App Router, SSG/RSC) | Consistencia con el ecosistema (todo Brota/Galarza es Next+Vercel) y necesitamos backend para el formulario. Estático por defecto = rendimiento máximo. |
-| Lenguaje | **TypeScript** (strict) | Regla no negociable. Cero `any`. |
-| Estilo | **Tailwind CSS v4** + CSS custom properties (design tokens) | Estándar marketing; tokens para el sistema de marca. |
-| Componentes | Propios + **Radix UI** (primitivas headless) | Sitio a medida; Radix para Tabs/Accordion/Dialog accesibles. |
-| i18n | **next-intl** | Rutas `/es` y `/en`, hreflang, mensajes por locale. |
-| Contenido | **Data files TypeScript tipados** (sin CMS) | Gestión por código (decisión del cliente). Cada texto es bilingüe `{ es, en }`. |
-| Formulario | **Resend** + **React Hook Form** + **Zod** | Envío real de correo con validación cliente y servidor. |
-| Anti-abuso | **@upstash/ratelimit** (Redis) + honeypot + **Cloudflare Turnstile** | Rate limit por IP, trampa anti-bot, captcha invisible. |
-| Fuentes | **next/font** (self-hosted) — EB Garamond + Inter | Sin FOUT, sin llamadas a Google en runtime. |
-| Analytics | **@vercel/analytics** + **@vercel/speed-insights** | Gratis, en el ecosistema. |
-| Iconos | **lucide-react** | SVG consistentes (nunca emojis como iconos). |
-| Animación | **CSS + IntersectionObserver** (o `motion` si hace falta) | Motion con propósito, respeta `prefers-reduced-motion`. |
-| Observabilidad | **Reporter fail-open** a la Torre de Control | Regla del protocolo, desde el día 1. |
-| Hosting | **Vercel** (Team **Brota**, separado de Galarza/Personal) | Link público automático + backend + dominio custom futuro. |
-| Gestor de paquetes | **pnpm** | — |
+| Capa               | Tecnología                                                           | Por qué                                                                                                                                                 |
+| ------------------ | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework          | **Next.js 15** (App Router, SSG/RSC)                                 | Consistencia con el ecosistema (todo Brota/Galarza es Next+Vercel) y necesitamos backend para el formulario. Estático por defecto = rendimiento máximo. |
+| Lenguaje           | **TypeScript** (strict)                                              | Regla no negociable. Cero `any`.                                                                                                                        |
+| Estilo             | **Tailwind CSS v4** + CSS custom properties (design tokens)          | Estándar marketing; tokens para el sistema de marca.                                                                                                    |
+| Componentes        | Propios + **Radix UI** (primitivas headless)                         | Sitio a medida; Radix para Tabs/Accordion/Dialog accesibles.                                                                                            |
+| i18n               | **next-intl**                                                        | Rutas `/es` y `/en`, hreflang, mensajes por locale.                                                                                                     |
+| Contenido          | **Data files TypeScript tipados** (sin CMS)                          | Gestión por código (decisión del cliente). Cada texto es bilingüe `{ es, en }`.                                                                         |
+| Formulario         | **Resend** + **React Hook Form** + **Zod**                           | Envío real de correo con validación cliente y servidor.                                                                                                 |
+| Anti-abuso         | **@upstash/ratelimit** (Redis) + honeypot + **Cloudflare Turnstile** | Rate limit por IP, trampa anti-bot, captcha invisible.                                                                                                  |
+| Fuentes            | **next/font** (self-hosted) — EB Garamond + Inter                    | Sin FOUT, sin llamadas a Google en runtime.                                                                                                             |
+| Analytics          | **@vercel/analytics** + **@vercel/speed-insights**                   | Gratis, en el ecosistema.                                                                                                                               |
+| Iconos             | **lucide-react**                                                     | SVG consistentes (nunca emojis como iconos).                                                                                                            |
+| Animación          | **CSS + IntersectionObserver** (o `motion` si hace falta)            | Motion con propósito, respeta `prefers-reduced-motion`.                                                                                                 |
+| Observabilidad     | **Reporter fail-open** a la Torre de Control                         | Regla del protocolo, desde el día 1.                                                                                                                    |
+| Hosting            | **Vercel** (Team **Brota**, separado de Galarza/Personal)            | Link público automático + backend + dominio custom futuro.                                                                                              |
+| Gestor de paquetes | **pnpm**                                                             | —                                                                                                                                                       |
 
 ---
 
@@ -135,8 +138,8 @@ No hay base de datos. El contenido es **estático, tipado y bilingüe**, en `src
 export type LocalizedText = { es: string; en: string };
 
 export interface Pilar {
-  id: string;               // 'proteccion' | 'consultoria' | 'litigio'
-  numero: '01' | '02' | '03';
+  id: string; // 'proteccion' | 'consultoria' | 'litigio'
+  numero: "01" | "02" | "03";
   titulo: LocalizedText;
   descripcion: LocalizedText;
   puntos: LocalizedText[];
@@ -144,20 +147,26 @@ export interface Pilar {
 
 export interface CasoExito {
   descripcion: LocalizedText;
-  cifra?: { valor: string; etiqueta: LocalizedText };   // p.ej. { valor: '98%', etiqueta: {...} }
+  cifra?: { valor: string; etiqueta: LocalizedText }; // p.ej. { valor: '98%', etiqueta: {...} }
 }
 
 export interface Sector {
-  id: string;               // 'automotriz', 'manufactura', ...
-  numero: string;           // '01'..'10'
+  id: string; // 'automotriz', 'manufactura', ...
+  numero: string; // '01'..'10'
   nombre: LocalizedText;
   resumen: LocalizedText;
   casos: CasoExito[];
-  destacado?: boolean;      // Textil y Retail => badge de cifra
+  destacado?: boolean; // Textil y Retail => badge de cifra
 }
 
-export interface Alianza { id: string; nombre: LocalizedText; }
-export interface Cobertura { region: LocalizedText; tipo: 'nacional' | 'internacional'; }
+export interface Alianza {
+  id: string;
+  nombre: LocalizedText;
+}
+export interface Cobertura {
+  region: LocalizedText;
+  tipo: "nacional" | "internacional";
+}
 ```
 
 ### Datos a cargar (fuente: `work/complemento pdf.md`)
@@ -166,7 +175,7 @@ export interface Cobertura { region: LocalizedText; tipo: 'nacional' | 'internac
 - **Sectores (10):** Automotriz · Manufactura y Transformación · Inmobiliario y Construcción · **Textil** (destacado: 98% sobre $25M MXN) · **Retail y Comercio** (destacado: $55M MXN) · Educativo · Defensa de PEPs · Suplementos y Consumo · Farmacéutico · Dimensión Social (pro-bono). Cada uno con su resumen y casos textuales del `.md`.
 - **Alianzas por materia (10):** contable/financiero, laboral, corporativo/societario, ciencias de la vida/publicidad, penal (penal-fiscal), regulatorio/compliance, precios de transferencia/avalúos, traducción, civil/mercantil, financiero/mercado de capitales.
 - **Cobertura:** Nacional (estados clave) · EE.UU. · Europa · Latinoamérica.
-- **Contacto/site:** Alfonso Pagaza (Socio Fundador) · Tel `(55) 78-91-88-65` · `a@pagaza.mx` · Prado Sur 525, Lomas de Chapultepec, Miguel Hidalgo, 11000, CDMX · Slogan: *"La estrategia correcta siempre gana. Con esta definición de éxito, nunca perdemos."*
+- **Contacto/site:** Alfonso Pagaza (Socio Fundador) · Tel `(55) 78-91-88-65` · `a@pagaza.mx` · Prado Sur 525, Lomas de Chapultepec, Miguel Hidalgo, 11000, CDMX · Slogan: _"La estrategia correcta siempre gana. Con esta definición de éxito, nunca perdemos."_
 
 > **Traducción EN:** el `.md` está en español. El builder debe **traducir profesionalmente** cada campo a inglés (registro formal-legal). No usar traducción literal automática sin revisar terminología jurídica (p.ej. "Juicio de Amparo" → "Amparo (constitutional relief)").
 
@@ -179,6 +188,7 @@ Un único endpoint dinámico. Todo lo demás es estático.
 ### `POST /api/contact`
 
 **Request body (JSON):**
+
 ```ts
 {
   nombre: string;        // 2–120
@@ -194,6 +204,7 @@ Un único endpoint dinámico. Todo lo demás es estático.
 ```
 
 **Pipeline del handler (en orden):**
+
 1. **Rate limit** por IP (`@upstash/ratelimit`, p.ej. 5 req / 10 min). Si excede → `429`.
 2. **Honeypot**: si `_hp` no está vacío → responder `200` falso-positivo (no enviar) para no informar al bot.
 3. **Turnstile**: verificar `turnstileToken` contra el endpoint de Cloudflare (server-side). Falla → `400`.
@@ -209,14 +220,16 @@ Un único endpoint dinámico. Todo lo demás es estático.
 ## 6. Arquitectura Frontend
 
 ### Rutas
-| Ruta | Página | Descripción |
-|------|--------|-------------|
-| `/` | redirect | Redirige a `/es` (o negociación de idioma). |
-| `/es`, `/en` | Home | One-page con todas las secciones ancladas. |
-| `/api/contact` | API | Envío del formulario. |
-| `/sitemap.xml`, `/robots.txt` | SEO | Generados. |
+
+| Ruta                          | Página   | Descripción                                 |
+| ----------------------------- | -------- | ------------------------------------------- |
+| `/`                           | redirect | Redirige a `/es` (o negociación de idioma). |
+| `/es`, `/en`                  | Home     | One-page con todas las secciones ancladas.  |
+| `/api/contact`                | API      | Envío del formulario.                       |
+| `/sitemap.xml`, `/robots.txt` | SEO      | Generados.                                  |
 
 ### Composición (Home)
+
 ```
 [locale]/page.tsx (Server Component)
   <Header/>                       (client — scroll-aware, locale switcher)
@@ -233,6 +246,7 @@ Un único endpoint dinámico. Todo lo demás es estático.
 ```
 
 ### Estado y renderizado
+
 - **Server Components por defecto** (todo el contenido es estático → SSG). Sólo son client components: `Header`, `LocaleSwitcher`, `Sectores` (tabs), `ContactForm`, `Reveal`, `StatBlock` (count-up).
 - El contenido se importa de `src/content/*` y se resuelve por `locale` en el server.
 - Sin fetching de datos externos en runtime salvo el POST del formulario.
@@ -244,36 +258,39 @@ Un único endpoint dinámico. Todo lo demás es estático.
 > Estilo **Trust & Authority**: sobrio, premium, institucional. Radios casi rectos, hairlines en vez de sombras, mucho whitespace, motion con propósito. Validado para **WCAG AA**.
 
 ### Colores (tokens → `@theme` en `globals.css`)
-| Rol | Hex | Uso |
-|-----|-----|-----|
-| `--color-navy` | `#16243b` | Primary: fondos hero/footer, títulos, CTA |
-| `--color-navy-2` | `#1e2f4a` | Degradados, hover de superficies navy |
-| `--color-navy-ink` | `#101b2d` | Navy más profundo (fondos de sección) |
-| `--color-bronze` | `#B0894E` | Acento prestigio: hairlines, hover, **cifras** |
-| `--color-bronze-soft` | `#C9A96A` | Bronce claro sobre navy |
-| `--color-bg` | `#F5F6F8` | Fondo de página |
-| `--color-surface` | `#FFFFFF` | Tarjetas/paneles |
-| `--color-line` | `#E6E8EB` | Hairlines 1px |
-| `--color-ink` | `#1C1D1F` | Texto cuerpo |
-| `--color-muted` | `#55606E` | Texto secundario (AA ✓ sobre bg) |
-| `--color-success` | `#15803D` | Estado OK del formulario |
-| `--color-error` | `#B91C1C` | Estado error del formulario |
+
+| Rol                   | Hex       | Uso                                            |
+| --------------------- | --------- | ---------------------------------------------- |
+| `--color-navy`        | `#16243b` | Primary: fondos hero/footer, títulos, CTA      |
+| `--color-navy-2`      | `#1e2f4a` | Degradados, hover de superficies navy          |
+| `--color-navy-ink`    | `#101b2d` | Navy más profundo (fondos de sección)          |
+| `--color-bronze`      | `#B0894E` | Acento prestigio: hairlines, hover, **cifras** |
+| `--color-bronze-soft` | `#C9A96A` | Bronce claro sobre navy                        |
+| `--color-bg`          | `#F5F6F8` | Fondo de página                                |
+| `--color-surface`     | `#FFFFFF` | Tarjetas/paneles                               |
+| `--color-line`        | `#E6E8EB` | Hairlines 1px                                  |
+| `--color-ink`         | `#1C1D1F` | Texto cuerpo                                   |
+| `--color-muted`       | `#55606E` | Texto secundario (AA ✓ sobre bg)               |
+| `--color-success`     | `#15803D` | Estado OK del formulario                       |
+| `--color-error`       | `#B91C1C` | Estado error del formulario                    |
 
 **Contraste:** verificar AA (≥4.5:1 texto normal, ≥3:1 grande). `#55606E` sobre `#F5F6F8` ✓. Texto sobre navy = `#F5F6F8`/`#C9A96A`. Nunca usar color como único indicador.
 
 ### Tipografía
-| Rol | Fuente | Escala (desktop) | Peso |
-|-----|--------|------------------|------|
-| Display/Hero | **EB Garamond** | 64–80px / lh 1.05 / tracking -0.01em | 500 |
-| H1–H4 | EB Garamond | 48 / 36 / 28 / 22px | 500–600 |
-| Cifra de impacto | EB Garamond (o Inter tabular) | 56–72px, color bronce | 500 |
-| Eyebrow/caption | Inter | 13–14px, UPPERCASE, tracking 0.14em | 500–600 |
-| Body | **Inter** | 16–18px / lh 1.65 | 400 |
-| UI/labels/form | Inter | 14–16px | 400–500 |
+
+| Rol              | Fuente                        | Escala (desktop)                     | Peso    |
+| ---------------- | ----------------------------- | ------------------------------------ | ------- |
+| Display/Hero     | **EB Garamond**               | 64–80px / lh 1.05 / tracking -0.01em | 500     |
+| H1–H4            | EB Garamond                   | 48 / 36 / 28 / 22px                  | 500–600 |
+| Cifra de impacto | EB Garamond (o Inter tabular) | 56–72px, color bronce                | 500     |
+| Eyebrow/caption  | Inter                         | 13–14px, UPPERCASE, tracking 0.14em  | 500–600 |
+| Body             | **Inter**                     | 16–18px / lh 1.65                    | 400     |
+| UI/labels/form   | Inter                         | 14–16px                              | 400–500 |
 
 Cargar con `next/font/google` (EB Garamond, Inter), `display: swap`, subsets latin. Body móvil mínimo 16px. Line-length 65–75ch.
 
 ### Espaciado, layout y motion
+
 - Escala base **4px**: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128.
 - Radios: 2px (botones), 4px (tarjetas). **Nada de rounded-2xl.**
 - Sombras: mínimas; elevación sutil al hover `0 1px 2px rgba(16,36,59,.06)`.
@@ -283,7 +300,8 @@ Cargar con `next/font/google` (EB Garamond, Inter), `display: swap`, subsets lat
 - Fotografía **B/N alto contraste** (SCJN, libros, mármol), optimizada AVIF/WebP, con `alt` descriptivo. Marca de agua "P" serif sutil de fondo.
 
 ### Cifras de impacto (`StatBlock`) — el diferenciador
-Número XXL en bronce + etiqueta pequeña uppercase. Ej.: **98%** · "reducción sobre una contingencia de $25M MXN — Sector Textil". **$55M** · "beneficio fiscal — Grupo papelero". Aparecen en Hero y como *badges* en los sectores destacados. Count-up al entrar en viewport.
+
+Número XXL en bronce + etiqueta pequeña uppercase. Ej.: **98%** · "reducción sobre una contingencia de $25M MXN — Sector Textil". **$55M** · "beneficio fiscal — Grupo papelero". Aparecen en Hero y como _badges_ en los sectores destacados. Count-up al entrar en viewport.
 
 ---
 
@@ -304,7 +322,7 @@ Número XXL en bronce + etiqueta pequeña uppercase. Ej.: **98%** · "reducción
 
 Construir **sección por sección**, verificando que compila y se ve bien en cada paso. Usar `/frontend-design` en cada sección de UI y `/ui-ux-pro-max` para consistencia.
 
-**Paso 0 — Scaffold y base** *(ya hecho por The Architect)*
+**Paso 0 — Scaffold y base** _(ya hecho por The Architect)_
 Next.js 15 + TS strict + Tailwind v4 + next-intl (es/en) + estructura de carpetas + tokens en `globals.css` + fuentes (EB Garamond/Inter) + `CLAUDE.md`. `pnpm dev` arranca con una home mínima.
 
 **Paso 1 — Layout + SEO base**
@@ -345,24 +363,27 @@ Team **Brota** en Vercel → importar `Brota-mx/pagaza-abogados` → env vars �
 ## 10. Setup del Entorno
 
 ### Prerrequisitos
+
 - Node.js ≥ 20 (hay v24 en la máquina) · pnpm ≥ 9 (hay v11).
 
 ### Variables de Entorno
-| Variable | Descripción | Dónde se obtiene |
-|----------|-------------|------------------|
-| `RESEND_API_KEY` | Envío de correo del formulario | resend.com (proyecto **Brota**, no Galarza) |
-| `CONTACT_TO_EMAIL` | Destino de leads (`a@pagaza.mx`) | Cliente |
-| `CONTACT_FROM_EMAIL` | Remitente verificado (p.ej. `no-reply@pagaza.mx` o dominio Resend temporal) | Resend |
-| `UPSTASH_REDIS_REST_URL` | Rate limiting | upstash.com (proyecto Brota) |
-| `UPSTASH_REDIS_REST_TOKEN` | Rate limiting | upstash.com |
-| `TURNSTILE_SECRET_KEY` | Verificación captcha (server) | Cloudflare Turnstile |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Widget captcha (cliente) | Cloudflare Turnstile |
-| `NEXT_PUBLIC_SITE_URL` | URL canónica (Vercel o pagaza.mx) | Vercel |
-| `TORRE_REPORTER_URL` | Endpoint de la Torre de Control (fail-open) | Torre de Control Galarza |
+
+| Variable                         | Descripción                                                                 | Dónde se obtiene                            |
+| -------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------- |
+| `RESEND_API_KEY`                 | Envío de correo del formulario                                              | resend.com (proyecto **Brota**, no Galarza) |
+| `CONTACT_TO_EMAIL`               | Destino de leads (`a@pagaza.mx`)                                            | Cliente                                     |
+| `CONTACT_FROM_EMAIL`             | Remitente verificado (p.ej. `no-reply@pagaza.mx` o dominio Resend temporal) | Resend                                      |
+| `UPSTASH_REDIS_REST_URL`         | Rate limiting                                                               | upstash.com (proyecto Brota)                |
+| `UPSTASH_REDIS_REST_TOKEN`       | Rate limiting                                                               | upstash.com                                 |
+| `TURNSTILE_SECRET_KEY`           | Verificación captcha (server)                                               | Cloudflare Turnstile                        |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Widget captcha (cliente)                                                    | Cloudflare Turnstile                        |
+| `NEXT_PUBLIC_SITE_URL`           | URL canónica (Vercel o pagaza.mx)                                           | Vercel                                      |
+| `TORRE_REPORTER_URL`             | Endpoint de la Torre de Control (fail-open)                                 | Torre de Control Galarza                    |
 
 > Todos los servicios (Resend, Upstash, Turnstile, Vercel) deben crearse/organizarse en **cuentas/teams de Brota**, separados de Galarza y Personal.
 
 ### Comandos iniciales
+
 ```bash
 pnpm install
 cp .env.example .env.local   # y rellenar
@@ -374,26 +395,28 @@ pnpm dev                     # http://localhost:3000
 ## 11. Dependencias
 
 ### Core
-| Paquete | Propósito |
-|---------|-----------|
-| `next`, `react`, `react-dom` | Framework |
-| `next-intl` | i18n ES/EN |
-| `tailwindcss` (v4), `@tailwindcss/postcss` | Estilos |
-| `react-hook-form`, `zod`, `@hookform/resolvers` | Formulario + validación |
-| `resend` | Envío de correo |
-| `@upstash/ratelimit`, `@upstash/redis` | Rate limiting |
-| `lucide-react` | Iconos |
-| `@radix-ui/react-tabs`, `@radix-ui/react-accordion`, `@radix-ui/react-dialog` | Primitivas accesibles |
-| `@vercel/analytics`, `@vercel/speed-insights` | Métricas |
-| `clsx`, `tailwind-merge` | `cn()` utility |
+
+| Paquete                                                                       | Propósito               |
+| ----------------------------------------------------------------------------- | ----------------------- |
+| `next`, `react`, `react-dom`                                                  | Framework               |
+| `next-intl`                                                                   | i18n ES/EN              |
+| `tailwindcss` (v4), `@tailwindcss/postcss`                                    | Estilos                 |
+| `react-hook-form`, `zod`, `@hookform/resolvers`                               | Formulario + validación |
+| `resend`                                                                      | Envío de correo         |
+| `@upstash/ratelimit`, `@upstash/redis`                                        | Rate limiting           |
+| `lucide-react`                                                                | Iconos                  |
+| `@radix-ui/react-tabs`, `@radix-ui/react-accordion`, `@radix-ui/react-dialog` | Primitivas accesibles   |
+| `@vercel/analytics`, `@vercel/speed-insights`                                 | Métricas                |
+| `clsx`, `tailwind-merge`                                                      | `cn()` utility          |
 
 ### Dev
-| Paquete | Propósito |
-|---------|-----------|
-| `typescript`, `@types/*` | Tipos |
-| `eslint`, `eslint-config-next` | Lint |
-| `prettier`, `prettier-plugin-tailwindcss` | Formato |
-| `@playwright/test` | E2E smoke |
+
+| Paquete                                   | Propósito |
+| ----------------------------------------- | --------- |
+| `typescript`, `@types/*`                  | Tipos     |
+| `eslint`, `eslint-config-next`            | Lint      |
+| `prettier`, `prettier-plugin-tailwindcss` | Formato   |
+| `@playwright/test`                        | E2E smoke |
 
 ---
 
@@ -418,16 +441,16 @@ pnpm dev                     # http://localhost:3000
 
 ## 14. Skills a Usar Durante el Build
 
-| Skill | En qué paso | Para qué |
-|-------|-------------|----------|
-| `/frontend-design` | 1, 3–7 (cada sección) | UI distintiva, premium, no-plantilla |
-| `/ui-ux-pro-max` | 0–7 | Consistencia del sistema (tokens, tipografía, componentes) |
-| `/humanizalo` | 2 (copy) | Que el texto ES/EN no suene a IA |
-| `/product-design` | 3–6 | Refinar jerarquía visual y flows |
-| `/dataviz` | 6 (mapa/cifras) | Si se visualiza cobertura/impacto con datos |
-| `/verify` | 7, 10 | Verificar el formulario end-to-end |
-| `/security-review` | 7, 9 | Revisar el endpoint y headers antes de deploy |
-| `/seo-audit` (si existe) | 8, 10 | Auditoría SEO final |
+| Skill                    | En qué paso           | Para qué                                                   |
+| ------------------------ | --------------------- | ---------------------------------------------------------- |
+| `/frontend-design`       | 1, 3–7 (cada sección) | UI distintiva, premium, no-plantilla                       |
+| `/ui-ux-pro-max`         | 0–7                   | Consistencia del sistema (tokens, tipografía, componentes) |
+| `/humanizalo`            | 2 (copy)              | Que el texto ES/EN no suene a IA                           |
+| `/product-design`        | 3–6                   | Refinar jerarquía visual y flows                           |
+| `/dataviz`               | 6 (mapa/cifras)       | Si se visualiza cobertura/impacto con datos                |
+| `/verify`                | 7, 10                 | Verificar el formulario end-to-end                         |
+| `/security-review`       | 7, 9                  | Revisar el endpoint y headers antes de deploy              |
+| `/seo-audit` (si existe) | 8, 10                 | Auditoría SEO final                                        |
 
 ---
 
@@ -451,4 +474,7 @@ pnpm dev                     # http://localhost:3000
 10. **Sistema de marca**: navy `#16243b`, bronce `#B0894E`, EB Garamond + Inter, radios ≤4px, hairlines. Nada experimental ni "administrativo".
 11. **Todo Brota separado** de Galarza/Personal: repo (org Brota.mx), Vercel (Team Brota), servicios (cuentas Brota).
 12. Un componente por archivo, máx ~300 líneas; alias `@/` para `src/`.
+
+```
+
 ```

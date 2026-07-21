@@ -39,3 +39,4 @@ yarn-error.log*
 
 # material fuente del cliente (referencia local — no se publica)
 /work
+.claude/

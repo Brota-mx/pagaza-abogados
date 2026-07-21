@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
 import { CheckCircle2 } from "lucide-react";
 import { contactFormSchema, type ContactFormValues } from "@/lib/validation";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { TurnstileWidget } from "./TurnstileWidget";
 
@@ -15,7 +16,7 @@ type SectorOption = { value: string; label: string };
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const fieldBase =
-  "w-full rounded-[2px] border bg-surface px-4 py-3 text-ink transition-colors placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-bronze focus:ring-offset-1 focus:ring-offset-bg";
+  "w-full rounded-[2px] border bg-surface px-4 py-3 text-ink transition-colors placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1 focus:ring-offset-bg";
 
 export function ContactForm({
   sectorOptions,
@@ -94,7 +95,7 @@ export function ContactForm({
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="text-bronze-ink focus-visible:ring-bronze mt-6 cursor-pointer text-sm font-medium tracking-[0.1em] uppercase underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:outline-none"
+          className="text-brand focus-visible:ring-brand mt-6 cursor-pointer text-sm font-medium tracking-[0.1em] uppercase underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:outline-none"
         >
           {t("sendAnother")}
         </button>
@@ -214,6 +215,30 @@ export function ContactForm({
         />
       </Field>
 
+      {/* Consentimiento expreso del aviso de privacidad (LFPDPPP). El servidor lo exige con
+          z.literal(true), así que esto no es un adorno de cumplimiento. */}
+      <label className="text-muted flex items-start gap-3 text-sm">
+        <input
+          {...register("consentimiento")}
+          type="checkbox"
+          aria-invalid={Boolean(errors.consentimiento)}
+          className="accent-brand focus-visible:ring-brand mt-0.5 h-4 w-4 shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+        />
+        <span>
+          {t("consentimiento")}{" "}
+          <Link
+            href="/aviso-de-privacidad"
+            className="text-brand focus-visible:ring-brand underline underline-offset-4 focus-visible:ring-2 focus-visible:outline-none"
+          >
+            {t("avisoLink")}
+          </Link>
+          .
+        </span>
+      </label>
+      {errors.consentimiento && (
+        <p className="text-error text-sm">{t("consentimientoError")}</p>
+      )}
+
       {captchaOn && (
         <TurnstileWidget
           siteKey={SITE_KEY}
@@ -234,7 +259,7 @@ export function ContactForm({
       <button
         type="submit"
         disabled={status === "submitting" || !captchaReady}
-        className="bg-navy hover:bg-navy-2 focus-visible:ring-bronze focus-visible:ring-offset-bg inline-flex cursor-pointer items-center justify-center rounded-[2px] px-8 py-3.5 text-sm font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+        className="bg-navy hover:bg-navy-2 focus-visible:ring-brand focus-visible:ring-offset-bg inline-flex cursor-pointer items-center justify-center rounded-[2px] px-8 py-3.5 text-sm font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       >
         {status === "submitting" ? t("submitting") : t("submit")}
       </button>

@@ -76,7 +76,7 @@ export function Alianzas({ locale }: { locale: Locale }) {
                     aria-hidden
                     size={22}
                     strokeWidth={1.5}
-                    className="text-bronze-soft mt-0.5 shrink-0"
+                    className="text-steel-soft mt-0.5 shrink-0"
                   />
                   <div>
                     <h3 className="font-serif text-lg text-white">

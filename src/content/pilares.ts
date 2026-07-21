@@ -1,18 +1,28 @@
 import type { Pilar, SectionIntro } from "./types";
 
 /**
- * Los 3 pilares de servicio. Fuente: docs/contenido-fuente.md §2.
- * Traducción EN con registro legal formal (docs/glosario-es-en.md).
+ * Sección "¿Cómo lo hacemos?" — los 3 pilares del servicio, por grado de prioridad.
+ *
+ * Los tres textos son LITERALES de la lámina que envió el cliente (nota del 19-jul-2026,
+ * "¿Cómo lo hacemos? → el siguiente texto"). Ojo: respecto a la versión anterior del sitio, las
+ * descripciones de Protección Patrimonial y de Consultoría estaban intercambiadas; ésta es la
+ * asignación que el cliente da por buena.
+ *
+ * Ya no llevan lista de puntos: ese detalle vive ahora en `capacidades.ts`, y repetirlo aquí era
+ * parte de lo que el cliente señaló como "se ve muy cargada".
+ *
+ * La sección absorbe además las tres disciplinas de `metodologia.ts` como sub-bloque: el cliente
+ * no lista Metodología como sección propia y conceptualmente responde a la misma pregunta.
  */
 export const pilaresIntro: SectionIntro = {
-  eyebrow: { es: "Servicios", en: "Services" },
+  eyebrow: { es: "¿Cómo lo hacemos?", en: "How we work" },
   titulo: {
-    es: "Tres pilares para blindar el patrimonio.",
-    en: "Three pillars to shield your wealth.",
+    es: "Tres pilares, en orden de prioridad.",
+    en: "Three pillars, in order of priority.",
   },
   intro: {
-    es: "Una práctica estrictamente fiscal, ejercida con la profundidad técnica que exigen los patrimonios y las operaciones de alto perfil.",
-    en: "A strictly tax-focused practice, exercised with the technical depth that high-profile estates and operations demand.",
+    es: "Nuestro servicio se basa en tres pilares subsecuentes: prevenir antes que corregir, negociar antes que litigar y litigar sin concesiones cuando hace falta.",
+    en: "Our practice rests on three sequential pillars: prevent before correcting, negotiate before litigating, and litigate without concessions when it is required.",
   },
 };
 
@@ -22,23 +32,9 @@ export const pilares: Pilar[] = [
     numero: "01",
     titulo: { es: "Protección Patrimonial", en: "Wealth Protection" },
     descripcion: {
-      es: "Diseño y análisis exhaustivo de estructuras fiscales a la medida de las operaciones de cada representado, para anticipar el riesgo antes de que se convierta en contingencia.",
-      en: "Design and exhaustive analysis of tax structures tailored to each client's operations, anticipating risk before it becomes a contingency.",
+      es: "Ante un contexto de alta incertidumbre legal y económica, diseñamos estrategias jurídicas orientadas a proteger el patrimonio de nuestros clientes frente a potenciales actos de fiscalización.",
+      en: "In a context of high legal and economic uncertainty, we design legal strategies aimed at protecting our clients' wealth against potential acts of tax enforcement.",
     },
-    puntos: [
-      {
-        es: "Optimización de los resultados financieros y operativos de la organización.",
-        en: "Optimization of the organization's financial and operational results.",
-      },
-      {
-        es: "Mitigación proactiva de riesgos legales derivados de interpretaciones normativas.",
-        en: "Proactive mitigation of legal risks arising from regulatory interpretation.",
-      },
-      {
-        es: "Cumplimiento regulatorio estricto con las leyes fiscales vigentes.",
-        en: "Strict regulatory compliance with current tax law.",
-      },
-    ],
   },
   {
     id: "consultoria",
@@ -48,23 +44,9 @@ export const pilares: Pilar[] = [
       en: "Advisory & Transactional",
     },
     descripcion: {
-      es: "Asesoría patrimonial y consultoría fiscal para personas físicas y corporativos. Ante un acto de autoridad, priorizamos la planeación y la negociación técnica; mantenemos lista una defensa de litigio implacable.",
-      en: "Wealth and tax advisory for individuals and corporations. Faced with an act of authority, we prioritize planning and technical negotiation, while keeping a relentless litigation defense ready.",
+      es: "Diseñamos y analizamos estructuras fiscales aplicables a las operaciones de nuestros representados, con el objetivo de optimizar resultados, mitigar riesgos legales y asegurar el cumplimiento normativo.",
+      en: "We design and analyze the tax structures that apply to our clients' transactions, seeking to optimize results, mitigate legal risk, and ensure regulatory compliance.",
     },
-    puntos: [
-      {
-        es: "Planeación jurídica y estrategias de negociación técnica como vía principal de solución.",
-        en: "Legal planning and technical negotiation strategies as the primary route to resolution.",
-      },
-      {
-        es: "Evaluación de riesgos en transacciones y decisiones corporativas críticas.",
-        en: "Risk assessment in transactions and critical corporate decisions.",
-      },
-      {
-        es: "Administración de patrimonio familiar y empresarial dentro del marco de la legalidad.",
-        en: "Administration of family and corporate wealth within the bounds of the law.",
-      },
-    ],
   },
   {
     id: "litigio",
@@ -74,26 +56,8 @@ export const pilares: Pilar[] = [
       en: "Tax & Public Litigation",
     },
     descripcion: {
-      es: "Sólida práctica de litigio administrativo y constitucional (Juicio de Amparo) para combatir arbitrariedades del poder: ponemos límites al poder público para proteger la propiedad y posesiones de nuestros clientes.",
-      en: "A robust administrative and constitutional litigation practice (Amparo) to counter arbitrary uses of power — placing limits on public authority to protect our clients' property and possessions.",
+      es: "Frente a actos de autoridad, nuestro enfoque se basa en la planeación jurídica y la estrategia, priorizando la negociación efectiva como vía principal de solución, sin dejar de lado la defensa sólida en litigio cuando es necesaria.",
+      en: "Faced with acts of authority, our approach rests on legal planning and strategy, prioritizing effective negotiation as the primary route to resolution — without setting aside a solid litigation defense when it becomes necessary.",
     },
-    puntos: [
-      {
-        es: "Auditorías y revisiones de gabinete de impuestos federales y locales.",
-        en: "Audits and desk reviews of federal and local taxes.",
-      },
-      {
-        es: "Fiscalización de aportaciones de seguridad social (IMSS, INFONAVIT).",
-        en: "Audits of social security contributions (IMSS, INFONAVIT).",
-      },
-      {
-        es: "Procedimientos aduaneros (PAMA) y controversias de comercio exterior.",
-        en: "Customs proceedings (PAMA) and foreign-trade disputes.",
-      },
-      {
-        es: "Defensa ante los tres niveles de gobierno: federal, estatal y municipal.",
-        en: "Defense before all three levels of government: federal, state, and municipal.",
-      },
-    ],
   },
 ];

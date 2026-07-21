@@ -15,13 +15,38 @@ export interface SectionIntro {
   intro: LocalizedText;
 }
 
-/** Pilar de servicio (3 en total). */
+/**
+ * Pilar de servicio (3 en total) — el "¿Cómo lo hacemos?" del cliente.
+ * Sin lista de puntos a propósito: el detalle operativo vive en `capacidades.ts`, y duplicarlo
+ * aquí es justo lo que el cliente señaló como "se ve muy cargada".
+ */
 export interface Pilar {
   id: "proteccion" | "consultoria" | "litigio";
   numero: "01" | "02" | "03";
   titulo: LocalizedText;
   descripcion: LocalizedText;
-  puntos: LocalizedText[];
+}
+
+/** Sección "Servicios": el posicionamiento de la firma en dos párrafos. */
+export interface ServiciosContent {
+  eyebrow: LocalizedText;
+  titulo: LocalizedText;
+  parrafos: LocalizedText[];
+}
+
+/** Área de práctica dentro de "Capacidades" (11 en total). */
+export interface Capacidad {
+  id: string;
+  titulo: LocalizedText;
+  descripcion: LocalizedText;
+}
+
+/** Sección "Capacidades": intro + las áreas de práctica. */
+export interface CapacidadesContent {
+  eyebrow: LocalizedText;
+  titulo: LocalizedText;
+  intro: LocalizedText;
+  areas: Capacidad[];
 }
 
 /** Caso de éxito dentro de un sector. */
@@ -68,6 +93,8 @@ export interface CompromisoContent {
   titulo: LocalizedText;
   intro: LocalizedText;
   valores: Valor[];
+  /** Declaración de cierre: la especialización única como argumento. */
+  cierre: LocalizedText;
 }
 
 /** Disciplina de la metodología de atención integral (3 en total). */
@@ -87,10 +114,25 @@ export interface MetodologiaContent {
   esferaDefensa: LocalizedText;
 }
 
+/** Bloque de un documento legal: encabezado, párrafos y, opcionalmente, una lista. */
+export interface SeccionLegal {
+  titulo: LocalizedText;
+  parrafos: LocalizedText[];
+  lista?: LocalizedText[];
+}
+
+/** Documento legal bilingüe (aviso de privacidad, aviso legal). */
+export interface DocumentoLegal {
+  titulo: LocalizedText;
+  intro: LocalizedText;
+  secciones: SeccionLegal[];
+}
+
 /** Datos globales del sitio / contacto. */
 export interface SiteInfo {
   slogan: LocalizedText;
-  socio: string;
+  /** Razón social. Sustituye al antiguo `socio`: el contacto del sitio es institucional. */
+  nombre: string;
   telefono: string;
   email: string;
   direccion: LocalizedText;

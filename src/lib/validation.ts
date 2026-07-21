@@ -15,6 +15,8 @@ export const SECTOR_IDS = [
   "consumo",
   "farmaceutico",
   "social",
+  "energetico",
+  "financiero",
 ] as const;
 
 /**
@@ -49,6 +51,9 @@ const userFields = {
     z.enum(SECTOR_IDS).optional(),
   ),
   mensaje: z.string().trim().min(10).max(2000), // saltos de línea permitidos (cuerpo, no cabecera)
+  // Consentimiento expreso del aviso de privacidad. `literal(true)` y no `boolean()`: se valida en
+  // el SERVIDOR, así que quitar el `required` del checkbox desde el DOM no sirve de nada.
+  consentimiento: z.literal(true),
 };
 
 /** Esquema para el cliente (RHF): solo los campos visibles del formulario. */
@@ -66,3 +71,28 @@ export const contactSchema = z
   .strict();
 
 export type ContactInput = z.infer<typeof contactSchema>;
+
+/* === Newsletter ===
+   Solo pide correo. El consentimiento es un booleano que DEBE ser `true`: el aviso de privacidad
+   exige consentimiento expreso para la finalidad de comunicación comercial, y se valida en el
+   servidor —no basta con el `required` del checkbox, que cualquiera puede saltarse. */
+const newsletterFields = {
+  email: z.string().trim().toLowerCase().email().max(160).regex(noControlChars),
+  consentimiento: z.literal(true),
+};
+
+/** Esquema para el cliente (RHF): solo los campos visibles. */
+export const newsletterFormSchema = z.object(newsletterFields);
+export type NewsletterFormValues = z.infer<typeof newsletterFormSchema>;
+
+/** Esquema del servidor (fuente de verdad). `.strict()` rechaza campos extra. */
+export const newsletterSchema = z
+  .object({
+    ...newsletterFields,
+    _hp: z.string().max(0).optional().or(z.literal("")), // honeypot: DEBE venir vacío
+    turnstileToken: z.string().min(1).max(2048),
+    locale: z.enum(["es", "en"]),
+  })
+  .strict();
+
+export type NewsletterInput = z.infer<typeof newsletterSchema>;

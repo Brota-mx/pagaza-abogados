@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { EB_Garamond, Inter, Montserrat } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
+import localFont from "next/font/local";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import {
   getMessages,
@@ -21,11 +22,36 @@ import { Footer } from "@/components/layout/Footer";
 import type { Locale } from "@/content/types";
 import "@/styles/globals.css";
 
-const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-eb-garamond",
+/**
+ * Serif institucional — TeX Gyre Pagella (GUST Font License, ver public/fonts/LICENSE-GUST.txt).
+ * Clon libre y métricamente compatible con Palatino, del que Book Antiqua también es clon: es la
+ * tipografía que el despacho usa en sus notas profesionales (directriz del cliente, 19-jul-2026).
+ * Solo existen 400 y 700 — no hay 500/600 como en la EB Garamond que sustituye.
+ */
+const pagella = localFont({
+  src: [
+    {
+      path: "../../../../public/fonts/pagella-regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../../../public/fonts/pagella-italic.woff2",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../../../../public/fonts/pagella-bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../../../public/fonts/pagella-bolditalic.woff2",
+      weight: "700",
+      style: "italic",
+    },
+  ],
+  variable: "--font-pagella",
   display: "swap",
 });
 
@@ -106,7 +132,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${ebGaramond.variable} ${inter.variable} ${montserrat.variable}`}
+      className={`${pagella.variable} ${inter.variable} ${montserrat.variable}`}
     >
       <body>
         <script
@@ -117,7 +143,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <a
             href="#contenido"
-            className="bg-navy focus:ring-bronze sr-only rounded-[2px] px-4 py-2 text-white focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            className="bg-navy sr-only rounded-[2px] px-4 py-2 text-white focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:ring-2 focus:ring-white focus:ring-offset-2 focus:outline-none"
           >
             {t("skipToContent")}
           </a>

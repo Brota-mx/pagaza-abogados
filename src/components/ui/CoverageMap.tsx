@@ -24,15 +24,15 @@ export function CoverageMap({
   return (
     <div className="grid gap-12 border-t border-white/15 pt-12 lg:grid-cols-2 lg:items-center lg:gap-16">
       <div>
-        <p className="text-bronze-soft mb-4 flex items-center gap-3 text-xs font-medium tracking-[0.14em] uppercase">
-          <span aria-hidden className="bg-bronze/60 h-px w-8" />
+        <p className="text-steel-soft mb-4 flex items-center gap-3 text-xs font-medium tracking-[0.14em] uppercase">
+          <span aria-hidden className="bg-steel h-px w-8" />
           {labels.titulo}
         </p>
         <p className="max-w-md leading-relaxed text-white/70">{labels.nota}</p>
 
         <dl className="mt-8 grid grid-cols-2 gap-8">
           <div>
-            <dt className="text-bronze-soft text-xs font-medium tracking-[0.14em] uppercase">
+            <dt className="text-steel-soft text-xs font-medium tracking-[0.14em] uppercase">
               {labels.nacional}
             </dt>
             <dd className="mt-2 space-y-1 font-serif text-lg text-white">
@@ -42,7 +42,7 @@ export function CoverageMap({
             </dd>
           </div>
           <div>
-            <dt className="text-bronze-soft text-xs font-medium tracking-[0.14em] uppercase">
+            <dt className="text-steel-soft text-xs font-medium tracking-[0.14em] uppercase">
               {labels.internacional}
             </dt>
             <dd className="mt-2 space-y-1 font-serif text-lg text-white">
@@ -61,13 +61,13 @@ export function CoverageMap({
         fill="none"
       >
         {/* Conectores hub → nodos */}
-        <g stroke="var(--color-bronze)" strokeWidth="1" strokeOpacity="0.5">
+        <g stroke="var(--color-steel)" strokeWidth="1" strokeOpacity="0.5">
           <line x1="96" y1="132" x2="96" y2="52" />
           <line x1="96" y1="132" x2="300" y2="86" />
           <line x1="96" y1="132" x2="214" y2="212" />
         </g>
         {/* Nodos internacionales (bronce outline) */}
-        <g stroke="var(--color-bronze-soft)" strokeWidth="1.5">
+        <g stroke="var(--color-steel-soft)" strokeWidth="1.5">
           <circle cx="96" cy="52" r="5" />
           <circle cx="300" cy="86" r="5" />
           <circle cx="214" cy="212" r="5" />
@@ -77,10 +77,10 @@ export function CoverageMap({
           cx="96"
           cy="132"
           r="16"
-          fill="var(--color-bronze)"
+          fill="var(--color-steel)"
           fillOpacity="0.12"
         />
-        <circle cx="96" cy="132" r="7" fill="var(--color-bronze-soft)" />
+        <circle cx="96" cy="132" r="7" fill="var(--color-steel-soft)" />
       </svg>
     </div>
   );

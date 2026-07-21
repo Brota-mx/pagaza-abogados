@@ -17,6 +17,7 @@ Next.js 15 (App Router) + TypeScript strict + Tailwind CSS v4 + next-intl (ES/EN
 ## Architecture
 
 ### Directory Structure
+
 - `src/app/[locale]/` — Páginas por idioma (home one-page). `layout.tsx` renderiza `<html>`, fuentes y providers.
 - `src/app/api/` — Route handlers (p.ej. `contact/route.ts`). Única superficie dinámica.
 - `src/components/{layout,sections,ui,forms}/` — UI por dominio.
@@ -28,9 +29,11 @@ Next.js 15 (App Router) + TypeScript strict + Tailwind CSS v4 + next-intl (ES/EN
 - `public/` — Fotografía B/N optimizada, logo/marca en `brand/`.
 
 ### Data Flow
+
 Todo es **estático (SSG)**: las páginas leen `src/content/*` en el server y renderizan. La **única** pieza dinámica es el formulario: cliente → `POST /api/contact` (Zod + rate-limit + honeypot + Turnstile + sanitización → Resend) → respuesta. **Sin base de datos.**
 
 ### Key Patterns
+
 - **Server Components por defecto.** `"use client"` sólo en componentes interactivos hoja (Header, Sectores tabs, ContactForm, StatBlock, Reveal).
 - **Contenido nunca hardcodeado:** todo vía `content/*` (dominio) o `messages/*` (UI). Bilingüe real.
 - **Validación del formulario siempre en el servidor** con Zod; el cliente valida por UX, no por seguridad.
@@ -46,6 +49,7 @@ Todo es **estático (SSG)**: las páginas leen `src/content/*` en el server y re
 ## Design System
 
 ### Colors (tokens en `globals.css` → utilidades Tailwind `bg-navy`, `text-bronze`, etc.)
+
 - Navy `#16243b` · Navy-2 `#1e2f4a` · Navy-ink `#101b2d`
 - Bronce `#B0894E` · Bronce-soft `#C9A96A`
 - Bg `#F5F6F8` · Surface `#FFFFFF` · Line `#E6E8EB`
@@ -53,11 +57,13 @@ Todo es **estático (SSG)**: las páginas leen `src/content/*` en el server y re
 - Success `#15803D` · Error `#B91C1C`
 
 ### Typography
+
 - Títulos: **EB Garamond** (serif), 500–600. Hero 64–80px.
 - Cuerpo/UI: **Inter**, 400–500, 16–18px. Eyebrows: Inter UPPERCASE tracking 0.14em.
 - Cargadas con `next/font` (self-hosted). `font-serif` / `font-sans` vía tokens.
 
 ### Style
+
 - Radios: 2px (botones), 4px (tarjetas). Hairlines 1px `#E6E8EB` en vez de sombras fuertes.
 - Espaciado base 4px. Max-width 1200–1280px. Mucho whitespace.
 - Motion con propósito: fade-up on-scroll, count-up en cifras, hover con subrayado bronce. **Respeta `prefers-reduced-motion`.**

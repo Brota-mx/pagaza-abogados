@@ -16,10 +16,13 @@
     "description": "Despacho fiscalista boutique en Lomas de Chapultepec. Protección patrimonial, consultoría y litigio fiscal, administrativo y constitucional para empresas y patrimonios de alto perfil."
   },
   "nav": {
-    "compromiso": "Firma",
-    "pilares": "Servicios",
-    "metodologia": "Metodología",
-    "sectores": "Sectores",
+    "inicio": "Inicio",
+    "newsletter": "Newsletter",
+    "compromiso": "Compromiso",
+    "servicios": "Servicios",
+    "pilares": "Cómo lo hacemos",
+    "capacidades": "Capacidades",
+    "sectores": "Experiencias",
     "alianzas": "Alianzas",
     "contacto": "Contacto",
     "menu": "Menú principal",
@@ -39,7 +42,10 @@
     "sections": "Navegación",
     "contact": "Contacto",
     "rights": "Todos los derechos reservados.",
-    "brotaBy": "Sitio por Brota Mx"
+    "brotaBy": "Sitio por Brota Mx",
+    "legal": "Legal",
+    "avisoPrivacidad": "Aviso de Privacidad",
+    "avisoLegal": "Aviso Legal"
   },
   "notFound": {
     "eyebrow": "Error 404",
@@ -81,6 +87,22 @@
       "BAD_REQUEST": "No pudimos procesar la solicitud. Inténtalo de nuevo.",
       "INTERNAL_ERROR": "No pudimos enviar tu mensaje. Escríbenos directo a a@pagaza.mx.",
       "NETWORK": "No pudimos conectar. Revisa tu conexión e inténtalo de nuevo."
-    }
+    },
+    "consentimiento": "Acepto el tratamiento de mis datos conforme al",
+    "avisoLink": "Aviso de Privacidad",
+    "consentimientoError": "Debes aceptar el Aviso de Privacidad para enviar el formulario."
+  },
+  "newsletter": {
+    "eyebrow": "Newsletter",
+    "titulo": "Criterio fiscal, en tu correo.",
+    "intro": "Análisis breves sobre cambios normativos, criterios de los tribunales y movimientos de la autoridad que sí afectan tu operación. Sin ruido y sin frecuencia fija.",
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "tu@empresa.com",
+    "submit": "Suscribirme",
+    "submitting": "Enviando…",
+    "successMessage": "Listo. Te escribiremos cuando haya algo que valga tu tiempo.",
+    "consentimiento": "Acepto el tratamiento de mis datos conforme al",
+    "avisoLink": "Aviso de Privacidad",
+    "consentimientoError": "Debes aceptar el Aviso de Privacidad para suscribirte."
   }
 }

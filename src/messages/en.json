@@ -16,10 +16,13 @@
     "description": "Boutique tax law firm in Lomas de Chapultepec. Wealth protection, advisory, and tax, administrative, and constitutional litigation for high-profile companies and estates."
   },
   "nav": {
-    "compromiso": "Firm",
-    "pilares": "Services",
-    "metodologia": "Methodology",
-    "sectores": "Sectors",
+    "inicio": "Home",
+    "newsletter": "Newsletter",
+    "compromiso": "Commitment",
+    "servicios": "Services",
+    "pilares": "How we work",
+    "capacidades": "Capabilities",
+    "sectores": "Experience",
     "alianzas": "Alliances",
     "contacto": "Contact",
     "menu": "Main menu",
@@ -39,7 +42,10 @@
     "sections": "Navigation",
     "contact": "Contact",
     "rights": "All rights reserved.",
-    "brotaBy": "Site by Brota Mx"
+    "brotaBy": "Site by Brota Mx",
+    "legal": "Legal",
+    "avisoPrivacidad": "Privacy Notice",
+    "avisoLegal": "Legal Notice"
   },
   "notFound": {
     "eyebrow": "Error 404",
@@ -81,6 +87,22 @@
       "BAD_REQUEST": "We couldn't process the request. Please try again.",
       "INTERNAL_ERROR": "We couldn't send your message. Please email us directly at a@pagaza.mx.",
       "NETWORK": "We couldn't connect. Please check your connection and try again."
-    }
+    },
+    "consentimiento": "I consent to the processing of my data under the",
+    "avisoLink": "Privacy Notice",
+    "consentimientoError": "You must accept the Privacy Notice to submit the form."
+  },
+  "newsletter": {
+    "eyebrow": "Newsletter",
+    "titulo": "Tax judgment, in your inbox.",
+    "intro": "Short analyses of regulatory changes, court criteria, and moves by the authorities that actually affect your operations. No noise, no fixed schedule.",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@company.com",
+    "submit": "Subscribe",
+    "submitting": "Sending…",
+    "successMessage": "Done. We'll write when there's something worth your time.",
+    "consentimiento": "I consent to the processing of my data under the",
+    "avisoLink": "Privacy Notice",
+    "consentimientoError": "You must accept the Privacy Notice to subscribe."
   }
 }

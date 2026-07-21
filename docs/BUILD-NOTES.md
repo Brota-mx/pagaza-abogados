@@ -20,9 +20,10 @@ Revisado el `BLUEPRINT.md`, todo el scaffold en `src/`, los configs raíz y la f
 **Impacto en los snippets de la Fase 1 (abajo):** sustituir `text-bronze` por `text-bronze-ink` en todo texto sobre `bg`/`surface` — el eyebrow de `SectionHeading` en tono `dark`, la variante `link` de `Button`, y los `hover:text-bronze` del Header en su estado sólido/scrolled. Dejar `text-bronze` solo cuando el fondo es navy.
 
 **A3. No hay camino ejecutable para el Paso 7 ("probar envío real E2E") ni `/verify` sin secretos de producción.**
+
 - `CONTACT_FROM_EMAIL=no-reply@pagaza.mx` con `pagaza.mx` **aún no verificado en Resend** (el dominio se entrega después, §12 línea 405) → Resend rechaza el envío; en modo test solo permite `onboarding@resend.dev` y solo al dueño de la cuenta.
 - Turnstile es **obligatorio** (Zod exige `turnstileToken`) pero, a diferencia del ratelimit, **no se declara fail-open en dev**: sin `NEXT_PUBLIC_TURNSTILE_SITE_KEY` el widget no monta y el form no se puede enviar localmente.
-**Fix:** documentar en `.env.example`/blueprint las llaves de test de Cloudflare (sitekey `1x00000000000000000000AA`, secret `1x0000000000000000000000000000000AA`), poner `CONTACT_FROM_EMAIL` con el sandbox de Resend (`onboarding@resend.dev`) por defecto, y especificar bypass/fail-open de Turnstile cuando no hay `NEXT_PUBLIC_TURNSTILE_SITE_KEY` en dev, para que los Pasos 7/10 sean verificables.
+  **Fix:** documentar en `.env.example`/blueprint las llaves de test de Cloudflare (sitekey `1x00000000000000000000AA`, secret `1x0000000000000000000000000000000AA`), poner `CONTACT_FROM_EMAIL` con el sandbox de Resend (`onboarding@resend.dev`) por defecto, y especificar bypass/fail-open de Turnstile cuando no hay `NEXT_PUBLIC_TURNSTILE_SITE_KEY` en dev, para que los Pasos 7/10 sean verificables.
 
 ### MEDIO
 
@@ -95,42 +96,44 @@ El slogan flagship (`page.tsx` línea 24) usa `font-serif italic`, pero `EB_Gara
 
 **CREAR**
 
-| Ruta | Tipo | Rol |
-|---|---|---|
-| `src/app/sitemap.ts` | Server (metadata route) | Sitemap es/en + `alternates.languages` (hreflang) |
-| `src/app/robots.ts` | Server (metadata route) | robots.txt + link al sitemap |
-| `src/lib/seo.ts` | Módulo | `SITE_URL` normalizado + helpers de alternates (DRY entre layout y sitemap) |
-| `src/content/site.ts` | Data tipada | `siteInfo` (tipo `SiteInfo`) + `NAV_SECTIONS` |
-| `src/components/ui/Container.tsx` | Server | Ancho máx. 1280px + padding lateral responsive |
-| `src/components/ui/Button.tsx` | Server (presentacional, sin hooks) | Variantes `primary`/`ghost`/`link`; render `<a>` o `<button>` |
-| `src/components/ui/SectionHeading.tsx` | Server | Eyebrow + título serif + intro; `tone` light/dark |
-| `src/components/ui/Reveal.tsx` | **Client** | Fade-up on-scroll con IntersectionObserver, respeta `prefers-reduced-motion` |
-| `src/components/layout/Header.tsx` | **Client** | Navbar scroll-aware + CTA + menú móvil |
-| `src/components/layout/LocaleSwitcher.tsx` | **Client** | ES/EN con `Link` localizado (crawlable, sin JS) |
-| `src/components/layout/Footer.tsx` | Server (async) | Nav, datos de contacto, marca de agua "P" |
-| `src/components/layout/MobileMenu.tsx` | **Client** (opcional) | Extraído del Header si supera ~300 líneas |
+| Ruta                                       | Tipo                               | Rol                                                                          |
+| ------------------------------------------ | ---------------------------------- | ---------------------------------------------------------------------------- |
+| `src/app/sitemap.ts`                       | Server (metadata route)            | Sitemap es/en + `alternates.languages` (hreflang)                            |
+| `src/app/robots.ts`                        | Server (metadata route)            | robots.txt + link al sitemap                                                 |
+| `src/lib/seo.ts`                           | Módulo                             | `SITE_URL` normalizado + helpers de alternates (DRY entre layout y sitemap)  |
+| `src/content/site.ts`                      | Data tipada                        | `siteInfo` (tipo `SiteInfo`) + `NAV_SECTIONS`                                |
+| `src/components/ui/Container.tsx`          | Server                             | Ancho máx. 1280px + padding lateral responsive                               |
+| `src/components/ui/Button.tsx`             | Server (presentacional, sin hooks) | Variantes `primary`/`ghost`/`link`; render `<a>` o `<button>`                |
+| `src/components/ui/SectionHeading.tsx`     | Server                             | Eyebrow + título serif + intro; `tone` light/dark                            |
+| `src/components/ui/Reveal.tsx`             | **Client**                         | Fade-up on-scroll con IntersectionObserver, respeta `prefers-reduced-motion` |
+| `src/components/layout/Header.tsx`         | **Client**                         | Navbar scroll-aware + CTA + menú móvil                                       |
+| `src/components/layout/LocaleSwitcher.tsx` | **Client**                         | ES/EN con `Link` localizado (crawlable, sin JS)                              |
+| `src/components/layout/Footer.tsx`         | Server (async)                     | Nav, datos de contacto, marca de agua "P"                                    |
+| `src/components/layout/MobileMenu.tsx`     | **Client** (opcional)              | Extraído del Header si supera ~300 líneas                                    |
 
 **EDITAR**
 
-| Ruta | Cambio |
-|---|---|
+| Ruta                          | Cambio                                                                                                                                                                                                                                      |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/app/[locale]/layout.tsx` | `export const metadata` → `generateMetadata` async por locale; envolver `{children}` en `<main id="contenido">`; skip-link + `<Header/>` + `<Footer locale={locale}/>` dentro del provider; (opcional) `export const dynamicParams = false` |
-| `src/app/[locale]/page.tsx` | Quitar su `<main>` propio (pasa al layout) → devolver `<>…</>`; mantener el hero placeholder hasta el Paso 3 |
-| `src/messages/es.json` | Añadir namespaces `metadata`, `nav`, `cta`, `localeSwitcher`, `a11y`, `footer` |
-| `src/messages/en.json` | Espejo EN (registro formal) |
-| `src/styles/globals.css` | Añadir `html { scroll-padding-top: 5rem; }` + token `--color-bronze-ink` (A2) |
-| `.env.example` / `.env.local` | Confirmar `NEXT_PUBLIC_SITE_URL` (fallback en `seo.ts` evita romper build si falta) |
+| `src/app/[locale]/page.tsx`   | Quitar su `<main>` propio (pasa al layout) → devolver `<>…</>`; mantener el hero placeholder hasta el Paso 3                                                                                                                                |
+| `src/messages/es.json`        | Añadir namespaces `metadata`, `nav`, `cta`, `localeSwitcher`, `a11y`, `footer`                                                                                                                                                              |
+| `src/messages/en.json`        | Espejo EN (registro formal)                                                                                                                                                                                                                 |
+| `src/styles/globals.css`      | Añadir `html { scroll-padding-top: 5rem; }` + token `--color-bronze-ink` (A2)                                                                                                                                                               |
+| `.env.example` / `.env.local` | Confirmar `NEXT_PUBLIC_SITE_URL` (fallback en `seo.ts` evita romper build si falta)                                                                                                                                                         |
 
 ### 2. next-intl v4 — patrones CORRECTOS para SSG
 
 **Regla de oro SSG:** `setRequestLocale(locale)` debe llamarse en **cada** `layout` y **cada** `page` del segmento `[locale]`, **antes** de cualquier `getTranslations`/`useTranslations`. Sin eso, next-intl fuerza render dinámico (`headers()`), rompe el SSG y baja el Lighthouse (ver trampa 1.1).
 
 **Server vs Client — qué función usar:**
+
 - **Server Component (`async`)** → `import { getTranslations } from 'next-intl/server'`; `const t = await getTranslations('footer')` (usa el locale del request tras `setRequestLocale`) **o** `await getTranslations({ locale, namespace })` cuando tengas el `locale` explícito (**obligatorio en `generateMetadata`**).
 - **Client Component (`'use client'`)** → `import { useTranslations, useLocale } from 'next-intl'`. Funciona porque el `NextIntlClientProvider` del layout envuelve al Header (ver M7 sobre `messages`).
 - Para resolver `LocalizedText` de `content/*` en cliente usa `useLocale()`; en server pásalo por prop.
 
 **`generateStaticParams`** (ya presente, correcto):
+
 ```ts
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -138,43 +141,63 @@ export function generateStaticParams() {
 ```
 
 **Enlaces localizados** — SIEMPRE desde `@/i18n/navigation`:
+
 ```tsx
-import { Link } from '@/i18n/navigation';
+import { Link } from "@/i18n/navigation";
 // <Link href="/">           → /es o /en según locale actual (prefijo automático)
 // <Link href="/" locale="en"> → fuerza /en (usado en LocaleSwitcher)
 ```
+
 > Anclas de una sola página (`#pilares`, `#contacto`) NO usan el `Link` localizado: usa `<a href="#pilares">` normal para que el scroll suave funcione sin re-navegar. El `Link` localizado es para cambiar ruta/locale.
 
 **Optimización opcional de `NextIntlClientProvider`** (no requerida en Fase 1; reduce bundle cliente):
+
 ```tsx
-import { getMessages } from 'next-intl/server';
+import { getMessages } from "next-intl/server";
 const messages = await getMessages();
-const clientMessages = { nav: messages.nav, cta: messages.cta, localeSwitcher: messages.localeSwitcher, a11y: messages.a11y };
+const clientMessages = {
+  nav: messages.nav,
+  cta: messages.cta,
+  localeSwitcher: messages.localeSwitcher,
+  a11y: messages.a11y,
+};
 // <NextIntlClientProvider messages={clientMessages}>
 ```
 
 **LocaleSwitcher (patrón v4 canónico, crawlable, cero JS de navegación):**
+
 ```tsx
-'use client';
-import { useLocale } from 'next-intl';
-import { Link, usePathname } from '@/i18n/navigation';
-import { routing } from '@/i18n/routing';
-import { cn } from '@/lib/utils';
+"use client";
+import { useLocale } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
+import { cn } from "@/lib/utils";
 
 export function LocaleSwitcher() {
   const active = useLocale();
   const pathname = usePathname(); // pathname SIN prefijo de locale
 
   return (
-    <div role="group" aria-label="Idioma / Language" className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.12em]">
+    <div
+      role="group"
+      aria-label="Idioma / Language"
+      className="flex items-center gap-2 text-xs font-medium tracking-[0.12em] uppercase"
+    >
       {routing.locales.map((loc, i) => (
         <span key={loc} className="flex items-center gap-2">
-          {i > 0 && <span aria-hidden className="text-current/30">/</span>}
+          {i > 0 && (
+            <span aria-hidden className="text-current/30">
+              /
+            </span>
+          )}
           <Link
             href={pathname}
             locale={loc}
-            aria-current={loc === active ? 'true' : undefined}
-            className={cn('transition-colors', loc === active ? 'text-bronze' : 'opacity-70 hover:opacity-100')}
+            aria-current={loc === active ? "true" : undefined}
+            className={cn(
+              "transition-colors",
+              loc === active ? "text-bronze" : "opacity-70 hover:opacity-100",
+            )}
           >
             {loc}
           </Link>
@@ -184,33 +207,36 @@ export function LocaleSwitcher() {
   );
 }
 ```
+
 Notas v4: `usePathname()` de `@/i18n/navigation` devuelve la ruta **sin** locale; `<Link locale={loc}>` re-inyecta el prefijo. En one-page el hash no se preserva al cambiar idioma (aceptable en v1).
 
 ### 3. SEO base
 
 **`src/lib/seo.ts`:**
+
 ```ts
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ?? 'https://pagaza.mx';
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://pagaza.mx";
 
 // hreflang para la home (una ruta bilingüe). Con metadataBase, rutas relativas.
 export function localeAlternates(locale: string) {
   return {
     canonical: `/${locale}`,
     languages: {
-      es: '/es',
-      en: '/en',
-      'x-default': '/es',
+      es: "/es",
+      en: "/en",
+      "x-default": "/es",
     },
   } as const;
 }
 ```
 
 **`generateMetadata` por locale — reemplaza el `export const metadata` de `[locale]/layout.tsx`:**
+
 ```ts
-import type { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
-import { SITE_URL, localeAlternates } from '@/lib/seo';
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { SITE_URL, localeAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -218,35 +244,37 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'metadata' }); // locale EXPLÍCITO en metadata
+  const t = await getTranslations({ locale, namespace: "metadata" }); // locale EXPLÍCITO en metadata
 
   return {
     metadataBase: new URL(SITE_URL),
-    title: { default: t('title'), template: `%s · ${t('brand')}` },
-    description: t('description'),
-    alternates: localeAlternates(locale),           // canonical + hreflang es/en/x-default
+    title: { default: t("title"), template: `%s · ${t("brand")}` },
+    description: t("description"),
+    alternates: localeAlternates(locale), // canonical + hreflang es/en/x-default
     openGraph: {
-      type: 'website',
-      siteName: t('brand'),
-      title: t('title'),
-      description: t('description'),
+      type: "website",
+      siteName: t("brand"),
+      title: t("title"),
+      description: t("description"),
       url: `/${locale}`,
-      locale: locale === 'es' ? 'es_MX' : 'en_US',
-      alternateLocale: locale === 'es' ? 'en_US' : 'es_MX',
-      images: ['/og-image.png'], // placeholder; OG real en Paso 8
+      locale: locale === "es" ? "es_MX" : "en_US",
+      alternateLocale: locale === "es" ? "en_US" : "es_MX",
+      images: ["/og-image.png"], // placeholder; OG real en Paso 8
     },
     robots: { index: true, follow: true },
-    icons: { icon: '/favicon.svg' },
+    icons: { icon: "/favicon.svg" },
   };
 }
 ```
+
 Claves v4/App Router: en `generateMetadata` **no** se llama `setRequestLocale`; se pasa `locale` explícito a `getTranslations`. `metadataBase` (resuelve M10) permite rutas relativas en `alternates`/`openGraph`. El `template` del título lo heredarán las páginas cuando definan `title`.
 
 **`src/app/sitemap.ts`** (una entrada por locale, cada una con sus alternates):
+
 ```ts
-import type { MetadataRoute } from 'next';
-import { routing } from '@/i18n/routing';
-import { SITE_URL } from '@/lib/seo';
+import type { MetadataRoute } from "next";
+import { routing } from "@/i18n/routing";
+import { SITE_URL } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const languages = { es: `${SITE_URL}/es`, en: `${SITE_URL}/en` };
@@ -255,7 +283,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return routing.locales.map((locale) => ({
     url: `${SITE_URL}/${locale}`,
     lastModified,
-    changeFrequency: 'monthly',
+    changeFrequency: "monthly",
     priority: 1,
     alternates: { languages },
   }));
@@ -263,13 +291,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 ```
 
 **`src/app/robots.ts`:**
+
 ```ts
-import type { MetadataRoute } from 'next';
-import { SITE_URL } from '@/lib/seo';
+import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: '*', allow: '/', disallow: '/api/' },
+    rules: { userAgent: "*", allow: "/", disallow: "/api/" },
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,
   };
@@ -281,30 +310,47 @@ export default function robots(): MetadataRoute.Robots {
 > Recordatorio A2: en estos snippets, cambiar `text-bronze` por `text-bronze-ink` en todo texto sobre fondo claro (eyebrow de `SectionHeading` tono dark, variante `link` de `Button`, hovers del Header sólido).
 
 **`src/components/ui/Container.tsx`:**
-```tsx
-import { cn } from '@/lib/utils';
 
-export function Container({ className, children }: { className?: string; children: React.ReactNode }) {
-  return <div className={cn('mx-auto w-full max-w-[1280px] px-6 md:px-8', className)}>{children}</div>;
+```tsx
+import { cn } from "@/lib/utils";
+
+export function Container({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={cn("mx-auto w-full max-w-[1280px] px-6 md:px-8", className)}
+    >
+      {children}
+    </div>
+  );
 }
 ```
 
 **`src/components/ui/Button.tsx`** (presentacional, sin `"use client"`; sirve en RSC y en cliente. Para enlaces con locale, reutilizar `buttonClasses` sobre el `Link` localizado):
-```tsx
-import { cn } from '@/lib/utils';
 
-type Variant = 'primary' | 'ghost' | 'link';
+```tsx
+import { cn } from "@/lib/utils";
+
+type Variant = "primary" | "ghost" | "link";
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-[2px] text-sm font-medium uppercase tracking-[0.1em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bronze focus-visible:ring-offset-2 disabled:opacity-50';
+  "inline-flex items-center justify-center gap-2 rounded-[2px] text-sm font-medium uppercase tracking-[0.1em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bronze focus-visible:ring-offset-2 disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-navy px-7 py-3.5 text-white hover:bg-navy-2',
-  ghost: 'border border-line px-7 py-3.5 text-navy hover:border-navy',
-  link: 'text-bronze underline-offset-4 hover:underline', // ← usar text-bronze-ink sobre claro (A2)
+  primary: "bg-navy px-7 py-3.5 text-white hover:bg-navy-2",
+  ghost: "border border-line px-7 py-3.5 text-navy hover:border-navy",
+  link: "text-bronze underline-offset-4 hover:underline", // ← usar text-bronze-ink sobre claro (A2)
 };
 
-export function buttonClasses(variant: Variant = 'primary', className?: string) {
+export function buttonClasses(
+  variant: Variant = "primary",
+  className?: string,
+) {
   return cn(base, variants[variant], className);
 }
 
@@ -315,37 +361,82 @@ type Props = {
   children: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export function Button({ variant = 'primary', href, className, children, ...rest }: Props) {
+export function Button({
+  variant = "primary",
+  href,
+  className,
+  children,
+  ...rest
+}: Props) {
   const cls = buttonClasses(variant, className);
-  if (href) return <a href={href} className={cls}>{children}</a>; // anclas #contacto, tel:, mailto:
-  return <button className={cls} {...rest}>{children}</button>;
+  if (href)
+    return (
+      <a href={href} className={cls}>
+        {children}
+      </a>
+    ); // anclas #contacto, tel:, mailto:
+  return (
+    <button className={cls} {...rest}>
+      {children}
+    </button>
+  );
 }
 ```
+
 > Trampa 2.1: nunca interpolar nombres de utilidad (`` `bg-${variant}` ``) — Tailwind v4 los purga. Mapear a clases **literales** como arriba.
 
 **`src/components/ui/SectionHeading.tsx`** (`tone: 'light'` para uso sobre navy):
+
 ```tsx
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 export function SectionHeading({
-  eyebrow, title, intro, align = 'left', tone = 'dark', as: Heading = 'h2',
+  eyebrow,
+  title,
+  intro,
+  align = "left",
+  tone = "dark",
+  as: Heading = "h2",
 }: {
-  eyebrow?: string; title: string; intro?: string;
-  align?: 'left' | 'center'; tone?: 'dark' | 'light'; as?: React.ElementType;
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  align?: "left" | "center";
+  tone?: "dark" | "light";
+  as?: React.ElementType;
 }) {
-  const light = tone === 'light';
+  const light = tone === "light";
   return (
-    <div className={cn('max-w-2xl', align === 'center' && 'mx-auto text-center')}>
+    <div
+      className={cn("max-w-2xl", align === "center" && "mx-auto text-center")}
+    >
       {eyebrow && (
-        <p className={cn('mb-4 text-xs font-medium uppercase tracking-[0.14em]', light ? 'text-bronze-soft' : 'text-bronze-ink')}>
+        <p
+          className={cn(
+            "mb-4 text-xs font-medium tracking-[0.14em] uppercase",
+            light ? "text-bronze-soft" : "text-bronze-ink",
+          )}
+        >
           {eyebrow}
         </p>
       )}
-      <Heading className={cn('font-serif text-3xl leading-tight md:text-4xl', light ? 'text-white' : 'text-navy')}>
+      <Heading
+        className={cn(
+          "font-serif text-3xl leading-tight md:text-4xl",
+          light ? "text-white" : "text-navy",
+        )}
+      >
         {title}
       </Heading>
       {intro && (
-        <p className={cn('mt-4 text-base leading-relaxed md:text-lg', light ? 'text-white/80' : 'text-muted')}>{intro}</p>
+        <p
+          className={cn(
+            "mt-4 text-base leading-relaxed md:text-lg",
+            light ? "text-white/80" : "text-muted",
+          )}
+        >
+          {intro}
+        </p>
       )}
     </div>
   );
@@ -353,22 +444,39 @@ export function SectionHeading({
 ```
 
 **`src/components/ui/Reveal.tsx`** (client; muestra de inmediato si `prefers-reduced-motion`):
-```tsx
-'use client';
-import { useEffect, useRef, useState } from 'react';
-import { cn } from '@/lib/utils';
 
-export function Reveal({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+```tsx
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
+
+export function Reveal({
+  children,
+  className,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setVisible(true); return; }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVisible(true);
+      return;
+    }
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); io.disconnect(); } },
-      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' },
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -379,8 +487,8 @@ export function Reveal({ children, className, delay = 0 }: { children: React.Rea
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
       className={cn(
-        'transition-all duration-500 ease-out motion-reduce:transition-none',
-        visible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
+        "transition-all duration-500 ease-out motion-reduce:transition-none",
+        visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
         className,
       )}
     >
@@ -389,48 +497,63 @@ export function Reveal({ children, className, delay = 0 }: { children: React.Rea
   );
 }
 ```
+
 > El mismo patrón `matchMedia` en JS es obligatorio para el count-up del `StatBlock` (M8): el CSS de reduced-motion NO frena `requestAnimationFrame`.
 
 **`src/components/layout/Header.tsx`** (client; scroll-aware transparente→sólido, CTA, menú móvil accesible):
+
 ```tsx
-'use client';
-import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { Menu, X } from 'lucide-react';
-import { Link } from '@/i18n/navigation';
-import { NAV_SECTIONS } from '@/content/site';
-import { Container } from '@/components/ui/Container';
-import { LocaleSwitcher } from './LocaleSwitcher';
-import { cn } from '@/lib/utils';
+"use client";
+import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { Menu, X } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import { NAV_SECTIONS } from "@/content/site";
+import { Container } from "@/components/ui/Container";
+import { LocaleSwitcher } from "./LocaleSwitcher";
+import { cn } from "@/lib/utils";
 
 export function Header() {
-  const t = useTranslations('nav');
-  const tCta = useTranslations('cta');
+  const t = useTranslations("nav");
+  const tCta = useTranslations("cta");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-colors duration-300',
-        scrolled ? 'border-b border-line bg-surface/95 text-navy backdrop-blur' : 'bg-transparent text-white',
+        "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
+        scrolled
+          ? "border-line bg-surface/95 text-navy border-b backdrop-blur"
+          : "bg-transparent text-white",
       )}
     >
       <Container className="flex h-20 items-center justify-between">
-        <Link href="/" className="font-serif text-xl tracking-tight" aria-label="Pagaza Abogados Tributarios">
+        <Link
+          href="/"
+          className="font-serif text-xl tracking-tight"
+          aria-label="Pagaza Abogados Tributarios"
+        >
           PAGAZA
         </Link>
 
-        <nav aria-label={t('menu')} className="hidden items-center gap-8 md:flex">
+        <nav
+          aria-label={t("menu")}
+          className="hidden items-center gap-8 md:flex"
+        >
           {NAV_SECTIONS.map((s) => (
-            <a key={s.id} href={`#${s.id}`} className="text-sm transition-colors hover:text-bronze">
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              className="hover:text-bronze text-sm transition-colors"
+            >
               {t(s.key)}
             </a>
           ))}
@@ -438,28 +561,50 @@ export function Header() {
 
         <div className="hidden items-center gap-6 md:flex">
           <LocaleSwitcher />
-          <a href="#contacto" className="rounded-[2px] bg-bronze px-5 py-2.5 text-xs font-medium uppercase tracking-[0.1em] text-navy transition-colors hover:bg-bronze-soft">
-            {tCta('consulta')}
+          <a
+            href="#contacto"
+            className="bg-bronze text-navy hover:bg-bronze-soft rounded-[2px] px-5 py-2.5 text-xs font-medium tracking-[0.1em] uppercase transition-colors"
+          >
+            {tCta("consulta")}
           </a>
         </div>
 
-        <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? t('close') : t('open')} className="md:hidden">
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          aria-label={open ? t("close") : t("open")}
+          className="md:hidden"
+        >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </Container>
 
       {open && (
-        <div id="mobile-menu" className="border-t border-line bg-surface text-navy md:hidden">
+        <div
+          id="mobile-menu"
+          className="border-line bg-surface text-navy border-t md:hidden"
+        >
           <Container className="flex flex-col gap-1 py-4">
             {NAV_SECTIONS.map((s) => (
-              <a key={s.id} href={`#${s.id}`} onClick={() => setOpen(false)} className="py-2 text-sm hover:text-bronze">
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                onClick={() => setOpen(false)}
+                className="hover:text-bronze py-2 text-sm"
+              >
                 {t(s.key)}
               </a>
             ))}
-            <div className="mt-3 flex items-center justify-between border-t border-line pt-4">
+            <div className="border-line mt-3 flex items-center justify-between border-t pt-4">
               <LocaleSwitcher />
-              <a href="#contacto" onClick={() => setOpen(false)} className="rounded-[2px] bg-navy px-5 py-2.5 text-xs font-medium uppercase tracking-[0.1em] text-white">
-                {tCta('consulta')}
+              <a
+                href="#contacto"
+                onClick={() => setOpen(false)}
+                className="bg-navy rounded-[2px] px-5 py-2.5 text-xs font-medium tracking-[0.1em] text-white uppercase"
+              >
+                {tCta("consulta")}
               </a>
             </div>
           </Container>
@@ -469,91 +614,126 @@ export function Header() {
   );
 }
 ```
+
 Detalles clave: header `fixed` ⇒ el `<main>` necesita `scroll-padding-top` (globals) para que las anclas no queden bajo el header; transición solo de color (no `transform`), segura con reduced-motion; menú móvil con `aria-expanded`/`aria-controls`. En el paso siguiente añadir cierre con `Escape` y bloqueo de scroll si se vuelve overlay (o migrar a `@radix-ui/react-dialog`, ya instalado — ver B2). Si crece, extraer a `MobileMenu.tsx`.
 
 **`src/components/layout/Footer.tsx`** (server async; datos de `content/site.ts`, marca de agua "P"):
+
 ```tsx
-import { getTranslations } from 'next-intl/server';
-import { siteInfo, NAV_SECTIONS } from '@/content/site';
-import { Container } from '@/components/ui/Container';
-import type { Locale } from '@/content/types';
+import { getTranslations } from "next-intl/server";
+import { siteInfo, NAV_SECTIONS } from "@/content/site";
+import { Container } from "@/components/ui/Container";
+import type { Locale } from "@/content/types";
 
 export async function Footer({ locale }: { locale: Locale }) {
-  const t = await getTranslations('footer');
-  const tNav = await getTranslations('nav');
-  const tel = siteInfo.telefono.replace(/[^\d]/g, '');
+  const t = await getTranslations("footer");
+  const tNav = await getTranslations("nav");
+  const tel = siteInfo.telefono.replace(/[^\d]/g, "");
 
   return (
-    <footer className="relative overflow-hidden bg-navy text-white">
+    <footer className="bg-navy relative overflow-hidden text-white">
       {/* Marca de agua "P" serif de fondo */}
-      <span aria-hidden className="pointer-events-none absolute -bottom-16 -right-6 select-none font-serif text-[22rem] leading-none text-white/[0.04]">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -right-6 -bottom-16 font-serif text-[22rem] leading-none text-white/[0.04] select-none"
+      >
         P
       </span>
 
       <Container className="relative grid gap-12 py-16 md:grid-cols-3">
         <div>
           <p className="font-serif text-2xl">PAGAZA</p>
-          <p className="mt-4 max-w-xs font-serif text-lg italic text-white/80">{siteInfo.slogan[locale]}</p>
+          <p className="mt-4 max-w-xs font-serif text-lg text-white/80 italic">
+            {siteInfo.slogan[locale]}
+          </p>
         </div>
 
-        <nav aria-label={t('sections')} className="flex flex-col gap-2">
-          <p className="mb-2 text-xs uppercase tracking-[0.14em] text-bronze-soft">{t('sections')}</p>
+        <nav aria-label={t("sections")} className="flex flex-col gap-2">
+          <p className="text-bronze-soft mb-2 text-xs tracking-[0.14em] uppercase">
+            {t("sections")}
+          </p>
           {NAV_SECTIONS.map((s) => (
-            <a key={s.id} href={`#${s.id}`} className="text-sm text-white/80 hover:text-bronze-soft">{tNav(s.key)}</a>
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              className="hover:text-bronze-soft text-sm text-white/80"
+            >
+              {tNav(s.key)}
+            </a>
           ))}
         </nav>
 
         <address className="not-italic">
-          <p className="mb-2 text-xs uppercase tracking-[0.14em] text-bronze-soft">{t('contact')}</p>
+          <p className="text-bronze-soft mb-2 text-xs tracking-[0.14em] uppercase">
+            {t("contact")}
+          </p>
           <p className="text-sm text-white/80">{siteInfo.socio}</p>
-          <a href={`tel:+52${tel}`} className="mt-1 block text-sm text-white/80 hover:text-bronze-soft">{siteInfo.telefono}</a>
-          <a href={`mailto:${siteInfo.email}`} className="block text-sm text-white/80 hover:text-bronze-soft">{siteInfo.email}</a>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/60">{siteInfo.direccion[locale]}</p>
+          <a
+            href={`tel:+52${tel}`}
+            className="hover:text-bronze-soft mt-1 block text-sm text-white/80"
+          >
+            {siteInfo.telefono}
+          </a>
+          <a
+            href={`mailto:${siteInfo.email}`}
+            className="hover:text-bronze-soft block text-sm text-white/80"
+          >
+            {siteInfo.email}
+          </a>
+          <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/60">
+            {siteInfo.direccion[locale]}
+          </p>
         </address>
       </Container>
 
       <div className="relative border-t border-white/10">
         <Container className="flex flex-col gap-2 py-6 text-xs text-white/50 sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} Pagaza Abogados Tributarios. {t('rights')}</p>
+          <p>
+            © {new Date().getFullYear()} Pagaza Abogados Tributarios.{" "}
+            {t("rights")}
+          </p>
         </Container>
       </div>
     </footer>
   );
 }
 ```
+
 > Nota M9: si el tel es WhatsApp, añadir `siteInfo.whatsapp` normalizado (`https://wa.me/525578918865`) y su campo en `SiteInfo`.
 
 ### 5. Contenido y mensajes
 
 **`src/content/site.ts`** (usa el tipo `SiteInfo`; `NAV_SECTIONS` mapea id de ancla → clave de `messages.nav`):
+
 ```ts
-import type { SiteInfo } from './types';
+import type { SiteInfo } from "./types";
 
 export const siteInfo: SiteInfo = {
   slogan: {
-    es: 'La estrategia correcta siempre gana. Con esta definición de éxito, nunca perdemos.',
-    en: 'The right strategy always wins. With this definition of success, we never lose.',
+    es: "La estrategia correcta siempre gana. Con esta definición de éxito, nunca perdemos.",
+    en: "The right strategy always wins. With this definition of success, we never lose.",
   },
-  socio: 'Alfonso Pagaza',
-  telefono: '(55) 78-91-88-65',
-  email: 'a@pagaza.mx',
+  socio: "Alfonso Pagaza",
+  telefono: "(55) 78-91-88-65",
+  email: "a@pagaza.mx",
   direccion: {
-    es: 'Prado Sur 525, Lomas de Chapultepec, Miguel Hidalgo, 11000, CDMX',
-    en: 'Prado Sur 525, Lomas de Chapultepec, Miguel Hidalgo, 11000, Mexico City',
+    es: "Prado Sur 525, Lomas de Chapultepec, Miguel Hidalgo, 11000, CDMX",
+    en: "Prado Sur 525, Lomas de Chapultepec, Miguel Hidalgo, 11000, Mexico City",
   },
 };
 
 export const NAV_SECTIONS = [
-  { id: 'compromiso', key: 'compromiso' },
-  { id: 'pilares', key: 'pilares' },
-  { id: 'metodologia', key: 'metodologia' },
-  { id: 'sectores', key: 'sectores' },
-  { id: 'alianzas', key: 'alianzas' },
-  { id: 'contacto', key: 'contacto' },
+  { id: "compromiso", key: "compromiso" },
+  { id: "pilares", key: "pilares" },
+  { id: "metodologia", key: "metodologia" },
+  { id: "sectores", key: "sectores" },
+  { id: "alianzas", key: "alianzas" },
+  { id: "contacto", key: "contacto" },
 ] as const;
 ```
 
 **`src/messages/es.json`** — añadir (mantener el bloque `home` existente):
+
 ```json
 {
   "metadata": {
@@ -562,36 +742,48 @@ export const NAV_SECTIONS = [
     "description": "Despacho fiscalista boutique en Lomas de Chapultepec. Protección patrimonial, consultoría y litigio fiscal, administrativo y constitucional para empresas y patrimonios de alto perfil."
   },
   "nav": {
-    "compromiso": "Firma", "pilares": "Servicios", "metodologia": "Metodología",
-    "sectores": "Sectores", "alianzas": "Alianzas", "contacto": "Contacto",
-    "menu": "Menú principal", "open": "Abrir menú", "close": "Cerrar menú"
+    "compromiso": "Firma",
+    "pilares": "Servicios",
+    "metodologia": "Metodología",
+    "sectores": "Sectores",
+    "alianzas": "Alianzas",
+    "contacto": "Contacto",
+    "menu": "Menú principal",
+    "open": "Abrir menú",
+    "close": "Cerrar menú"
   },
   "cta": { "consulta": "Agendar consulta" },
   "localeSwitcher": { "label": "Cambiar idioma" },
   "a11y": { "skipToContent": "Saltar al contenido" },
   "footer": {
-    "sections": "Navegación", "contact": "Contacto",
+    "sections": "Navegación",
+    "contact": "Contacto",
     "rights": "Todos los derechos reservados."
   }
 }
 ```
+
 **`src/messages/en.json`** — espejo EN (registro formal-legal): `"title": "Pagaza Abogados Tributarios · Elite Tax Strategy in Mexico City"`; `nav`: `Firm / Services / Methodology / Sectors / Alliances / Contact`; `cta.consulta`: `"Schedule a consultation"`; `a11y.skipToContent`: `"Skip to content"`; `footer`: `Navigation / Contact / All rights reserved.`
 
 ### 6. Ediciones puntuales
 
 **`src/app/[locale]/layout.tsx`** — quitar `export const metadata` (lo sustituye `generateMetadata` de §3) e insertar el chrome dentro del provider, con `<main>` y skip-link. El cuerpo queda:
+
 ```tsx
 const { locale } = await params;
 if (!hasLocale(routing.locales, locale)) notFound();
 setRequestLocale(locale);
-const t = await getTranslations('a11y');
+const t = await getTranslations("a11y");
 
 return (
   <html lang={locale} className={`${ebGaramond.variable} ${inter.variable}`}>
     <body>
       <NextIntlClientProvider>
-        <a href="#contenido" className="sr-only rounded-[2px] bg-navy px-4 py-2 text-white focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100]">
-          {t('skipToContent')}
+        <a
+          href="#contenido"
+          className="bg-navy sr-only rounded-[2px] px-4 py-2 text-white focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100]"
+        >
+          {t("skipToContent")}
         </a>
         <Header />
         <main id="contenido">{children}</main>
@@ -603,14 +795,19 @@ return (
   </html>
 );
 ```
+
 Añadir imports de `getTranslations`, `Header`, `Footer`, `Locale`. Opcional hardening: `export const dynamicParams = false;`.
 
 **`src/app/[locale]/page.tsx`** — cambiar el `<main …>` externo por `<>…</>` (el `<main>` vive ahora en el layout); no duplicar. Mantener `setRequestLocale(locale)` + `getTranslations('home')` tal cual.
 
 **`src/styles/globals.css`** — añadir tras el bloque `html`:
+
 ```css
-html { scroll-padding-top: 5rem; } /* offset del header fijo (h-20) para anclas */
+html {
+  scroll-padding-top: 5rem;
+} /* offset del header fijo (h-20) para anclas */
 ```
+
 Y en el `@theme`, el token de A2: `--color-bronze-ink: #7A5C2E;`.
 
 ### 7. Orden de implementación (incremental, compila en cada paso)
@@ -662,54 +859,85 @@ Y en el `@theme`, el token de A2: `--color-bronze-ink: #7A5C2E;`.
 
 ### 2) Modos de falla (todos) — manejo y HTTP status
 
-| # | Falla | Detección | HTTP | Respuesta | Efecto lateral |
-|---|-------|-----------|------|-----------|----------------|
-| A | JSON malformado / Content-Type inválido | `try/catch` en `request.json()` | **400** | `{code:"BAD_REQUEST"}` genérico | No envía |
-| B | Rate-limit excedido | `ratelimit.limit(ip)` → `success:false` | **429** | `{code:"RATE_LIMITED"}` + `Retry-After` + `X-RateLimit-Reset` | Reporter "rate_limited". NO llama Turnstile/Resend |
-| C | Honeypot lleno (`_hp` ≠ "") | check tras parseo | **200** (falso positivo deliberado) | `{success:true}` — el bot cree que funcionó | No envía. Reporter "honeypot_hit". Nunca revelar detección |
-| D | Turnstile inválido/vencido/reusado | siteverify → `success:false` | **400** | `{code:"CAPTCHA_FAILED"}` | No envía. Reporter "captcha_failed". Cliente resetea widget |
-| E | Turnstile caído / timeout | `fetch` lanza / status ≥500 / timeout (~5s) | **503** (**fail-CLOSED**) | `{code:"CAPTCHA_UNAVAILABLE"}` | No envía. **NO fail-open** (sería relay de spam abierto) |
-| F | Payload Zod inválido | `safeParse` → `error` | **400** | `{code:"VALIDATION_ERROR", details:fieldErrors}` sin stack | No envía. `details` seguro (campo + reglas) |
-| G | Intento de header-injection | regex Zod + guard | **400** | `{code:"VALIDATION_ERROR"}` genérico (no confirmar vector) | No envía. Reporter "header_injection_attempt" |
-| H | Resend caído / key inválida / dominio no verificado | `send` → `error`/`throw` | **500** | `{code:"INTERNAL_ERROR", message:"…Escríbenos a a@pagaza.mx."}` cero detalles del proveedor | Reporter "resend_error" solo hacia la Torre. Fallback UX (canal directo) |
-| I | Falla del Reporter | `report()` rechaza | — | Ninguna | **Fail-open** (`.catch`); el correo ya se envió |
-| J | Falta env crítica | check lazy | **500** (o **503** si Upstash) | genérico | Reporter "config_error". Nunca filtrar qué env falta |
-| K | Método ≠ POST | solo se exporta `POST` | **405** (automático) | — | — |
+| #   | Falla                                               | Detección                                   | HTTP                                | Respuesta                                                                                   | Efecto lateral                                                           |
+| --- | --------------------------------------------------- | ------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| A   | JSON malformado / Content-Type inválido             | `try/catch` en `request.json()`             | **400**                             | `{code:"BAD_REQUEST"}` genérico                                                             | No envía                                                                 |
+| B   | Rate-limit excedido                                 | `ratelimit.limit(ip)` → `success:false`     | **429**                             | `{code:"RATE_LIMITED"}` + `Retry-After` + `X-RateLimit-Reset`                               | Reporter "rate_limited". NO llama Turnstile/Resend                       |
+| C   | Honeypot lleno (`_hp` ≠ "")                         | check tras parseo                           | **200** (falso positivo deliberado) | `{success:true}` — el bot cree que funcionó                                                 | No envía. Reporter "honeypot_hit". Nunca revelar detección               |
+| D   | Turnstile inválido/vencido/reusado                  | siteverify → `success:false`                | **400**                             | `{code:"CAPTCHA_FAILED"}`                                                                   | No envía. Reporter "captcha_failed". Cliente resetea widget              |
+| E   | Turnstile caído / timeout                           | `fetch` lanza / status ≥500 / timeout (~5s) | **503** (**fail-CLOSED**)           | `{code:"CAPTCHA_UNAVAILABLE"}`                                                              | No envía. **NO fail-open** (sería relay de spam abierto)                 |
+| F   | Payload Zod inválido                                | `safeParse` → `error`                       | **400**                             | `{code:"VALIDATION_ERROR", details:fieldErrors}` sin stack                                  | No envía. `details` seguro (campo + reglas)                              |
+| G   | Intento de header-injection                         | regex Zod + guard                           | **400**                             | `{code:"VALIDATION_ERROR"}` genérico (no confirmar vector)                                  | No envía. Reporter "header_injection_attempt"                            |
+| H   | Resend caído / key inválida / dominio no verificado | `send` → `error`/`throw`                    | **500**                             | `{code:"INTERNAL_ERROR", message:"…Escríbenos a a@pagaza.mx."}` cero detalles del proveedor | Reporter "resend_error" solo hacia la Torre. Fallback UX (canal directo) |
+| I   | Falla del Reporter                                  | `report()` rechaza                          | —                                   | Ninguna                                                                                     | **Fail-open** (`.catch`); el correo ya se envió                          |
+| J   | Falta env crítica                                   | check lazy                                  | **500** (o **503** si Upstash)      | genérico                                                                                    | Reporter "config_error". Nunca filtrar qué env falta                     |
+| K   | Método ≠ POST                                       | solo se exporta `POST`                      | **405** (automático)                | —                                                                                           | —                                                                        |
 
 **Orden endurecido (fail-cheap → fail-expensive):** `parse JSON → rate-limit → honeypot → Zod (shape + anti-injection) → Turnstile (red) → Resend (red) → reporter`. **Decisión:** validar shape con Zod **antes** de gastar la llamada de red a Turnstile (diverge del pipeline literal del §5 que lista Turnstile antes) para no amplificar DoS ni quemar verificaciones con payloads basura. Documentarlo en el `Plan - Pagaza`.
 
 ### 3) Contratos
 
 **3.1 Esquema Zod (`src/lib/validation.ts`)**
+
 ```ts
 import { z } from "zod";
 
 // Debe coincidir 1:1 con los ids de src/content/sectores.ts (los 10 sectores).
 export const SECTOR_IDS = [
-  "textil", "retail", "manufactura", "energia", "inmobiliario",
-  "financiero", "tecnologia", "agroindustria", "logistica", "salud",
+  "textil",
+  "retail",
+  "manufactura",
+  "energia",
+  "inmobiliario",
+  "financiero",
+  "tecnologia",
+  "agroindustria",
+  "logistica",
+  "salud",
 ] as const;
 
 // Rechaza saltos de línea y controles (anti header-injection) en campos de cabecera.
 const noControlChars = /^[^\r\n\t\f\v\u0000-\u001F\u007F]*$/;
 
-export const contactSchema = z.object({
-  nombre: z.string().trim().min(2).max(120).regex(noControlChars),
-  empresa: z.string().trim().max(160).regex(noControlChars).optional().or(z.literal("")),
-  email: z.string().trim().toLowerCase().email().max(160).regex(noControlChars),
-  telefono: z.string().trim().max(40).regex(/^[0-9+()\s-]*$/).optional().or(z.literal("")),
-  sector: z.enum(SECTOR_IDS).optional(),
-  mensaje: z.string().trim().min(10).max(2000),        // \n permitido (es cuerpo, no cabecera)
-  _hp: z.string().max(0).optional().or(z.literal("")), // honeypot: DEBE venir vacío
-  turnstileToken: z.string().min(1).max(2048),
-  locale: z.enum(["es", "en"]),
-}).strict(); // rechaza campos extra (defensa prototype pollution / inesperados)
+export const contactSchema = z
+  .object({
+    nombre: z.string().trim().min(2).max(120).regex(noControlChars),
+    empresa: z
+      .string()
+      .trim()
+      .max(160)
+      .regex(noControlChars)
+      .optional()
+      .or(z.literal("")),
+    email: z
+      .string()
+      .trim()
+      .toLowerCase()
+      .email()
+      .max(160)
+      .regex(noControlChars),
+    telefono: z
+      .string()
+      .trim()
+      .max(40)
+      .regex(/^[0-9+()\s-]*$/)
+      .optional()
+      .or(z.literal("")),
+    sector: z.enum(SECTOR_IDS).optional(),
+    mensaje: z.string().trim().min(10).max(2000), // \n permitido (es cuerpo, no cabecera)
+    _hp: z.string().max(0).optional().or(z.literal("")), // honeypot: DEBE venir vacío
+    turnstileToken: z.string().min(1).max(2048),
+    locale: z.enum(["es", "en"]),
+  })
+  .strict(); // rechaza campos extra (defensa prototype pollution / inesperados)
 
 export type ContactInput = z.infer<typeof contactSchema>;
 ```
+
 **Límites (fuente de verdad):** `nombre` 2–120 · `empresa` 0–160 · `email` válido ≤160 · `telefono` 0–40 (solo `0-9+()- `) · `sector` ∈ 10 ids (opcional) · `mensaje` 10–2000 · `turnstileToken` 1–2048 · `locale` `es|en`. **Límite de body:** rechazar payloads > ~16 KB antes de parsear (defensa cheap contra `mensaje` gigante / bomba JSON).
 
 **3.2 Rate-limit por IP (`src/lib/ratelimit.ts`)**
+
 ```ts
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
@@ -724,14 +952,16 @@ export const ratelimit = new Ratelimit({
 // IP: en Vercel confiar en la cabecera de plataforma (request.ip ya no existe en Next 15).
 export function getClientIp(req: Request): string {
   const xff = req.headers.get("x-forwarded-for");
-  return (xff?.split(",")[0].trim()) || req.headers.get("x-real-ip") || "0.0.0.0";
+  return xff?.split(",")[0].trim() || req.headers.get("x-real-ip") || "0.0.0.0";
 }
 ```
+
 - Ventana: sliding window **5/10 min/IP**, clave `pagaza:contact:<ip>`.
 - `x-forwarded-for` es spoofeable en general, pero **en Vercel** la plataforma la fija (usar el valor izquierdo). No usar cookies/headers de cliente como clave.
 - **429:** incluir `Retry-After` y `X-RateLimit-Reset`. Si Upstash cae: **503** genérico (no fail-open peligroso). **Fail-open SOLO por config ausente en dev** (ver trampa 6.2), nunca fail-closed por falta de credenciales locales.
 
 **3.3 Formato de respuesta consistente**
+
 ```ts
 // Éxito (único shape, siempre 200)
 { "success": true }
@@ -747,36 +977,47 @@ export function getClientIp(req: Request): string {
   }
 }
 ```
+
 **Regla de oro:** el `message` es genérico y localizable; **nunca** contiene stack traces, nombres de env, respuestas de Resend/Cloudflare ni el vector detectado. El cliente mapea `code`→copy vía `messages/{es,en}.json`. Todas las respuestas: `Content-Type: application/json`, `Cache-Control: no-store`.
 
 **3.4 Sanitización anti header-injection (`src/lib/sanitize.ts`)**
 Doble barrera: (1) regex `noControlChars` en Zod; (2) guard explícito antes de armar el correo:
+
 ```ts
 const HEADER_FIELDS = [data.nombre, data.email, data.empresa ?? ""];
-if (HEADER_FIELDS.some(v => /[\r\n]|%0a|%0d/i.test(v))) {
-  return json(400, { success:false, error:{ code:"VALIDATION_ERROR", message: t("genericValidation") }});
+if (HEADER_FIELDS.some((v) => /[\r\n]|%0a|%0d/i.test(v))) {
+  return json(400, {
+    success: false,
+    error: { code: "VALIDATION_ERROR", message: t("genericValidation") },
+  });
 }
 ```
+
 El **asunto** lo fija el servidor (constante, ej. `"Nuevo contacto — Pagaza"`), nunca se interpola input en cabeceras. `reply_to = data.email` (validado, sin saltos). El `mensaje` (que sí puede tener `\n`) va **solo en el cuerpo**; si el cuerpo es HTML se escapa (`&lt;`) — preferir cuerpo `text`.
 
 **3.5 Verificación server-side de Turnstile (`src/lib/turnstile.ts`)**
+
 ```ts
-export async function verifyTurnstile(token: string, ip: string): Promise<
-  { ok: true } | { ok: false; reason: "failed" | "unavailable" }
-> {
+export async function verifyTurnstile(
+  token: string,
+  ip: string,
+): Promise<{ ok: true } | { ok: false; reason: "failed" | "unavailable" }> {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), 5000);
   try {
-    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        secret: process.env.TURNSTILE_SECRET_KEY!,
-        response: token,
-        remoteip: ip,
-      }),
-      signal: ctrl.signal,
-    });
+    const res = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          secret: process.env.TURNSTILE_SECRET_KEY!,
+          response: token,
+          remoteip: ip,
+        }),
+        signal: ctrl.signal,
+      },
+    );
     if (!res.ok) return { ok: false, reason: "unavailable" }; // 5xx CF → 503
     const data = (await res.json()) as { success: boolean };
     return data.success ? { ok: true } : { ok: false, reason: "failed" }; // 400
@@ -787,10 +1028,12 @@ export async function verifyTurnstile(token: string, ip: string): Promise<
   }
 }
 ```
+
 Server-side **obligatorio** (el `NEXT_PUBLIC_TURNSTILE_SITE_KEY` del cliente no verifica nada). Token de **un solo uso** → el cliente resetea el widget tras cada submit. Timeout con `AbortController`. **Fail-closed** ante caída de CF (modo E).
 
 **3.6 CSP y allowances (§CSP — Paso 9, `next.config.ts headers()`)**
 Hoy `next.config.ts` **no incluye `Content-Security-Policy`**. **Decisión (M1 + trampa 4.1): CSP estática por header, sin nonce**, para no matar el SSG. Header:
+
 ```
 Content-Security-Policy:
   default-src 'self';
@@ -806,6 +1049,7 @@ Content-Security-Policy:
   object-src 'none';
   upgrade-insecure-requests
 ```
+
 - **Turnstile:** `script-src` (carga `api.js`) + `frame-src` (reto en iframe) + `connect-src` (postback).
 - **Vercel Analytics/Speed-Insights:** `script-src https://va.vercel-scripts.com` + `connect-src https://vitals.vercel-insights.com` (los endpoints de recolección son same-origin `/_vercel/*`, cubiertos por `'self'`).
 - `frame-ancestors 'none'` refuerza el `X-Frame-Options: DENY` ya presente; `form-action 'self'` evita exfiltración del POST; `object-src 'none'` y `base-uri 'self'` cierran vectores clásicos. Fuentes/CSS son self-hosted (`next/font`), no hace falta abrir `fonts.googleapis.com`/`gstatic.com`.
@@ -926,6 +1170,7 @@ Archivos clave inspeccionados: `src/middleware.ts`, `src/app/[locale]/{layout,pa
 ## Checklist listo-para-construir
 
 **Bloqueadores de la auditoría (antes de escribir código de dominio):**
+
 - [ ] **A1** Mover el contenido canónico de `work/` a ruta versionada (`docs/contenido-fuente.md`) o embeberlo en el spec.
 - [ ] **A2** Añadir token `--color-bronze-ink` (~`#7A5C2E`) y usarlo en TODO texto bronce sobre claro (incluye cifras del Hero ya presentes); reservar `#B0894E` para navy/decoración.
 - [ ] **A3** `.env.example` con llaves de test de Turnstile, `CONTACT_FROM_EMAIL=onboarding@resend.dev` por defecto, y fail-open de Turnstile en dev.
@@ -938,11 +1183,13 @@ Archivos clave inspeccionados: `src/middleware.ts`, `src/app/[locale]/{layout,pa
 - [ ] **M1** Dejar escrito el borrador de CSP estática (Fase 7 §3.6) para el Paso 9.
 
 **Setup / Paso 0:**
+
 - [ ] `"packageManager": "pnpm@11.13.0"` en `package.json`; `pnpm install --frozen-lockfile` local pasa; `pnpm config list` muestra `allowBuilds`; sin "Ignored build scripts".
 - [ ] Prettier con `tailwindStylesheet: "./src/styles/globals.css"` (B6); scripts `typecheck`/`test` y `playwright install` (B3); migrar `next lint` a ESLint CLI (B5).
 - [ ] `postcss.config.mjs` con un solo plugin; orden de `globals.css` intacto (`@import "tailwindcss";` primero).
 
 **Fase 1 (chrome + SEO base) — verificación:**
+
 - [ ] `pnpm build`: `/es` y `/en` como `○`/`●`; `/api/contact` como `ƒ`; `/sitemap.xml` y `/robots.txt` generados. Ningún `ƒ` inesperado ⇒ `setRequestLocale` presente en cada page/layout.
 - [ ] `setRequestLocale(locale)` antes de todo `getTranslations`/`useTranslations` en server; `generateMetadata` con `{ locale }` explícito y `metadataBase` (M10).
 - [ ] `pnpm dev`: `/` redirige a `/es`; el switcher lleva `/es`↔`/en` conservando la ruta; solo se usa `Link`/`usePathname` de `@/i18n/navigation`.
@@ -952,12 +1199,14 @@ Archivos clave inspeccionados: `src/middleware.ts`, `src/app/[locale]/{layout,pa
 - [ ] Nunca interpolar nombres de utilidad Tailwind (mapear a literales); Root Directory de Vercel apuntando a la carpeta del sitio.
 
 **Durante secciones (Pasos 3–8):**
+
 - [ ] Cada page/layout nuevo con traducciones server: `setRequestLocale` primero; secciones que reciben props NO lo necesitan.
 - [ ] `StatBlock` lee `matchMedia('(prefers-reduced-motion: reduce)')` en JS y muestra el valor final sin animar (M8).
 - [ ] Verificar herencia de `NextIntlClientProvider` con un client real; pasar `messages` explícito si falla (M7).
 - [ ] Tras cada cambio de deps: `pnpm install` + commit de `pnpm-lock.yaml` + `pnpm install --frozen-lockfile` local (7.2).
 
 **Fase 7 (formulario) — usar el Checklist de seguridad completo de arriba, más:**
+
 - [ ] `export const runtime = "nodejs"` en `route.ts`; solo `POST`; `Cache-Control: no-store`.
 - [ ] Rate-limit fail-open por config ausente en dev, **503** si Upstash cae; IP por `x-forwarded-for` (no `request.ip`).
 - [ ] Orden fail-cheap (parse → rate-limit → honeypot → Zod → Turnstile → Resend → reporter); límite de body ~16 KB.
@@ -965,6 +1214,7 @@ Archivos clave inspeccionados: `src/middleware.ts`, `src/app/[locale]/{layout,pa
 - [ ] CSP desplegada permite `challenges.cloudflare.com` en `script-src`/`frame-src`/`connect-src` sin romper el SSG; widget de Turnstile carga.
 
 **Deploy (Paso 11):**
+
 - [ ] Root Directory de Vercel correcto; `packageManager` fijado; log sin "Ignored build scripts".
 - [ ] Dominio `pagaza.mx` verificado en Resend (SPF/DKIM/DMARC) **antes** de cambiar `CONTACT_FROM_EMAIL`.
 - [ ] Secretos solo en env de Vercel; `.env.local` git-ignored; `pnpm audit` limpio.
