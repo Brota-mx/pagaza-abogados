@@ -1,19 +1,21 @@
 @import "tailwindcss";
 
 /* === Tokens de marca Pagaza (Tailwind v4 @theme) ===
-   Generan utilidades: bg-navy, text-bronze, border-line, font-serif, etc. */
+   Generan utilidades: bg-navy, text-brand, border-line, font-serif, etc. */
 @theme {
   --color-navy: #16243b;
   --color-navy-2: #1e2f4a;
   --color-navy-ink: #101b2d;
-  /* Azul de la MARCA (muestreado del logo real work/LOGO.jpeg). Para el wordmark y acentos sobre
-     claro. Distinto del navy (#16243b, casi negro) que se reserva a fondos. Ver auditoría de diseño. */
-  --color-brand: #123b73;
-  --color-bronze: #b0894e;
-  --color-bronze-soft: #c9a96a;
-  /* Bronce para TEXTO sobre fondos claros (WCAG AA: ~6:1). Reservar #b0894e para
-     texto sobre navy, hairlines y decoracion. Ver docs/BUILD-NOTES.md (A2). */
-  --color-bronze-ink: #7a5c2e;
+  /* Azul de la MARCA, muestreado del logo real (work/LOGO.jpeg y las capturas de la nota del
+     cliente). Para el wordmark, titulares de acento y CTAs sobre claro. Distinto del navy
+     (#16243b, casi negro) que se reserva a fondos. Contraste 11.28:1 sobre blanco → AAA. */
+  --color-brand: #203870;
+  /* Azul acero de la paleta que el cliente aprobó (nota 19-jul-2026, imagen de referencia).
+     Decoración: hairlines, subrayados de hover, bordes. 4.55:1 sobre navy. */
+  --color-steel: #6890a8;
+  /* Variante clara del acero para TEXTO de acento sobre navy (eyebrows): 6.8:1 → AA.
+     Sobre fondos claros NO alcanza AA — ahí se usa --color-brand. */
+  --color-steel-soft: #8fb0c4;
   --color-bg: #f5f6f8;
   --color-surface: #ffffff;
   --color-line: #e6e8eb;
@@ -22,7 +24,11 @@
   --color-success: #15803d;
   --color-error: #b91c1c;
 
-  --font-serif: var(--font-eb-garamond), Georgia, "Times New Roman", serif;
+  /* Pagella = clon libre de Palatino. El fallback lista Palatino/Book Antiqua reales, presentes
+     en Windows y macOS: si el woff2 aún no cargó, el cliente ve su propia tipografía. */
+  --font-serif:
+    var(--font-pagella), "Palatino Linotype", "Book Antiqua", Palatino, Georgia,
+    serif;
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
   /* Wordmark: sans geométrico que iguala el logo real (no serif, no punto). */
   --font-wordmark:
@@ -45,6 +51,27 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Bloques de prosa larga con el ritmo de las notas profesionales del despacho: texto justificado
+   (directriz del cliente, 19-jul-2026).
+   `hyphens: auto` es obligatorio junto a justify — sin partición de palabra el navegador estira
+   los espacios y abre ríos verticales. Depende del `lang` del <html>, que ya se emite por locale.
+   Bajo 640px se revierte a bandera izquierda: en columna estrecha ni la partición salva al
+   justificado. Solo para párrafos de contenido, nunca para titulares ni UI.
+
+   Nota sobre el interlineado: el cliente pide "múltiple 1.15", que es una medida de Word relativa
+   a su interlineado sencillo (≈1.2em), no un `line-height` CSS — copiarlo literal daría un texto
+   apelmazado e ilegible en pantalla. El equivalente real es ~1.4; el cuerpo usa `leading-relaxed`
+   (1.625), que respeta esa proporción y cumple la holgura de lectura de WCAG 1.4.12. */
+@utility prose-justificado {
+  text-align: justify;
+  hyphens: auto;
+
+  @media (width < 40rem) {
+    text-align: left;
+    hyphens: manual;
+  }
 }
 
 /* Acordeón de Sectores (Radix): animación de altura open/close.

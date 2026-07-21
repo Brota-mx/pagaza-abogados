@@ -3,14 +3,14 @@ import { cn } from "@/lib/utils";
 type Variant = "primary" | "ghost" | "link";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-[2px] text-sm font-medium uppercase tracking-[0.1em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bronze focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-[2px] text-sm font-medium uppercase tracking-[0.1em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
   primary: "cursor-pointer bg-navy px-7 py-3.5 text-white hover:bg-navy-2",
   ghost:
     "cursor-pointer border border-line px-7 py-3.5 text-navy hover:border-navy",
-  // A2: bronce como TEXTO sobre fondo claro usa bronze-ink (WCAG AA); #b0894e se reserva a navy/decoración.
-  link: "cursor-pointer text-bronze-ink underline-offset-4 hover:underline",
+  // brand (#203870) como texto sobre claro: 11.28:1 → AAA.
+  link: "cursor-pointer text-brand underline-offset-4 hover:underline",
 };
 
 /**

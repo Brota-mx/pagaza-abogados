@@ -4,6 +4,7 @@ Sitio institucional bilingüe (ES/EN) del despacho fiscalista **Pagaza Abogados 
 Proyecto de **Brota Mx**. Standalone.
 
 **Borrador en vivo (Vercel):** https://pagaza-abogados-jegonvas-projects.vercel.app
+
 > ⚠️ Ahora mismo el deploy tiene **Vercel Deployment Protection** activo (pide login de Vercel). Para
 > que el cliente pueda verlo, desactívala en Vercel → Settings → Deployment Protection.
 
@@ -30,15 +31,15 @@ Turnstile se omite y Resend simula el envío (ver `.env.example`).
 
 ## Scripts
 
-| Comando | Qué hace |
-|---------|----------|
-| `pnpm dev` | Servidor de desarrollo |
-| `pnpm build` | Build de producción |
-| `pnpm start` | Servir el build |
-| `pnpm lint` | Linter |
-| `pnpm typecheck` | `tsc --noEmit` |
-| `pnpm test:e2e` | E2E Playwright (desktop + mobile). Requiere `npx playwright install chromium` la 1ª vez |
-| `pnpm format` | Prettier |
+| Comando          | Qué hace                                                                                |
+| ---------------- | --------------------------------------------------------------------------------------- |
+| `pnpm dev`       | Servidor de desarrollo                                                                  |
+| `pnpm build`     | Build de producción                                                                     |
+| `pnpm start`     | Servir el build                                                                         |
+| `pnpm lint`      | Linter                                                                                  |
+| `pnpm typecheck` | `tsc --noEmit`                                                                          |
+| `pnpm test:e2e`  | E2E Playwright (desktop + mobile). Requiere `npx playwright install chromium` la 1ª vez |
+| `pnpm format`    | Prettier                                                                                |
 
 ## Arquitectura (resumen)
 
@@ -59,15 +60,15 @@ Sectores (acordeón) · Alianzas + Cobertura · Contacto. Contenido tipado y bil
 Los **secretos** se cargan en el dashboard de Vercel (nunca en el repo). Ver `.env.example` para
 la lista completa y las llaves de test de dev.
 
-| Variable | Necesaria para |
-|----------|----------------|
-| `RESEND_API_KEY` | Envío real de correos del formulario |
-| `CONTACT_TO_EMAIL` | Destino de leads (`a@pagaza.mx`) |
-| `CONTACT_FROM_EMAIL` | Remitente **verificado** (sandbox de Resend hasta verificar `pagaza.mx`) |
-| `UPSTASH_REDIS_REST_URL` / `_TOKEN` | Rate-limit por IP |
-| `TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Anti-bot (verificación + widget) |
-| `NEXT_PUBLIC_SITE_URL` | URL canónica (SEO/hreflang) |
-| `TORRE_REPORTER_URL` | Reporter fail-open a la Torre |
+| Variable                                                  | Necesaria para                                                           |
+| --------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `RESEND_API_KEY`                                          | Envío real de correos del formulario                                     |
+| `CONTACT_TO_EMAIL`                                        | Destino de leads (`a@pagaza.mx`)                                         |
+| `CONTACT_FROM_EMAIL`                                      | Remitente **verificado** (sandbox de Resend hasta verificar `pagaza.mx`) |
+| `UPSTASH_REDIS_REST_URL` / `_TOKEN`                       | Rate-limit por IP                                                        |
+| `TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Anti-bot (verificación + widget)                                         |
+| `NEXT_PUBLIC_SITE_URL`                                    | URL canónica (SEO/hreflang)                                              |
+| `TORRE_REPORTER_URL`                                      | Reporter fail-open a la Torre                                            |
 
 ### Checklist de go-live (pasos que dependen del cliente/operador)
 

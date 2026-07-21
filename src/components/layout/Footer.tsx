@@ -33,14 +33,14 @@ export async function Footer({ locale }: { locale: Locale }) {
         </div>
 
         <nav aria-label={t("sections")} className="flex flex-col gap-2.5">
-          <p className="text-bronze-soft mb-2 text-xs font-medium tracking-[0.14em] uppercase">
+          <p className="text-steel-soft mb-2 text-xs font-medium tracking-[0.14em] uppercase">
             {t("sections")}
           </p>
           {NAV_SECTIONS.map((s) => (
             <a
               key={s.id}
               href={`#${s.id}`}
-              className="hover:text-bronze-soft focus-visible:ring-bronze focus-visible:ring-offset-navy w-fit rounded-[2px] text-sm text-white/80 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              className="hover:text-steel-soft focus-visible:ring-offset-navy w-fit rounded-[2px] text-sm text-white/80 transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               {tNav(s.key)}
             </a>
@@ -48,19 +48,19 @@ export async function Footer({ locale }: { locale: Locale }) {
         </nav>
 
         <address className="not-italic">
-          <p className="text-bronze-soft mb-2 text-xs font-medium tracking-[0.14em] uppercase">
+          <p className="text-steel-soft mb-2 text-xs font-medium tracking-[0.14em] uppercase">
             {t("contact")}
           </p>
           <p className="text-sm text-white/80">{siteInfo.socio}</p>
           <a
             href={`tel:+52${tel}`}
-            className="hover:text-bronze-soft focus-visible:ring-bronze focus-visible:ring-offset-navy mt-1 block w-fit rounded-[2px] text-sm text-white/80 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+            className="hover:text-steel-soft focus-visible:ring-offset-navy mt-1 block w-fit rounded-[2px] text-sm text-white/80 transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             {siteInfo.telefono}
           </a>
           <a
             href={`mailto:${siteInfo.email}`}
-            className="hover:text-bronze-soft focus-visible:ring-bronze focus-visible:ring-offset-navy block w-fit rounded-[2px] text-sm text-white/80 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+            className="hover:text-steel-soft focus-visible:ring-offset-navy block w-fit rounded-[2px] text-sm text-white/80 transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             {siteInfo.email}
           </a>

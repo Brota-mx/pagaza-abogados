@@ -26,18 +26,18 @@ export function Metodologia({ locale }: { locale: Locale }) {
               <article className="border-line relative border-t pt-6">
                 <span
                   aria-hidden
-                  className="bg-bronze absolute -top-px left-0 h-px w-12"
+                  className="bg-brand absolute -top-px left-0 h-px w-12"
                 />
                 <span
                   aria-hidden
-                  className="text-bronze-ink/25 font-serif text-5xl leading-none"
+                  className="text-brand/25 font-serif text-5xl leading-none"
                 >
                   {disciplina.numero}
                 </span>
                 <h3 className="text-navy mt-4 font-serif text-xl md:text-2xl">
                   {t(disciplina.titulo, locale)}
                 </h3>
-                <p className="text-muted mt-3 leading-relaxed">
+                <p className="prose-justificado text-muted mt-3 leading-relaxed">
                   {t(disciplina.descripcion, locale)}
                 </p>
               </article>
@@ -49,7 +49,7 @@ export function Metodologia({ locale }: { locale: Locale }) {
           <div className="border-line mt-16 flex items-start gap-4 border-t pt-8">
             <Landmark
               aria-hidden
-              className="text-bronze-ink mt-1 shrink-0"
+              className="text-brand mt-1 shrink-0"
               size={22}
             />
             <p className="text-navy max-w-3xl font-serif text-lg leading-snug italic md:text-xl">

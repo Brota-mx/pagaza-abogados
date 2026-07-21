@@ -38,9 +38,9 @@ export function LocaleSwitcher() {
               locale={loc}
               aria-current={isActive ? "true" : undefined}
               className={cn(
-                "focus-visible:ring-bronze rounded-[2px] underline-offset-4 transition-opacity focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none",
+                "rounded-[2px] underline-offset-4 transition-opacity focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none",
                 isActive
-                  ? "decoration-bronze underline decoration-2"
+                  ? "decoration-steel underline decoration-2"
                   : "no-underline opacity-60 hover:opacity-100",
               )}
             >

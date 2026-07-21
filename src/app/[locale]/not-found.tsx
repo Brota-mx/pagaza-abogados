@@ -15,7 +15,7 @@ export default function NotFound() {
   return (
     <section className="bg-navy flex min-h-screen items-center text-white">
       <Container className="py-32 text-center md:py-40">
-        <p className="text-bronze-soft mb-4 text-xs font-medium tracking-[0.18em] uppercase">
+        <p className="text-steel-soft mb-4 text-xs font-medium tracking-[0.18em] uppercase">
           {t("eyebrow")}
         </p>
         <h1 className="font-serif text-4xl md:text-5xl">{t("title")}</h1>
@@ -25,7 +25,7 @@ export default function NotFound() {
         <div className="mt-10">
           <Link
             href="/"
-            className="bg-bronze text-navy-ink hover:bg-bronze-soft focus-visible:ring-bronze focus-visible:ring-offset-navy inline-flex cursor-pointer items-center rounded-[2px] px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+            className="text-navy hover:bg-steel-soft focus-visible:ring-offset-navy inline-flex cursor-pointer items-center rounded-[2px] bg-white px-7 py-3.5 text-sm font-medium tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             {t("back")}
           </Link>

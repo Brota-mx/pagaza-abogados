@@ -73,12 +73,12 @@ export function Header() {
             <a
               key={s.id}
               href={`#${s.id}`}
-              className="group focus-visible:ring-bronze relative rounded-[2px] py-1 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none"
+              className="group relative rounded-[2px] py-1 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none"
             >
               {t(s.key)}
               <span
                 aria-hidden
-                className="bg-bronze absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 transition-transform duration-200 group-hover:scale-x-100"
+                className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-current transition-transform duration-200 group-hover:scale-x-100"
               />
             </a>
           ))}
@@ -88,7 +88,7 @@ export function Header() {
           <LocaleSwitcher />
           <a
             href="#contacto"
-            className="bg-bronze text-navy-ink hover:bg-bronze-soft focus-visible:ring-bronze cursor-pointer rounded-[2px] px-5 py-2.5 text-xs font-medium tracking-[0.1em] uppercase transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none"
+            className="bg-brand hover:bg-navy cursor-pointer rounded-[2px] px-5 py-2.5 text-xs font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none"
           >
             {tCta("consulta")}
           </a>
@@ -100,7 +100,7 @@ export function Header() {
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? t("close") : t("open")}
-          className="focus-visible:ring-bronze flex h-11 w-11 cursor-pointer items-center justify-center rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none lg:hidden"
+          className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none lg:hidden"
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -117,7 +117,7 @@ export function Header() {
                 key={s.id}
                 href={`#${s.id}`}
                 onClick={() => setOpen(false)}
-                className="hover:text-bronze-ink focus-visible:ring-bronze rounded-[2px] py-2.5 text-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                className="hover:text-brand rounded-[2px] py-2.5 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
               >
                 {t(s.key)}
               </a>
@@ -127,7 +127,7 @@ export function Header() {
               <a
                 href="#contacto"
                 onClick={() => setOpen(false)}
-                className="bg-navy hover:bg-navy-2 focus-visible:ring-bronze cursor-pointer rounded-[2px] px-5 py-2.5 text-xs font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                className="bg-navy hover:bg-navy-2 cursor-pointer rounded-[2px] px-5 py-2.5 text-xs font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:outline-none"
               >
                 {tCta("consulta")}
               </a>

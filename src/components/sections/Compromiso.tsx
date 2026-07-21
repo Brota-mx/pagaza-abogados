@@ -25,12 +25,12 @@ export function Compromiso({ locale }: { locale: Locale }) {
               <div className="border-line relative border-t pt-6">
                 <span
                   aria-hidden
-                  className="bg-bronze absolute -top-px left-0 h-px w-12"
+                  className="bg-brand absolute -top-px left-0 h-px w-12"
                 />
                 <h3 className="text-navy font-serif text-xl md:text-2xl">
                   {t(valor.titulo, locale)}
                 </h3>
-                <p className="text-muted mt-3 leading-relaxed">
+                <p className="prose-justificado text-muted mt-3 leading-relaxed">
                   {t(valor.descripcion, locale)}
                 </p>
               </div>

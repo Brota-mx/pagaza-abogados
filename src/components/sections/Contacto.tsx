@@ -30,20 +30,20 @@ export async function Contacto({ locale }: { locale: Locale }) {
             />
 
             <div className="border-line mt-10 border-t pt-8">
-              <p className="text-bronze-ink mb-4 text-xs font-medium tracking-[0.14em] uppercase">
+              <p className="text-brand mb-4 text-xs font-medium tracking-[0.14em] uppercase">
                 {tForm("directTitle")}
               </p>
               <address className="space-y-1 not-italic">
                 <p className="text-navy font-serif text-lg">{siteInfo.socio}</p>
                 <a
                   href={`tel:+52${tel}`}
-                  className="text-muted hover:text-bronze-ink focus-visible:ring-bronze block w-fit rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                  className="text-muted hover:text-brand focus-visible:ring-brand block w-fit rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:outline-none"
                 >
                   {siteInfo.telefono}
                 </a>
                 <a
                   href={`mailto:${siteInfo.email}`}
-                  className="text-muted hover:text-bronze-ink focus-visible:ring-bronze block w-fit rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                  className="text-muted hover:text-brand focus-visible:ring-brand block w-fit rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:outline-none"
                 >
                   {siteInfo.email}
                 </a>

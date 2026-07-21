@@ -148,32 +148,38 @@ bronce**. Se construyó desde el texto del brief en vez del asset real, y **el b
 Segundo panel de 6 especialistas. Confirma y profundiza lo anterior; suma dimensiones nuevas.
 
 ### Persuasión / copywriting (las palabras)
+
 - El copy oscila entre aforístico-elegante y administrativo-burocrático ("a la brevedad", "desahogo exprés"), y es **auto-referencial** (habla de "la firma", no del patrimonio del lector).
-- **Hero propuesto:** *"Cuando la autoridad va por tu patrimonio, la estrategia lo decide todo."* + subhead funcional ("Despacho fiscalista boutique en CDMX. Blindamos empresas y patrimonios de alto perfil…"). CTA unificado: **"Agendar consulta confidencial"** / botón "Solicitar consulta".
+- **Hero propuesto:** _"Cuando la autoridad va por tu patrimonio, la estrategia lo decide todo."_ + subhead funcional ("Despacho fiscalista boutique en CDMX. Blindamos empresas y patrimonios de alto perfil…"). CTA unificado: **"Agendar consulta confidencial"** / botón "Solicitar consulta".
 - Los gatillos miedo→alivio (cuentas congeladas, CSD, doble tributación) están redactados como acta — reescribir para que el terror/alivio se sienta. Los `puntos` de pilares son boilerplate de consultora → volverlos beneficios específicos (fideicomisos, "detectar la contingencia antes que la autoridad").
 
 ### Posicionamiento / ventas (embudo de leads de alto ticket)
+
 - **Contradicción raíz:** el sitio está construido como folleto full-service (10 sectores + 10 alianzas + "red 360°") pero el negocio es una **boutique selectiva**. La amplitud diluye el premium y atrae al cliente chico. → comprimir Alianzas, reencuadrar Sectores como "arenas donde ganamos", señal de selectividad ("aceptamos un número limitado de asuntos").
 - **Embudo binario** (una sola conversión al fondo, sin micro-conversiones, sin carril de urgencia, sin agendado real). El sitio **no califica** el lead (no capta monto/urgencia). Falta **segmentación por dolor** (corporativo con auditoría · patrimonio en planeación · PEP en crisis) con puertas de entrada distintas.
-- **Posicionamiento propuesto:** *"La boutique fiscal donde el socio —no un asociado— diseña la estrategia que convierte una contingencia millonaria en riesgo controlado. No litigamos todo: elegimos los asuntos donde la estrategia decide."*
+- **Posicionamiento propuesto:** _"La boutique fiscal donde el socio —no un asociado— diseña la estrategia que convierte una contingencia millonaria en riesgo controlado. No litigamos todo: elegimos los asuntos donde la estrategia decide."_
 
 ### SEO (más allá de lo técnico, que está OK)
+
 - 🔴 Toda la maquinaria SEO sirve a **2 URLs** (one-page). Migrar a **arquitectura de páginas temáticas** (pilares + 10 sectores como rutas `/servicios/*`, `/sectores/[sector]` con template dinámico — **el contenido ya está tipado bilingüe**).
 - 🔴 **E-E-A-T ausente** (es contenido YMYL legal-fiscal: Google exige autoridad del autor/socio con credenciales) + **SEO local incompleto** (Google Business Profile, geo, horarios, `sameAs` — hoy omitidos) + **cero contenido de dolor** ("qué hacer si el SAT congela cuentas", "restricción de CSD") donde está el lead urgente.
 - Competidores (Basham, Chevez, Parás, Turanzas) rankean con páginas de servicio dedicadas; despachos chicos ganan las búsquedas de dolor con guías. `sitemap.ts` marca todo "modificado hoy" (ruido); `keywords` meta Google la ignora.
 
 ### Compliance de claims + privacidad (riesgo legal real — México)
+
 - 🔴 **NO existe Aviso de Privacidad** — el formulario capta datos personales (LFPDPPP lo exige, reforma 2025). Falta aviso + consentimiento + política. **Hueco legal accionable antes de lanzar.**
 - 🔴 **"Nunca perdemos" / "we never lose" + cifras** = posible **garantía de resultado / publicidad engañosa** (art. 32 LFPC / PROFECO + ética profesional). Reencuadrar hacia el estándar/proceso + **disclaimer** de resultados y conservar soporte documental de las cifras.
 - 🔴 El campo **"mensaje"** invita a verter info sensible/autoincriminatoria sin privilegio formado → microadvertencia ("no incluyas cifras exactas ni detalles sensibles en este primer mensaje").
 - 🟡 Divulgar analytics/terceros (Vercel/Resend/Upstash/Cloudflare) en el aviso; suavizar "aislar activos ante el fisco" (lectura AML); identificar responsable + retención en el footer.
 
 ### Competencia / benchmark (Chevez, Basham, SMPS, Turanzas, Kostelanetz, Lombard Odier)
+
 - La big-law fiscal MX es **institucional y sin rostro**; las boutiques de élite **venden al socio**. Pagaza (boutique) hoy oculta al socio → tira su mayor ventaja.
 - **#1 déficit vs. toda la categoría: cero prueba social** (todos muestran rankings Chambers/Legal 500/badges o "recognitions").
 - **Leapfrog:** el socio al frente (rostro + carta firmada + línea directa) que big-law **no puede copiar** + cifras con restraint (contexto + disclaimer + cifras institucionales) + textura B/N de alta factura. Falta **thought leadership** ("Perspectivas") y narrativa de legado.
 
 ### Accesibilidad (verificada, cuantitativa) — el sitio está BIEN, con gaps acotados
+
 - ✅ Sin barreras de teclado, contraste mayormente OK (calculado), Radix/skip-link/reduced-motion/landmarks correctos.
 - ✅ **Corregido en esta rama:** número de sector `bronze-ink/50` (2.17:1, reprobaba) → `/80`; y el **mensaje de éxito** ahora tiene `role="status"` + foco (antes no se anunciaba a lectores de pantalla — 4.1.3).
 - Pendiente (form): errores de campo con `aria-describedby`+live (hoy contaminan el nombre); `required`/`aria-required` + leyenda; submit no deshabilitado / aviso Turnstile asociado; probar el reto con NVDA/VoiceOver.

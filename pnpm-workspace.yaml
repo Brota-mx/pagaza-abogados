@@ -1,11 +1,11 @@
 # Aprobar scripts de build de dependencias nativas (pnpm v10+ los bloquea por defecto).
 # sharp = optimización de imágenes; el resto son binarios de swc/eslint/next.
 allowBuilds:
-  '@parcel/watcher': true
-  '@swc/core': true
+  "@parcel/watcher": true
+  "@swc/core": true
   sharp: true
   unrs-resolver: true
 
 # Forzar postcss parcheado (>=8.5.10, GHSA-qx2v-qp2m-jg93) en transitivas de next/tailwind.
 overrides:
-  postcss: '>=8.5.10'
+  postcss: ">=8.5.10"

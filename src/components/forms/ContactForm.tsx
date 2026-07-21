@@ -15,7 +15,7 @@ type SectorOption = { value: string; label: string };
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const fieldBase =
-  "w-full rounded-[2px] border bg-surface px-4 py-3 text-ink transition-colors placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-bronze focus:ring-offset-1 focus:ring-offset-bg";
+  "w-full rounded-[2px] border bg-surface px-4 py-3 text-ink transition-colors placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1 focus:ring-offset-bg";
 
 export function ContactForm({
   sectorOptions,
@@ -94,7 +94,7 @@ export function ContactForm({
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="text-bronze-ink focus-visible:ring-bronze mt-6 cursor-pointer text-sm font-medium tracking-[0.1em] uppercase underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:outline-none"
+          className="text-brand focus-visible:ring-brand mt-6 cursor-pointer text-sm font-medium tracking-[0.1em] uppercase underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:outline-none"
         >
           {t("sendAnother")}
         </button>
@@ -234,7 +234,7 @@ export function ContactForm({
       <button
         type="submit"
         disabled={status === "submitting" || !captchaReady}
-        className="bg-navy hover:bg-navy-2 focus-visible:ring-bronze focus-visible:ring-offset-bg inline-flex cursor-pointer items-center justify-center rounded-[2px] px-8 py-3.5 text-sm font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+        className="bg-navy hover:bg-navy-2 focus-visible:ring-brand focus-visible:ring-offset-bg inline-flex cursor-pointer items-center justify-center rounded-[2px] px-8 py-3.5 text-sm font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       >
         {status === "submitting" ? t("submitting") : t("submit")}
       </button>

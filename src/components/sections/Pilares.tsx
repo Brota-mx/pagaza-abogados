@@ -29,18 +29,18 @@ export function Pilares({ locale }: { locale: Locale }) {
               <article className="relative flex h-full flex-col border-t border-white/15 pt-6">
                 <span
                   aria-hidden
-                  className="bg-bronze absolute -top-px left-0 h-px w-12"
+                  className="bg-steel absolute -top-px left-0 h-px w-12"
                 />
                 <span
                   aria-hidden
-                  className="text-bronze-soft font-serif text-3xl"
+                  className="text-steel-soft font-serif text-3xl"
                 >
                   {pilar.numero}
                 </span>
                 <h3 className="mt-4 font-serif text-2xl text-white">
                   {t(pilar.titulo, locale)}
                 </h3>
-                <p className="mt-3 leading-relaxed text-white/70">
+                <p className="prose-justificado mt-3 leading-relaxed text-white/70">
                   {t(pilar.descripcion, locale)}
                 </p>
                 <ul className="mt-6 space-y-3 border-t border-white/10 pt-6">
@@ -51,7 +51,7 @@ export function Pilares({ locale }: { locale: Locale }) {
                     >
                       <span
                         aria-hidden
-                        className="bg-bronze-soft mt-2.5 h-px w-3 shrink-0"
+                        className="bg-steel mt-2.5 h-px w-3 shrink-0"
                       />
                       {t(punto, locale)}
                     </li>

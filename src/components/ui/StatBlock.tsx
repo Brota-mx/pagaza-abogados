@@ -98,7 +98,7 @@ export function StatBlock({
         aria-hidden
         className={cn(
           "font-serif text-5xl leading-none md:text-6xl",
-          light ? "text-bronze-ink" : "text-bronze-soft",
+          light ? "text-brand" : "text-steel-soft",
         )}
       >
         {display}
