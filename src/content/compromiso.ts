@@ -1,22 +1,30 @@
 import type { CompromisoContent } from "./types";
 
 /**
- * Sección "Compromiso" — filosofía y propuesta de valor de la firma.
- * Fuente: docs/contenido-fuente.md §1.1 (tres pilares del compromiso + propuesta ante la
- * incertidumbre). Traducción EN con registro legal formal (docs/glosario-es-en.md).
+ * Sección "Nuestro compromiso" — filosofía y propuesta de valor de la firma.
+ *
+ * `intro` y `cierre` son el texto LITERAL que entregó el cliente (nota del 19-jul-2026,
+ * "Nuestro compromiso → debe de ir el siguiente texto"). No reescribir sin su visto bueno: la
+ * nota admite sugerencias, pero "dentro de este marco".
+ * Los tres valores desarrollan los principios que enuncia el primer párrafo.
+ * Traducción EN con registro legal formal (docs/glosario-es-en.md).
  */
 export const compromiso: CompromisoContent = {
   eyebrow: {
-    es: "La firma",
-    en: "The firm",
+    es: "Nuestro compromiso",
+    en: "Our commitment",
   },
   titulo: {
-    es: "El ejercicio del Derecho Fiscal, con criterio y sin concesiones.",
+    es: "El ejercicio del Derecho Tributario, con criterio y sin concesiones.",
     en: "Tax law practiced with judgment and without concessions.",
   },
   intro: {
-    es: "En un entorno económico y legal de alta incertidumbre, diseñamos estrategias jurídicas sofisticadas para blindar el patrimonio empresarial y personal frente a cualquier acto de fiscalización. Nuestro compromiso se sostiene en tres principios.",
-    en: "In an economic and legal environment defined by uncertainty, we design sophisticated legal strategies to shield corporate and personal wealth against any act of authority. Our commitment rests on three principles.",
+    es: "Pagaza Abogados surge de la convicción por ejercer el Derecho Tributario con excelencia técnica, atención humana y un enfoque práctico que permita ofrecer soluciones jurídicas eficientes y confiables para proteger el patrimonio de nuestros clientes.",
+    en: "Pagaza Abogados was born of a conviction: to practice tax law with technical excellence, human attention, and a practical focus that delivers efficient, dependable legal solutions to protect our clients' wealth.",
+  },
+  cierre: {
+    es: "Somos abogados expertos en derecho público como única rama de especialización, para brindar la mejor atención en los asuntos más complejos y de alto riesgo.",
+    en: "We are lawyers specialized in public law as our single field of practice, so we can bring our full attention to the most complex, highest-risk matters.",
   },
   valores: [
     {

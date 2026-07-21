@@ -15,6 +15,8 @@ export const SECTOR_IDS = [
   "consumo",
   "farmaceutico",
   "social",
+  "energetico",
+  "financiero",
 ] as const;
 
 /**

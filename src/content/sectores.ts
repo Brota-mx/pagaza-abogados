@@ -1,17 +1,20 @@
 import type { Sector, SectionIntro } from "./types";
 
 /**
- * Los 10 sectores / industrias con casos de éxito. Fuente: docs/contenido-fuente.md §3.
+ * Los 12 sectores / industrias con casos de éxito. Fuente: docs/contenido-fuente.md §3, más los
+ * dos sectores (Energético, Servicios Financieros) y el caso de PLD en Construcción que agregó el
+ * cliente en su nota del 19-jul-2026.
  * Traducción EN con registro legal formal (docs/glosario-es-en.md).
  *
- * ⚠️ Fase 7: `SECTOR_IDS` en src/lib/validation.ts debe coincidir 1:1 con estos `id`
- * (menos "social", que es pro-bono y no es una opción del formulario de contacto).
+ * ⚠️ `SECTOR_IDS` en src/lib/validation.ts debe coincidir 1:1 con estos `id` (menos "social", que
+ * es pro-bono y no es una opción del formulario de contacto). Añadir un sector aquí sin añadirlo
+ * allá hace que el formulario rechace en silencio esa opción.
  */
 export const sectoresIntro: SectionIntro = {
-  eyebrow: { es: "Casos de éxito", en: "Track record" },
+  eyebrow: { es: "Experiencias e industrias", en: "Experience & industries" },
   titulo: {
-    es: "Resultados medibles en diez industrias.",
-    en: "Measurable results across ten industries.",
+    es: "Resultados medibles en doce industrias.",
+    en: "Measurable results across twelve industries.",
   },
   intro: {
     es: "La credibilidad se demuestra con cifras. Una selección de resultados reales, por sector.",
@@ -103,6 +106,20 @@ export const sectores: Sector[] = [
         descripcion: {
           es: "Fideicomisos familiares para aislar activos inmobiliarios de alta plusvalía y recuperación de impuestos traslativos de dominio pagados en demasía.",
           en: "Family trusts to isolate high-value real-estate assets and recovery of overpaid property-transfer taxes.",
+        },
+      },
+      {
+        // Caso aportado por el cliente en la nota del 19-jul-2026 ("En construcción agregar").
+        descripcion: {
+          es: "Reducción de multas por $12,000,000 de pesos a favor de una empresa, derivada de nuestra intervención en una auditoría de prevención de lavado de dinero.",
+          en: "A $12,000,000 MXN reduction in penalties for a client, obtained through our intervention in an anti-money-laundering audit.",
+        },
+        cifra: {
+          valor: "$12M",
+          etiqueta: {
+            es: "de multas reducidas — auditoría PLD",
+            en: "in penalties reduced — AML audit",
+          },
         },
       },
     ],
@@ -292,6 +309,53 @@ export const sectores: Sector[] = [
         descripcion: {
           es: "Indemnizaciones por responsabilidad patrimonial del Estado y defensa de comerciantes ante clausuras arbitrarias y el aseguramiento ilegal de mercancías.",
           en: "Compensation for State financial liability and defense of merchants against arbitrary closures and the unlawful seizure of goods.",
+        },
+      },
+    ],
+  },
+  // Los dos siguientes los agregó el cliente en la nota del 19-jul-2026 ("Agregar:").
+  {
+    id: "energetico",
+    numero: "11",
+    nombre: { es: "Energético", en: "Energy" },
+    resumen: {
+      es: "Controversias tributarias de proyectos de infraestructura y análisis de incentivos fiscales aplicables a inversiones estratégicas.",
+      en: "Tax disputes arising from infrastructure projects and analysis of the tax incentives available to strategic investments.",
+    },
+    casos: [
+      {
+        descripcion: {
+          es: "Asesoría a empresas del sector energético en controversias tributarias relacionadas con proyectos de infraestructura, operaciones preoperativas y recuperación de impuestos.",
+          en: "Advisory to energy-sector companies on tax disputes involving infrastructure projects, pre-operating activities, and tax recovery.",
+        },
+      },
+      {
+        descripcion: {
+          es: "Análisis de incentivos fiscales aplicables a inversiones estratégicas del sector.",
+          en: "Analysis of the tax incentives applicable to strategic investments in the sector.",
+        },
+      },
+    ],
+  },
+  {
+    id: "financiero",
+    numero: "12",
+    nombre: { es: "Servicios Financieros", en: "Financial Services" },
+    resumen: {
+      es: "Representación de instituciones financieras y grupos empresariales en controversias tributarias y administrativas de alta complejidad.",
+      en: "Representation of financial institutions and corporate groups in highly complex tax and administrative disputes.",
+    },
+    casos: [
+      {
+        descripcion: {
+          es: "Representación de instituciones financieras, sociedades financieras y grupos empresariales en controversias tributarias y administrativas de alta complejidad.",
+          en: "Representation of banks, financial companies, and corporate groups in highly complex tax and administrative disputes.",
+        },
+      },
+      {
+        descripcion: {
+          es: "Defensa en procedimientos sancionadores, actos de supervisión y medios de defensa frente a autoridades regulatorias y fiscales.",
+          en: "Defense in sanctioning proceedings, supervisory actions, and appeals before regulatory and tax authorities.",
         },
       },
     ],

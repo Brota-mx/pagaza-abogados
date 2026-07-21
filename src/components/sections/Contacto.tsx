@@ -34,7 +34,9 @@ export async function Contacto({ locale }: { locale: Locale }) {
                 {tForm("directTitle")}
               </p>
               <address className="space-y-1 not-italic">
-                <p className="text-navy font-serif text-lg">{siteInfo.socio}</p>
+                <p className="text-navy font-serif text-lg">
+                  {siteInfo.nombre}
+                </p>
                 <a
                   href={`tel:+52${tel}`}
                   className="text-muted hover:text-brand focus-visible:ring-brand block w-fit rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:outline-none"

@@ -121,32 +121,20 @@ body {
   }
 }
 
-/* Acordeón de Sectores (Radix): animación de altura open/close.
-   El bloque de reduced-motion de abajo la neutraliza (animation-duration ~0). */
-.accordion-content[data-state="open"] {
-  animation: accordion-down 0.25s ease-out;
+/* Contenido que se despliega dentro de un <details> (Sectores, Capacidades): entra con un fade
+   corto. No se anima la altura porque `height: auto` no es interpolable de forma fiable; el
+   bloque de reduced-motion de abajo neutraliza esta animación. */
+details[open] > *:not(summary) {
+  animation: desplegar 0.25s ease-out;
 }
-.accordion-content[data-state="closed"] {
-  animation: accordion-up 0.2s ease-out;
-}
-@keyframes accordion-down {
+@keyframes desplegar {
   from {
-    height: 0;
     opacity: 0;
+    transform: translateY(-0.25rem);
   }
   to {
-    height: var(--radix-accordion-content-height);
     opacity: 1;
-  }
-}
-@keyframes accordion-up {
-  from {
-    height: var(--radix-accordion-content-height);
-    opacity: 1;
-  }
-  to {
-    height: 0;
-    opacity: 0;
+    transform: none;
   }
 }
 
