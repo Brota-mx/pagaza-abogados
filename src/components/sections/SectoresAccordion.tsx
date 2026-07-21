@@ -71,9 +71,7 @@ export function SectoresAccordion({
             </summary>
 
             <div className="grid gap-6 pb-9 md:grid-cols-[1fr_1.4fr] md:gap-12 md:pl-10">
-              <p className="prose-justificado text-muted leading-relaxed">
-                {sector.resumen}
-              </p>
+              <p className="text-muted leading-relaxed">{sector.resumen}</p>
               <ul className="space-y-6">
                 {sector.casos.map((caso, i) => (
                   <li key={i}>
@@ -85,7 +83,7 @@ export function SectoresAccordion({
                         <p className="text-muted mt-1.5 text-xs tracking-[0.1em] uppercase">
                           {caso.cifra.etiqueta}
                         </p>
-                        <p className="prose-justificado text-ink/80 mt-3 text-sm leading-relaxed">
+                        <p className="text-ink/80 mt-3 text-sm leading-relaxed">
                           {caso.descripcion}
                         </p>
                       </div>
@@ -95,7 +93,7 @@ export function SectoresAccordion({
                           aria-hidden
                           className="bg-brand mt-2.5 h-px w-3 shrink-0"
                         />
-                        <p className="prose-justificado text-muted text-sm leading-relaxed">
+                        <p className="text-muted text-sm leading-relaxed">
                           {caso.descripcion}
                         </p>
                       </div>

@@ -63,7 +63,14 @@ body {
    Nota sobre el interlineado: el cliente pide "múltiple 1.15", que es una medida de Word relativa
    a su interlineado sencillo (≈1.2em), no un `line-height` CSS — copiarlo literal daría un texto
    apelmazado e ilegible en pantalla. El equivalente real es ~1.4; el cuerpo usa `leading-relaxed`
-   (1.625), que respeta esa proporción y cumple la holgura de lectura de WCAG 1.4.12. */
+   (1.625), que respeta esa proporción y cumple la holgura de lectura de WCAG 1.4.12.
+
+   ⚠️ Aplicar SOLO a párrafos en columna ancha. Medido a 1440px, un párrafo dentro de una retícula
+   de 2–3 columnas cae a ~49–54 caracteres por línea, y a esa medida el justificado deja de cerrar
+   el bloque y empieza a abrir huecos entre palabras: el remedio es peor que la enfermedad. Por eso
+   los pilares, el acordeón de sectores y las capacidades van en bandera izquierda, y el justificado
+   queda para los intros de sección, Servicios y las páginas legales. Antes de aplicarlo a un sitio
+   nuevo, medir la medida real de línea. */
 @utility prose-justificado {
   text-align: justify;
   hyphens: auto;

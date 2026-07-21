@@ -17,7 +17,8 @@ export function Servicios({ locale }: { locale: Locale }) {
           title={t(servicios.titulo, locale)}
         />
 
-        <div className="mt-8 max-w-3xl space-y-6">
+        {/* max-w-2xl, no 3xl: a 18px son ~75 caracteres por línea en vez de ~95. */}
+        <div className="mt-8 max-w-2xl space-y-6">
           {servicios.parrafos.map((parrafo, i) => (
             <p
               key={i}

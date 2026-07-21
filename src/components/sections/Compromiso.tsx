@@ -5,10 +5,13 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
 /**
- * "Nuestro compromiso" — filosofía y propuesta de valor. Los tres principios (excelencia técnica,
- * atención humana, enfoque práctico) son paralelos, no una secuencia: se marcan con una regla
- * sobre hairline, no con numeración. Cierra con la declaración de especialización única.
- * Server component; resuelve el contenido por `locale` (prop).
+ * "Nuestro compromiso" — filosofía y propuesta de valor. Server component.
+ *
+ * Los tres principios se enuncian, no se explican. El texto del cliente ya dice "con excelencia
+ * técnica, atención humana y un enfoque práctico"; debajo los desarrollábamos en tres párrafos que
+ * repetían la misma idea con otras palabras —75 palabras de redundancia pura. Ahora son una tríada
+ * tipográfica: el ojo los lee de un golpe y el argumento lo carga el texto de Alfonso, que es el
+ * que importa. Las descripciones siguen en `compromiso.ts`.
  */
 export function Compromiso({ locale }: { locale: Locale }) {
   return (
@@ -20,10 +23,10 @@ export function Compromiso({ locale }: { locale: Locale }) {
           intro={t(compromiso.intro, locale)}
         />
 
-        <div className="mt-16 grid gap-x-10 gap-y-12 md:grid-cols-3">
+        <ul className="mt-12 grid gap-x-10 gap-y-6 md:grid-cols-3">
           {compromiso.valores.map((valor, i) => (
             <Reveal key={valor.id} delay={i * 80}>
-              <div className="border-line relative border-t pt-6">
+              <li className="border-line relative border-t pt-5">
                 <span
                   aria-hidden
                   className="bg-brand absolute -top-px left-0 h-px w-12"
@@ -31,15 +34,12 @@ export function Compromiso({ locale }: { locale: Locale }) {
                 <h3 className="text-navy font-serif text-xl md:text-2xl">
                   {t(valor.titulo, locale)}
                 </h3>
-                <p className="prose-justificado text-muted mt-3 leading-relaxed">
-                  {t(valor.descripcion, locale)}
-                </p>
-              </div>
+              </li>
             </Reveal>
           ))}
-        </div>
+        </ul>
 
-        <p className="text-navy border-line mt-16 max-w-3xl border-t pt-8 font-serif text-xl leading-snug md:text-2xl">
+        <p className="text-navy border-line mt-14 max-w-2xl border-t pt-8 font-serif text-xl leading-snug md:text-2xl">
           {t(compromiso.cierre, locale)}
         </p>
       </Container>
