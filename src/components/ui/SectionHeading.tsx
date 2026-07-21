@@ -50,6 +50,9 @@ export function SectionHeading({
         {title}
       </Heading>
       {intro && (
+        // Medido a 1440px: `max-w-2xl` (42rem) con Pagella a 18px da ~63 caracteres por línea,
+        // dentro del rango legible de 55–80. Estrecharlo a `max-w-xl` lo bajaba a 54 y además
+        // abría huecos en el justificado. No tocar sin volver a medir.
         <p
           className={cn(
             "prose-justificado mt-4 text-base leading-relaxed md:text-lg",

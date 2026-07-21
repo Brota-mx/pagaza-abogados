@@ -39,7 +39,14 @@ const ICONS: Record<string, LucideIcon> = {
 
 /**
  * Alianzas y cobertura — núcleo fiscal + red 360°. Sobre navy (contraste con Sectores, que es
- * claro). Grid de 10 materias con iconos lucide + el CoverageMap. Server component.
+ * claro). Server component.
+ *
+ * Las materias van SOLO con su nombre. Antes cada una llevaba una línea de descripción y sumaban
+ * 176 palabras —el 16% del texto visible de la home— para explicar lo que el nombre ya dice
+ * ("Laboral individual y colectivo" no necesita glosa). Quitarlas responde al "se ve muy cargada"
+ * del cliente y de paso a la auditoría, que señalaba que una parrilla de diez descripciones hace
+ * que un despacho boutique lea como full-service. El texto completo sigue en `alianzas.ts` por si
+ * el cliente lo pide de vuelta.
  */
 export function Alianzas({ locale }: { locale: Locale }) {
   const resolvedCobertura = cobertura.map((c) => ({
@@ -66,35 +73,28 @@ export function Alianzas({ locale }: { locale: Locale }) {
           intro={t(alianzasIntro.intro, locale)}
         />
 
-        <div className="mt-16 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+        <ul className="mt-14 grid gap-x-10 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
           {alianzas.map((alianza, i) => {
             const Icon = ICONS[alianza.id] ?? Scale;
             return (
-              <Reveal key={alianza.id} delay={(i % 2) * 80}>
-                <div className="flex gap-4">
+              <Reveal key={alianza.id} delay={(i % 3) * 60}>
+                <li className="flex items-center gap-3 border-b border-white/10 py-3">
                   <Icon
                     aria-hidden
-                    size={22}
+                    size={18}
                     strokeWidth={1.5}
-                    className="text-steel-soft mt-0.5 shrink-0"
+                    className="text-steel-soft shrink-0"
                   />
-                  <div>
-                    <h3 className="font-serif text-lg text-white">
-                      {t(alianza.nombre, locale)}
-                    </h3>
-                    {alianza.descripcion && (
-                      <p className="mt-1 text-sm leading-relaxed text-white/60">
-                        {t(alianza.descripcion, locale)}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                  <span className="font-serif text-base text-white/90">
+                    {t(alianza.nombre, locale)}
+                  </span>
+                </li>
               </Reveal>
             );
           })}
-        </div>
+        </ul>
 
-        <div className="mt-20">
+        <div className="mt-16">
           <CoverageMap cobertura={resolvedCobertura} labels={labels} />
         </div>
       </Container>

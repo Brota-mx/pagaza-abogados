@@ -42,7 +42,7 @@ export function Pilares({ locale }: { locale: Locale }) {
                 <h3 className="mt-4 font-serif text-2xl text-white">
                   {t(pilar.titulo, locale)}
                 </h3>
-                <p className="prose-justificado mt-3 leading-relaxed text-white/70">
+                <p className="mt-3 leading-relaxed text-white/70">
                   {t(pilar.descripcion, locale)}
                 </p>
               </article>
@@ -50,39 +50,36 @@ export function Pilares({ locale }: { locale: Locale }) {
           ))}
         </div>
 
-        {/* Las tres disciplinas de la metodología, como cierre de la misma pregunta. */}
+        {/*
+          Las tres disciplinas de la metodología cierran la misma pregunta. Van solo con su título:
+          antes llevaban intro + una descripción de dos líneas cada una y sumaban 120 palabras que
+          no vienen de la nota del cliente, sino del brochure. Enunciarlas basta —el "cómo" ya lo
+          explicaron los tres pilares de arriba— y el texto sigue en `metodologia.ts`.
+        */}
         <div className="mt-20 border-t border-white/15 pt-12">
-          <h3 className="max-w-2xl font-serif text-2xl text-white md:text-3xl">
+          <h3 className="max-w-xl font-serif text-2xl text-white md:text-3xl">
             {t(metodologia.titulo, locale)}
           </h3>
-          <p className="prose-justificado mt-4 max-w-2xl leading-relaxed text-white/70">
-            {t(metodologia.intro, locale)}
-          </p>
 
-          <ol className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-3">
+          <ol className="mt-8 flex flex-col gap-x-12 gap-y-4 md:flex-row md:items-center">
             {metodologia.disciplinas.map((d, i) => (
               <Reveal key={d.numero} delay={i * 80}>
-                <li className="flex gap-4">
+                <li className="flex items-baseline gap-3">
                   <span
                     aria-hidden
-                    className="text-steel-soft font-serif text-lg"
+                    className="text-steel-soft font-serif text-sm"
                   >
                     {d.numero}
                   </span>
-                  <div>
-                    <h4 className="font-serif text-lg text-white">
-                      {t(d.titulo, locale)}
-                    </h4>
-                    <p className="prose-justificado mt-2 text-sm leading-relaxed text-white/70">
-                      {t(d.descripcion, locale)}
-                    </p>
-                  </div>
+                  <span className="font-serif text-lg text-white">
+                    {t(d.titulo, locale)}
+                  </span>
                 </li>
               </Reveal>
             ))}
           </ol>
 
-          <p className="text-steel-soft mt-12 max-w-2xl border-t border-white/10 pt-6 text-sm leading-relaxed">
+          <p className="mt-10 max-w-xl border-t border-white/10 pt-6 text-sm leading-relaxed text-white/60">
             {t(metodologia.esferaDefensa, locale)}
           </p>
         </div>

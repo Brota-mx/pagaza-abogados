@@ -49,7 +49,7 @@ export function Capacidades({ locale }: { locale: Locale }) {
                       +
                     </span>
                   </summary>
-                  <p className="prose-justificado text-muted mt-3 pr-8 pl-9 text-sm leading-relaxed">
+                  <p className="text-muted mt-3 pr-8 pl-9 text-sm leading-relaxed">
                     {t(area.descripcion, locale)}
                   </p>
                 </details>
