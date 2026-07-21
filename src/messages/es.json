@@ -42,7 +42,10 @@
     "sections": "Navegación",
     "contact": "Contacto",
     "rights": "Todos los derechos reservados.",
-    "brotaBy": "Sitio por Brota Mx"
+    "brotaBy": "Sitio por Brota Mx",
+    "legal": "Legal",
+    "avisoPrivacidad": "Aviso de Privacidad",
+    "avisoLegal": "Aviso Legal"
   },
   "notFound": {
     "eyebrow": "Error 404",
@@ -84,7 +87,10 @@
       "BAD_REQUEST": "No pudimos procesar la solicitud. Inténtalo de nuevo.",
       "INTERNAL_ERROR": "No pudimos enviar tu mensaje. Escríbenos directo a a@pagaza.mx.",
       "NETWORK": "No pudimos conectar. Revisa tu conexión e inténtalo de nuevo."
-    }
+    },
+    "consentimiento": "Acepto el tratamiento de mis datos conforme al",
+    "avisoLink": "Aviso de Privacidad",
+    "consentimientoError": "Debes aceptar el Aviso de Privacidad para enviar el formulario."
   },
   "newsletter": {
     "eyebrow": "Newsletter",

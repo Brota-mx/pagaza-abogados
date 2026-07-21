@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
 import { CheckCircle2 } from "lucide-react";
 import { contactFormSchema, type ContactFormValues } from "@/lib/validation";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { TurnstileWidget } from "./TurnstileWidget";
 
@@ -213,6 +214,30 @@ export function ContactForm({
           )}
         />
       </Field>
+
+      {/* Consentimiento expreso del aviso de privacidad (LFPDPPP). El servidor lo exige con
+          z.literal(true), así que esto no es un adorno de cumplimiento. */}
+      <label className="text-muted flex items-start gap-3 text-sm">
+        <input
+          {...register("consentimiento")}
+          type="checkbox"
+          aria-invalid={Boolean(errors.consentimiento)}
+          className="accent-brand focus-visible:ring-brand mt-0.5 h-4 w-4 shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+        />
+        <span>
+          {t("consentimiento")}{" "}
+          <Link
+            href="/aviso-de-privacidad"
+            className="text-brand focus-visible:ring-brand underline underline-offset-4 focus-visible:ring-2 focus-visible:outline-none"
+          >
+            {t("avisoLink")}
+          </Link>
+          .
+        </span>
+      </label>
+      {errors.consentimiento && (
+        <p className="text-error text-sm">{t("consentimientoError")}</p>
+      )}
 
       {captchaOn && (
         <TurnstileWidget

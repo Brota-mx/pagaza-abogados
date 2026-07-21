@@ -42,7 +42,10 @@
     "sections": "Navigation",
     "contact": "Contact",
     "rights": "All rights reserved.",
-    "brotaBy": "Site by Brota Mx"
+    "brotaBy": "Site by Brota Mx",
+    "legal": "Legal",
+    "avisoPrivacidad": "Privacy Notice",
+    "avisoLegal": "Legal Notice"
   },
   "notFound": {
     "eyebrow": "Error 404",
@@ -84,7 +87,10 @@
       "BAD_REQUEST": "We couldn't process the request. Please try again.",
       "INTERNAL_ERROR": "We couldn't send your message. Please email us directly at a@pagaza.mx.",
       "NETWORK": "We couldn't connect. Please check your connection and try again."
-    }
+    },
+    "consentimiento": "I consent to the processing of my data under the",
+    "avisoLink": "Privacy Notice",
+    "consentimientoError": "You must accept the Privacy Notice to submit the form."
   },
   "newsletter": {
     "eyebrow": "Newsletter",

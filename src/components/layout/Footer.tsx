@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { siteInfo, NAV_SECTIONS } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 import { Wordmark } from "@/components/ui/Wordmark";
@@ -78,11 +79,25 @@ export async function Footer({ locale }: { locale: Locale }) {
       </Container>
 
       <div className="relative border-t border-white/10">
-        <Container className="flex flex-col gap-2 py-6 text-xs text-white/50 sm:flex-row sm:justify-between">
+        <Container className="flex flex-col gap-4 py-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} Pagaza Abogados Tributarios. {t("rights")}
           </p>
-          <p>{t("brotaBy")}</p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <Link
+              href="/aviso-de-privacidad"
+              className="focus-visible:ring-offset-navy w-fit rounded-[2px] transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
+            >
+              {t("avisoPrivacidad")}
+            </Link>
+            <Link
+              href="/aviso-legal"
+              className="focus-visible:ring-offset-navy w-fit rounded-[2px] transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
+            >
+              {t("avisoLegal")}
+            </Link>
+            <p>{t("brotaBy")}</p>
+          </div>
         </Container>
       </div>
     </footer>

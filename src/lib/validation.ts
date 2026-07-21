@@ -51,6 +51,9 @@ const userFields = {
     z.enum(SECTOR_IDS).optional(),
   ),
   mensaje: z.string().trim().min(10).max(2000), // saltos de línea permitidos (cuerpo, no cabecera)
+  // Consentimiento expreso del aviso de privacidad. `literal(true)` y no `boolean()`: se valida en
+  // el SERVIDOR, así que quitar el `required` del checkbox desde el DOM no sirve de nada.
+  consentimiento: z.literal(true),
 };
 
 /** Esquema para el cliente (RHF): solo los campos visibles del formulario. */

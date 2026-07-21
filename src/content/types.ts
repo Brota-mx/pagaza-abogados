@@ -114,6 +114,20 @@ export interface MetodologiaContent {
   esferaDefensa: LocalizedText;
 }
 
+/** Bloque de un documento legal: encabezado, párrafos y, opcionalmente, una lista. */
+export interface SeccionLegal {
+  titulo: LocalizedText;
+  parrafos: LocalizedText[];
+  lista?: LocalizedText[];
+}
+
+/** Documento legal bilingüe (aviso de privacidad, aviso legal). */
+export interface DocumentoLegal {
+  titulo: LocalizedText;
+  intro: LocalizedText;
+  secciones: SeccionLegal[];
+}
+
 /** Datos globales del sitio / contacto. */
 export interface SiteInfo {
   slogan: LocalizedText;
