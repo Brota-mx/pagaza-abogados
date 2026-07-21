@@ -10,14 +10,27 @@ import { Wordmark } from "@/components/ui/Wordmark";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { cn } from "@/lib/utils";
 
+/** Enlace de nav: subrayado que crece en hover, foco heredando el color del texto. */
+const enlaceNav =
+  "group relative rounded-[2px] py-1 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none";
+const subrayadoNav =
+  "absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-current transition-transform duration-200 group-hover:scale-x-100";
+
 /**
- * Header fijo, scroll-aware: transparente sobre el hero (texto blanco) → superficie sólida con
- * hairline al hacer scroll (texto navy). El <main> compensa el header fijo con scroll-padding-top
- * (globals.css) para que las anclas no queden ocultas.
+ * Header fijo de dos capas (petición del cliente, 19-jul-2026):
  *
- * A2/AA: los enlaces de nav mantienen el color heredado (contraste pleno en ambos estados) y el
- * hover se indica con un subrayado bronce que crece — no con un cambio de color de texto que
- * reprobaría AA sobre blanco. Solo transición de color/opacidad → seguro con reduced-motion.
+ * - Arriba del todo, sobre el hero: solo `Inicio | Newsletter` y el selector de idioma. Sin
+ *   wordmark (el hero ya carga la marca) y sin el icono de hamburguesa, que el cliente pidió
+ *   quitar expresamente de la primera pantalla — también en móvil.
+ * - Al bajar: la barra se vuelve superficie sólida con hairline y aparece el menú completo
+ *   (wordmark, secciones, idioma, CTA; hamburguesa en móvil).
+ *
+ * El <main> compensa el header fijo con scroll-padding-top (globals.css) para que las anclas no
+ * queden ocultas.
+ *
+ * AA: los enlaces mantienen el color heredado (contraste pleno en ambos estados) y el hover se
+ * marca con un subrayado que crece, no con un cambio de color. Solo transición de
+ * color/opacidad → seguro con reduced-motion.
  */
 export function Header() {
   const t = useTranslations("nav");
@@ -54,56 +67,71 @@ export function Header() {
       )}
     >
       <Container className="flex h-20 items-center justify-between">
-        <Link
-          href="/"
-          aria-label="Pagaza Abogados Tributarios — inicio"
-          className={cn(
-            "focus-visible:ring-brand rounded-[2px] transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-transparent focus-visible:outline-none",
-            solid ? "text-brand" : "text-white",
-          )}
-        >
-          <Wordmark className="text-lg" />
-        </Link>
-
-        <nav
-          aria-label={t("menu")}
-          className="hidden items-center gap-8 lg:flex"
-        >
-          {NAV_SECTIONS.map((s) => (
-            <a
-              key={s.id}
-              href={`#${s.id}`}
-              className="group relative rounded-[2px] py-1 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none"
+        {solid ? (
+          <>
+            <Link
+              href="/"
+              aria-label="Pagaza Abogados Tributarios — inicio"
+              className="text-brand focus-visible:ring-brand rounded-[2px] transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-transparent focus-visible:outline-none"
             >
-              {t(s.key)}
-              <span
-                aria-hidden
-                className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-current transition-transform duration-200 group-hover:scale-x-100"
-              />
-            </a>
-          ))}
-        </nav>
+              <Wordmark className="text-lg" />
+            </Link>
 
-        <div className="hidden items-center gap-6 lg:flex">
-          <LocaleSwitcher />
-          <a
-            href="#contacto"
-            className="bg-brand hover:bg-navy cursor-pointer rounded-[2px] px-5 py-2.5 text-xs font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none"
-          >
-            {tCta("consulta")}
-          </a>
-        </div>
+            <nav
+              aria-label={t("menu")}
+              className="hidden items-center gap-8 lg:flex"
+            >
+              {NAV_SECTIONS.map((s) => (
+                <a key={s.id} href={`#${s.id}`} className={enlaceNav}>
+                  {t(s.key)}
+                  <span aria-hidden className={subrayadoNav} />
+                </a>
+              ))}
+            </nav>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label={open ? t("close") : t("open")}
-          className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none lg:hidden"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+            <div className="hidden items-center gap-6 lg:flex">
+              <LocaleSwitcher />
+              <a
+                href="#contacto"
+                className="bg-brand hover:bg-navy cursor-pointer rounded-[2px] px-5 py-2.5 text-xs font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none"
+              >
+                {tCta("consulta")}
+              </a>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              aria-label={open ? t("close") : t("open")}
+              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none lg:hidden"
+            >
+              {open ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </>
+        ) : (
+          <>
+            {/* Primera pantalla: dos enlaces y el idioma. Nada más — ni marca ni hamburguesa. */}
+            <nav
+              aria-label={t("menu")}
+              className="flex items-center gap-7 text-sm"
+            >
+              <a href="#inicio" className={enlaceNav}>
+                {t("inicio")}
+                <span aria-hidden className={subrayadoNav} />
+              </a>
+              <span aria-hidden className="text-current/30">
+                |
+              </span>
+              <a href="#newsletter" className={enlaceNav}>
+                {t("newsletter")}
+                <span aria-hidden className={subrayadoNav} />
+              </a>
+            </nav>
+            <LocaleSwitcher />
+          </>
+        )}
       </Container>
 
       {open && (

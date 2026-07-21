@@ -74,6 +74,53 @@ body {
   }
 }
 
+/* === Puerta de entrada (`/`) ===
+   "El logo que se abre": el wordmark se revela con una máscara que se abre desde el centro hacia
+   los dos lados; después entran la regla y el par ENTRAR/ENTER. Se usa `clip-path` y no
+   `letter-spacing` porque el tracking vive en los spans internos del Wordmark (0.2em y 0.36em,
+   distintos entre sí) y no heredaría del contenedor.
+   Todo con `animation` (no `transition`), para que el bloque de reduced-motion de abajo lo
+   neutralice dejando el estado final a la vista — nunca un elemento invisible. */
+.animate-entrada-marca {
+  animation: entrada-marca 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-entrada-regla {
+  animation: entrada-regla 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+}
+.animate-entrada-acceso {
+  animation: entrada-acceso 0.8s ease-out 1.25s both;
+}
+@keyframes entrada-marca {
+  from {
+    opacity: 0;
+    clip-path: inset(0 50% 0 50%);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 -0.5em 0 -0.5em);
+  }
+}
+@keyframes entrada-regla {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+@keyframes entrada-acceso {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Acordeón de Sectores (Radix): animación de altura open/close.
    El bloque de reduced-motion de abajo la neutraliza (animation-duration ~0). */
 .accordion-content[data-state="open"] {

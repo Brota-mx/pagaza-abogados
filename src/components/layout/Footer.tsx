@@ -16,12 +16,19 @@ export async function Footer({ locale }: { locale: Locale }) {
 
   return (
     <footer className="bg-navy relative overflow-hidden text-white">
-      {/* Marca de agua "P" de fondo, en la sans del logo (no serif). */}
+      {/*
+        Marca de agua "P" de fondo, en la sans del logo (no serif). El cliente pidió que se lea
+        COMPLETA (antes salía recortada por el borde derecho e inferior): ahora queda contenida
+        dentro del footer, centrada verticalmente y con margen respecto al borde. `flex` en el
+        contenedor evita depender del leading para el centrado óptico de una sola letra.
+      */}
       <span
         aria-hidden
-        className="font-wordmark pointer-events-none absolute -right-4 -bottom-28 text-[22rem] leading-none font-semibold text-white/[0.05] select-none md:text-[30rem]"
+        className="pointer-events-none absolute inset-y-0 right-[4%] flex items-center select-none"
       >
-        P
+        <span className="font-wordmark text-[clamp(12rem,32vw,26rem)] leading-none font-semibold text-white/[0.05]">
+          P
+        </span>
       </span>
 
       <Container className="relative grid gap-12 py-16 md:grid-cols-3 md:py-20">

@@ -65,7 +65,8 @@ export function localeAlternates(locale: string) {
     languages: {
       es: "/es",
       en: "/en",
-      "x-default": "/es",
+      // x-default es la puerta de entrada: la raíz no elige idioma por el visitante, se lo ofrece.
+      "x-default": "/",
     },
   } as const;
 }

@@ -31,22 +31,22 @@ import "@/styles/globals.css";
 const pagella = localFont({
   src: [
     {
-      path: "../../../public/fonts/pagella-regular.woff2",
+      path: "../../../../public/fonts/pagella-regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../../public/fonts/pagella-italic.woff2",
+      path: "../../../../public/fonts/pagella-italic.woff2",
       weight: "400",
       style: "italic",
     },
     {
-      path: "../../../public/fonts/pagella-bold.woff2",
+      path: "../../../../public/fonts/pagella-bold.woff2",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../../../public/fonts/pagella-bolditalic.woff2",
+      path: "../../../../public/fonts/pagella-bolditalic.woff2",
       weight: "700",
       style: "italic",
     },

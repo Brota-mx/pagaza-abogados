@@ -16,6 +16,8 @@
     "description": "Boutique tax law firm in Lomas de Chapultepec. Wealth protection, advisory, and tax, administrative, and constitutional litigation for high-profile companies and estates."
   },
   "nav": {
+    "inicio": "Home",
+    "newsletter": "Newsletter",
     "compromiso": "Firm",
     "pilares": "Services",
     "metodologia": "Methodology",

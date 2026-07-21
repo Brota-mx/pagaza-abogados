@@ -16,6 +16,8 @@
     "description": "Despacho fiscalista boutique en Lomas de Chapultepec. Protección patrimonial, consultoría y litigio fiscal, administrativo y constitucional para empresas y patrimonios de alto perfil."
   },
   "nav": {
+    "inicio": "Inicio",
+    "newsletter": "Newsletter",
     "compromiso": "Firma",
     "pilares": "Servicios",
     "metodologia": "Metodología",
