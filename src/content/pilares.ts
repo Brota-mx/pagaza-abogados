@@ -3,10 +3,14 @@ import type { Pilar, SectionIntro } from "./types";
 /**
  * Sección "¿Cómo lo hacemos?" — los 3 pilares del servicio, por grado de prioridad.
  *
- * Los tres textos son LITERALES de la lámina que envió el cliente (nota del 19-jul-2026,
- * "¿Cómo lo hacemos? → el siguiente texto"). Ojo: respecto a la versión anterior del sitio, las
- * descripciones de Protección Patrimonial y de Consultoría estaban intercambiadas; ésta es la
- * asignación que el cliente da por buena.
+ * Los tres textos vienen de la lámina que envió el cliente (nota del 19-jul-2026), PARAFRASEADOS
+ * con su permiso expreso: "Esto se puede usar parafraseado o con una estrategia diversa". Se
+ * conserva íntegra la sustancia jurídica y el registro; se comprime la redacción (93 → 60
+ * palabras). El original de cada uno queda en el comentario de su `descripcion` por si lo pide de
+ * vuelta.
+ *
+ * Ojo: respecto a la versión anterior del sitio, las descripciones de Protección Patrimonial y de
+ * Consultoría estaban intercambiadas; ésta es la asignación que el cliente da por buena.
  *
  * Ya no llevan lista de puntos: ese detalle vive ahora en `capacidades.ts`, y repetirlo aquí era
  * parte de lo que el cliente señaló como "se ve muy cargada".
@@ -31,9 +35,12 @@ export const pilares: Pilar[] = [
     id: "proteccion",
     numero: "01",
     titulo: { es: "Protección Patrimonial", en: "Wealth Protection" },
+    // Original: "Ante un contexto de alta incertidumbre legal y económica, diseñamos estrategias
+    // jurídicas orientadas a proteger el patrimonio de nuestros clientes frente a potenciales
+    // actos de fiscalización." (28 palabras)
     descripcion: {
-      es: "Ante un contexto de alta incertidumbre legal y económica, diseñamos estrategias jurídicas orientadas a proteger el patrimonio de nuestros clientes frente a potenciales actos de fiscalización.",
-      en: "In a context of high legal and economic uncertainty, we design legal strategies aimed at protecting our clients' wealth against potential acts of tax enforcement.",
+      es: "En un entorno legal y económico incierto, diseñamos estrategias para blindar el patrimonio antes de que llegue el acto de fiscalización.",
+      en: "In an uncertain legal and economic environment, we design strategies to shield our clients' wealth before enforcement arrives.",
     },
   },
   {
@@ -43,9 +50,12 @@ export const pilares: Pilar[] = [
       es: "Consultoría y Transaccional",
       en: "Advisory & Transactional",
     },
+    // Original: "Diseñamos y analizamos estructuras fiscales aplicables a las operaciones de
+    // nuestros representados, con el objetivo de optimizar resultados, mitigar riesgos legales y
+    // asegurar el cumplimiento normativo." (28 palabras)
     descripcion: {
-      es: "Diseñamos y analizamos estructuras fiscales aplicables a las operaciones de nuestros representados, con el objetivo de optimizar resultados, mitigar riesgos legales y asegurar el cumplimiento normativo.",
-      en: "We design and analyze the tax structures that apply to our clients' transactions, seeking to optimize results, mitigate legal risk, and ensure regulatory compliance.",
+      es: "Analizamos y diseñamos la estructura fiscal de cada operación: optimizar el resultado, contener el riesgo legal y sostener el cumplimiento.",
+      en: "We analyze and design the tax structure of each transaction: optimize the outcome, contain legal risk, and sustain compliance.",
     },
   },
   {
@@ -55,9 +65,12 @@ export const pilares: Pilar[] = [
       es: "Controversia y Litigio Público y Fiscal",
       en: "Tax & Public Litigation",
     },
+    // Original: "Frente a actos de autoridad, nuestro enfoque se basa en la planeación jurídica y
+    // la estrategia, priorizando la negociación efectiva como vía principal de solución, sin dejar
+    // de lado la defensa sólida en litigio cuando es necesaria." (37 palabras)
     descripcion: {
-      es: "Frente a actos de autoridad, nuestro enfoque se basa en la planeación jurídica y la estrategia, priorizando la negociación efectiva como vía principal de solución, sin dejar de lado la defensa sólida en litigio cuando es necesaria.",
-      en: "Faced with acts of authority, our approach rests on legal planning and strategy, prioritizing effective negotiation as the primary route to resolution — without setting aside a solid litigation defense when it becomes necessary.",
+      es: "Frente a un acto de autoridad priorizamos la negociación técnica como vía de solución, con el litigio preparado para cuando hace falta.",
+      en: "Faced with an act of authority we prioritize technical negotiation as the route to resolution, with litigation ready for when it is needed.",
     },
   },
 ];

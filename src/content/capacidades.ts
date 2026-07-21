@@ -18,9 +18,22 @@ export const capacidades: CapacidadesContent = {
     es: "Soluciones jurídicas para asuntos tributarios y regulatorios de alta complejidad.",
     en: "Legal solutions for highly complex tax and regulatory matters.",
   },
+  /**
+   * RESUMIDO — el cliente lo pidió al margen de este bloque: "Todo esto se puede resumir".
+   * Se corta la segunda frase del original ("Combinamos excelencia técnica, visión estratégica y
+   * experiencia en litigio…") porque repetía lo que la sección Compromiso ya afirma tres pantallas
+   * antes. 60 → 24 palabras.
+   *
+   * Original íntegro, por si el cliente lo quiere de vuelta:
+   * "Nuestra práctica se concentra en la prevención, gestión y resolución de controversias
+   *  tributarias y administrativas que afectan el patrimonio y la operación de empresas,
+   *  inversionistas y grupos empresariales. Combinamos excelencia técnica, visión estratégica y
+   *  experiencia en litigio para ofrecer soluciones jurídicas integrales en cada etapa de una
+   *  contingencia."
+   */
   intro: {
-    es: "Nuestra práctica se concentra en la prevención, gestión y resolución de controversias tributarias y administrativas que afectan el patrimonio y la operación de empresas, inversionistas y grupos empresariales. Combinamos excelencia técnica, visión estratégica y experiencia en litigio para ofrecer soluciones jurídicas integrales en cada etapa de una contingencia.",
-    en: "Our practice concentrates on preventing, managing, and resolving the tax and administrative disputes that affect the wealth and operations of companies, investors, and corporate groups. We combine technical excellence, strategic judgment, and litigation experience to deliver comprehensive legal solutions at every stage of a contingency.",
+    es: "Prevenimos, gestionamos y resolvemos las controversias tributarias y administrativas que afectan el patrimonio y la operación de empresas, inversionistas y grupos empresariales.",
+    en: "We prevent, manage, and resolve the tax and administrative disputes that affect the wealth and operations of companies, investors, and corporate groups.",
   },
   areas: [
     {
