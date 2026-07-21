@@ -27,6 +27,20 @@ const limiter = hasUpstash
     })
   : null;
 
+/**
+ * Limitador del newsletter, con su propio prefijo y cuota. Va aparte del de contacto a propósito:
+ * suscribirse es una acción mucho más barata, y no queremos que unos cuantos intentos ahí
+ * consuman la cuota de alguien que quiere escribir al despacho.
+ */
+const limiterNewsletter = hasUpstash
+  ? new Ratelimit({
+      redis: Redis.fromEnv(),
+      limiter: Ratelimit.slidingWindow(3, "10 m"),
+      prefix: "pagaza:newsletter",
+      analytics: false,
+    })
+  : null;
+
 /** ¿Está configurado el rate-limit real? Si no, el route sabe que un fallo NO debe ser 503. */
 export const rateLimitConfigured = hasUpstash;
 
@@ -44,6 +58,19 @@ export async function limit(ip: string): Promise<LimitResult> {
     };
   }
   return limiter.limit(ip);
+}
+
+/** Igual que `limit`, para el formulario de newsletter (cuota y prefijo propios). */
+export async function limitNewsletter(ip: string): Promise<LimitResult> {
+  if (!limiterNewsletter) {
+    return {
+      success: true,
+      limit: 3,
+      remaining: 3,
+      reset: Date.now() + 600_000,
+    };
+  }
+  return limiterNewsletter.limit(ip);
 }
 
 /** IP del cliente. En Vercel el primer valor de x-forwarded-for es el cliente real (trap 6.3). */

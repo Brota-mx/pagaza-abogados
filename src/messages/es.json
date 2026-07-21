@@ -85,5 +85,18 @@
       "INTERNAL_ERROR": "No pudimos enviar tu mensaje. Escríbenos directo a a@pagaza.mx.",
       "NETWORK": "No pudimos conectar. Revisa tu conexión e inténtalo de nuevo."
     }
+  },
+  "newsletter": {
+    "eyebrow": "Newsletter",
+    "titulo": "Criterio fiscal, en tu correo.",
+    "intro": "Análisis breves sobre cambios normativos, criterios de los tribunales y movimientos de la autoridad que sí afectan tu operación. Sin ruido y sin frecuencia fija.",
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "tu@empresa.com",
+    "submit": "Suscribirme",
+    "submitting": "Enviando…",
+    "successMessage": "Listo. Te escribiremos cuando haya algo que valga tu tiempo.",
+    "consentimiento": "Acepto el tratamiento de mis datos conforme al",
+    "avisoLink": "Aviso de Privacidad",
+    "consentimientoError": "Debes aceptar el Aviso de Privacidad para suscribirte."
   }
 }

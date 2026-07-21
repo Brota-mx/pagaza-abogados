@@ -85,5 +85,18 @@
       "INTERNAL_ERROR": "We couldn't send your message. Please email us directly at a@pagaza.mx.",
       "NETWORK": "We couldn't connect. Please check your connection and try again."
     }
+  },
+  "newsletter": {
+    "eyebrow": "Newsletter",
+    "titulo": "Tax judgment, in your inbox.",
+    "intro": "Short analyses of regulatory changes, court criteria, and moves by the authorities that actually affect your operations. No noise, no fixed schedule.",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@company.com",
+    "submit": "Subscribe",
+    "submitting": "Sending…",
+    "successMessage": "Done. We'll write when there's something worth your time.",
+    "consentimiento": "I consent to the processing of my data under the",
+    "avisoLink": "Privacy Notice",
+    "consentimientoError": "You must accept the Privacy Notice to subscribe."
   }
 }

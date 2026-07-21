@@ -6,6 +6,7 @@ import { Pilares } from "@/components/sections/Pilares";
 import { Capacidades } from "@/components/sections/Capacidades";
 import { Sectores } from "@/components/sections/Sectores";
 import { Alianzas } from "@/components/sections/Alianzas";
+import { Newsletter } from "@/components/sections/Newsletter";
 import { Contacto } from "@/components/sections/Contacto";
 import type { Locale } from "@/content/types";
 
@@ -35,6 +36,7 @@ export default async function HomePage({
       <Capacidades locale={loc} />
       <Sectores locale={loc} />
       <Alianzas locale={loc} />
+      <Newsletter />
       <Contacto locale={loc} />
     </>
   );

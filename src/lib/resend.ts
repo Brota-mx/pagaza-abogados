@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import type { ContactInput } from "./validation";
+import type { ContactInput, NewsletterInput } from "./validation";
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -62,4 +62,53 @@ export async function sendContactEmail(data: ContactInput): Promise<void> {
     // No filtrar el detalle del proveedor al cliente; el route responde 500 genérico.
     throw new Error("resend_error");
   }
+}
+
+/**
+ * Alta en el newsletter. Si hay una audiencia de Resend configurada (`RESEND_AUDIENCE_ID`) se da
+ * de alta ahí, que es donde debe vivir una lista de suscripción — con su baja gestionada por el
+ * proveedor. Si no la hay, se degrada a una notificación por correo al despacho: preferimos que
+ * el alta llegue por un canal menos cómodo a perderla porque falta una variable de entorno.
+ *
+ * `unsubscribed: false` es explícito: el consentimiento ya se validó en el servidor.
+ */
+export async function subscribeToNewsletter(
+  data: NewsletterInput,
+): Promise<void> {
+  const audienceId = process.env.RESEND_AUDIENCE_ID;
+
+  if (!resend) {
+    if (process.env.NODE_ENV !== "production") {
+      console.info("[dev] Resend no configurado; alta simulada →", data.email);
+      return;
+    }
+    throw new Error("resend_not_configured");
+  }
+
+  if (audienceId) {
+    const { error } = await resend.contacts.create({
+      audienceId,
+      email: data.email,
+      unsubscribed: false,
+    });
+    if (error) throw new Error("resend_error");
+    return;
+  }
+
+  const to = process.env.CONTACT_TO_EMAIL ?? "a@pagaza.mx";
+  const from = process.env.CONTACT_FROM_EMAIL ?? "onboarding@resend.dev";
+  const { error } = await resend.emails.send({
+    from,
+    to,
+    // Sin replyTo al suscriptor: esto es un aviso interno, no una conversación.
+    subject: "Nueva suscripción al newsletter — Pagaza Abogados",
+    text: [
+      "Nueva suscripción desde pagaza.mx",
+      "",
+      `Correo: ${data.email}`,
+      `Idioma: ${data.locale}`,
+      "Consentimiento del aviso de privacidad: aceptado",
+    ].join("\n"),
+  });
+  if (error) throw new Error("resend_error");
 }
