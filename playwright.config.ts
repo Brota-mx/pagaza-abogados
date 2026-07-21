@@ -1,10 +1,14 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * E2E smoke (BUILD-NOTES B3 / Paso 10). Corre contra `pnpm dev` para que el bypass de Turnstile en
- * desarrollo permita probar el envío exitoso del formulario sin credenciales. `reuseExistingServer`
- * reutiliza un server ya levantado en :3000 (dev o prod).
+ * E2E smoke. Corre contra `pnpm dev`: en desarrollo `lib/resend.ts` simula el envío, de modo que
+ * el camino feliz de los formularios se puede probar de punta a punta sin credenciales reales.
+ *
+ * Puerto 3100, no 3000: 3000 es el puerto por defecto de todos los proyectos Next de la máquina y
+ * los tests llegaron a correr contra el sitio de otro cliente. Un puerto propio elimina la
+ * ambigüedad y hace seguro reutilizar un server ya levantado en local.
  */
+const PORT = 3100;
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
@@ -14,8 +18,8 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 2,
   reporter: process.env.CI ? "github" : "list",
   use: {
-    baseURL: "http://localhost:3000",
-    locale: "es-MX", // el redirect de `/` negocia por Accept-Language → /es
+    baseURL: `http://localhost:${PORT}`,
+    // El idioma ya no se negocia por cabecera (localeDetection: false); se elige en `/`.
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
@@ -33,9 +37,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "pnpm dev",
-    url: "http://localhost:3000",
+    command: `pnpm dev --port ${PORT}`,
+    url: `http://localhost:${PORT}`,
     timeout: 180_000,
-    reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
   },
 });

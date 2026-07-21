@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { SITE_URL } from "@/lib/seo";
 import { Wordmark } from "@/components/ui/Wordmark";
 
@@ -50,27 +49,33 @@ export default function EntradaPage() {
         aria-label="Idioma / Language"
         className="animate-entrada-acceso mt-12 flex items-center gap-4 text-sm font-medium tracking-[0.18em] uppercase"
       >
-        {/* next/link (no el de @/i18n/navigation: aquí estamos fuera del contexto de i18n).
-            El prefetch es deseable en una antesala — precalienta la home mientras se lee. */}
-        <Link
+        {/*
+          Anclas nativas, no next/link. La puerta y el sitio son root layouts distintos, así que
+          entrar es una navegación de documento y no una transición de cliente: con `Link` el
+          router no resolvía el destino y el clic se quedaba en la propia puerta (lo cazó un E2E).
+          De paso evita prefetchear la home de un idioma que quizá no sea el elegido.
+        */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a
           href="/es"
           lang="es"
           hrefLang="es"
           className="text-brand focus-visible:ring-brand rounded-[2px] px-2 py-1 underline-offset-8 transition-opacity hover:underline focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:outline-none"
         >
           Entrar
-        </Link>
+        </a>
         <span aria-hidden className="text-muted/40">
           /
         </span>
-        <Link
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a
           href="/en"
           lang="en"
           hrefLang="en"
           className="text-brand focus-visible:ring-brand rounded-[2px] px-2 py-1 underline-offset-8 transition-opacity hover:underline focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:outline-none"
         >
           Enter
-        </Link>
+        </a>
       </nav>
     </main>
   );
