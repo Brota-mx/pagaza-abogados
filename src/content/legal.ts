@@ -168,9 +168,11 @@ export const avisoPrivacidad: DocumentoLegal = {
 
 /**
  * Aviso legal. Importa especialmente el segundo bloque: el sitio publica cifras concretas de
- * resultados ($55M, 98%, $12M) y esas afirmaciones necesitan el matiz de que son casos concretos
- * y no una promesa. También deja claro que navegar el sitio o escribir por el formulario no crea
- * una relación abogado-cliente.
+ * resultados y esas afirmaciones necesitan el matiz de que son casos concretos y no una promesa.
+ * Desde la nota del cliente del 27-jul-2026 queda una sola cifra publicada (el $12M de la
+ * auditoría PLD, en Construcción); el $55M y el 98% se retiraron. El matiz sigue haciendo falta
+ * mientras quede aunque sea una. También deja claro que navegar el sitio o escribir por el
+ * formulario no crea una relación abogado-cliente.
  */
 export const avisoLegal: DocumentoLegal = {
   titulo: {
