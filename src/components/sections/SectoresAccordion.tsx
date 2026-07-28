@@ -18,9 +18,13 @@ export type ResolvedSector = {
  * Acordeón de sectores. Cada fila: número + nombre + badge de cifra (en los destacados) + control
  * "+". Al abrir muestra el resumen y los casos; los casos con cifra reciben tratamiento destacado.
  *
+ * Hoy ningún sector lleva `destacado`: el cliente retiró las dos cifras que lo usaban (98% y $55M,
+ * nota del 27-jul-2026), así que no se pinta ningún badge y el acordeón abre por defecto en el
+ * primer sector. La mecánica se conserva por si vuelve a marcar alguno.
+ *
  * Usa `<details>/<summary>` nativo en lugar del acordeón de Radix que había antes. El motivo es de
  * fondo, no de estilo: Radix no monta el contenido cerrado, así que TODOS los casos de éxito —la
- * prueba más valiosa del sitio, incluidas las cifras de $55M, 98% y $12M— quedaban fuera del HTML
+ * prueba más valiosa del sitio— quedaban fuera del HTML
  * servido y eran invisibles para los buscadores. Con `<details>` el contenido siempre está en el
  * DOM (Google indexa lo que hay dentro de un `details` cerrado), la navegación por teclado y el
  * estado expandido/colapsado los aporta el navegador, y el componente deja de necesitar

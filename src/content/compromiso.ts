@@ -14,9 +14,12 @@ export const compromiso: CompromisoContent = {
     es: "Nuestro compromiso",
     en: "Our commitment",
   },
+  // "sin concesiones" → "y pasión" por indicación del cliente (nota del 27-jul-2026, captura del
+  // título de Compromiso). Es parte de un ajuste de tono más amplio: en la misma nota pidió sacar
+  // "sin concesiones" también de la intro de Pilares.
   titulo: {
-    es: "El ejercicio del Derecho Tributario, con criterio y sin concesiones.",
-    en: "Tax law practiced with judgment and without concessions.",
+    es: "El ejercicio del Derecho Tributario, con criterio y pasión.",
+    en: "Tax law practiced with judgment and passion.",
   },
   intro: {
     es: "Pagaza Abogados surge de la convicción por ejercer el Derecho Tributario con excelencia técnica, atención humana y un enfoque práctico que permita ofrecer soluciones jurídicas eficientes y confiables para proteger el patrimonio de nuestros clientes.",

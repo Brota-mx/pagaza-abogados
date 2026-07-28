@@ -1,7 +1,7 @@
 import type { Alianza, Cobertura, SectionIntro } from "./types";
 
 /**
- * Alianzas estratégicas por materia (10) + cobertura geográfica.
+ * Alianzas estratégicas por materia (9) + cobertura geográfica.
  * Fuente: docs/contenido-fuente.md §4. La firma no diluye su núcleo (estrictamente fiscal): ofrece
  * soluciones 360° vía una red selecta. Traducción EN legal (docs/glosario-es-en.md).
  */
@@ -95,17 +95,8 @@ export const alianzas: Alianza[] = [
       en: "Related-party transaction studies and commercial valuations.",
     },
   },
-  {
-    id: "traduccion",
-    nombre: {
-      es: "Servicios de traducción",
-      en: "Translation services",
-    },
-    descripcion: {
-      es: "Traductores peritos certificados para contratos e información financiera internacional.",
-      en: "Certified expert translators for contracts and international financial information.",
-    },
-  },
+  // Aquí iba "Servicios de traducción" (traductores peritos certificados). El cliente pidió
+  // retirarlo de la red de alianzas (nota del 27-jul-2026): "Quitar servicios de traducciones".
   {
     id: "civil",
     nombre: {

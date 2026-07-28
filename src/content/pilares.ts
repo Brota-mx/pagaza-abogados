@@ -24,9 +24,11 @@ export const pilaresIntro: SectionIntro = {
     es: "Tres pilares, en orden de prioridad.",
     en: "Three pillars, in order of priority.",
   },
+  // El tercer tramo era "litigar sin concesiones cuando hace falta". El cliente lo reformuló él
+  // mismo (nota del 27-jul-2026): "Y litigio cuando no existe otra salida. Quitar sin concesiones."
   intro: {
-    es: "Nuestro servicio se basa en tres pilares subsecuentes: prevenir antes que corregir, negociar antes que litigar y litigar sin concesiones cuando hace falta.",
-    en: "Our practice rests on three sequential pillars: prevent before correcting, negotiate before litigating, and litigate without concessions when it is required.",
+    es: "Nuestro servicio se basa en tres pilares subsecuentes: prevenir antes que corregir, negociar antes que litigar y litigio cuando no existe otra salida.",
+    en: "Our practice rests on three sequential pillars: prevent before correcting, negotiate before litigating, and litigation when there is no other way out.",
   },
 };
 
