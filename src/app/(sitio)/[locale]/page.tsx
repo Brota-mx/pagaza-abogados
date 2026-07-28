@@ -29,7 +29,7 @@ export default async function HomePage({
 
   return (
     <>
-      <Hero />
+      <Hero locale={loc} />
       <Compromiso locale={loc} />
       <Servicios locale={loc} />
       <Pilares locale={loc} />
