@@ -24,8 +24,8 @@ export type ResolvedSector = {
  *
  * Usa `<details>/<summary>` nativo en lugar del acordeón de Radix que había antes. El motivo es de
  * fondo, no de estilo: Radix no monta el contenido cerrado, así que TODOS los casos de éxito —la
- * prueba más valiosa del sitio— quedaban fuera del HTML
- * servido y eran invisibles para los buscadores. Con `<details>` el contenido siempre está en el
+ * prueba más valiosa del sitio— quedaban fuera del HTML servido y eran invisibles para los
+ * buscadores. Con `<details>` el contenido siempre está en el
  * DOM (Google indexa lo que hay dentro de un `details` cerrado), la navegación por teclado y el
  * estado expandido/colapsado los aporta el navegador, y el componente deja de necesitar
  * `"use client"`.

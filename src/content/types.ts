@@ -55,18 +55,22 @@ export interface CasoExito {
   cifra?: { valor: string; etiqueta: LocalizedText };
 }
 
-/** Sector / industria (10 en total). */
+/** Sector / industria (12 en total). */
 export interface Sector {
   id: string;
   numero: string;
   nombre: LocalizedText;
   resumen: LocalizedText;
   casos: CasoExito[];
-  /** Marca los sectores con cifra destacada (Textil, Retail). */
+  /**
+   * Saca la cifra del sector al badge de la fila cerrada. Hoy no lo usa ninguno: eran Textil (98%)
+   * y Retail ($55M), y el cliente retiró ambas cifras (nota del 27-jul-2026). Se conserva por si
+   * vuelve a destacar alguno.
+   */
   destacado?: boolean;
 }
 
-/** Alianza estratégica por materia (10 en total). */
+/** Alianza estratégica por materia (9 en total). */
 export interface Alianza {
   id: string;
   nombre: LocalizedText;
