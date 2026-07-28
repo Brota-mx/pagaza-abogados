@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { cloneElement, isValidElement, useId, useRef, useState } from "react";
+import type { ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
@@ -30,6 +31,7 @@ export function ContactForm({
   const [token, setToken] = useState<string>("");
   const [resetSignal, setResetSignal] = useState(0);
   const hpRef = useRef<HTMLInputElement>(null);
+  const consentErrorId = useId();
 
   const {
     register,
@@ -221,7 +223,10 @@ export function ContactForm({
         <input
           {...register("consentimiento")}
           type="checkbox"
+          required
+          aria-required="true"
           aria-invalid={Boolean(errors.consentimiento)}
+          aria-describedby={errors.consentimiento ? consentErrorId : undefined}
           className="accent-brand focus-visible:ring-brand mt-0.5 h-4 w-4 shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
         />
         <span>
@@ -236,7 +241,9 @@ export function ContactForm({
         </span>
       </label>
       {errors.consentimiento && (
-        <p className="text-error text-sm">{t("consentimientoError")}</p>
+        <p id={consentErrorId} role="alert" className="text-error text-sm">
+          {t("consentimientoError")}
+        </p>
       )}
 
       {captchaOn && (
@@ -270,6 +277,13 @@ export function ContactForm({
   );
 }
 
+type FieldInputProps = {
+  id?: string;
+  required?: boolean;
+  "aria-required"?: boolean;
+  "aria-describedby"?: string;
+};
+
 /** Campo con label, indicador opcional/requerido y mensaje de error accesible. */
 function Field({
   label,
@@ -282,19 +296,46 @@ function Field({
   required?: boolean;
   hint?: string;
   error?: string | false;
-  children: React.ReactNode;
+  children: ReactElement<FieldInputProps>;
 }) {
+  const errorId = useId();
+  const hintId = useId();
+  const describedBy =
+    [error ? errorId : null, hint ? hintId : null].filter(Boolean).join(" ") ||
+    undefined;
+
+  const field = isValidElement(children)
+    ? cloneElement(children, {
+        required: required || undefined,
+        "aria-required": required || undefined,
+        "aria-describedby": describedBy,
+      })
+    : children;
+
   return (
     <label className="block">
       <span className="text-navy mb-1.5 flex items-baseline justify-between text-sm font-medium">
         <span>
           {label}
-          {required && <span className="text-error"> *</span>}
+          {required && (
+            <span aria-hidden className="text-error">
+              {" "}
+              *
+            </span>
+          )}
         </span>
-        {hint && <span className="text-muted text-xs font-normal">{hint}</span>}
+        {hint && (
+          <span id={hintId} className="text-muted text-xs font-normal">
+            {hint}
+          </span>
+        )}
       </span>
-      {children}
-      {error && <span className="text-error mt-1 block text-sm">{error}</span>}
+      {field}
+      {error && (
+        <span id={errorId} role="alert" className="text-error mt-1 block text-sm">
+          {error}
+        </span>
+      )}
     </label>
   );
 }
