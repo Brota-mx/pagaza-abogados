@@ -12,13 +12,18 @@ import type { Sector, SectionIntro } from "./types";
  */
 export const sectoresIntro: SectionIntro = {
   eyebrow: { es: "Experiencias e industrias", en: "Experience & industries" },
+  /**
+   * El encabezado ya no puede prometer cifras: el cliente retiró el 98% y el $55M de esta sección
+   * y del Hero ("las cifras no nos encantan", nota del 27-jul-2026). La prueba pasa a ser el caso,
+   * no el número.
+   */
   titulo: {
-    es: "Resultados medibles en doce industrias.",
-    en: "Measurable results across twelve industries.",
+    es: "Experiencia probada en doce industrias.",
+    en: "Proven experience across twelve industries.",
   },
   intro: {
-    es: "La credibilidad se demuestra con cifras. Una selección de resultados reales, por sector.",
-    en: "Credibility is proven with figures. A selection of real results, by sector.",
+    es: "La experiencia se demuestra con casos. Una selección de asuntos reales, por sector.",
+    en: "Experience is proven with cases. A selection of real matters, by sector.",
   },
 };
 
@@ -128,20 +133,14 @@ export const sectores: Sector[] = [
     id: "textil",
     numero: "04",
     nombre: { es: "Textil", en: "Textile" },
-    destacado: true,
+    // Llevaba `destacado` + la cifra "98% de reducción sobre una contingencia de $25M MXN".
+    // Retiradas por indicación del cliente (nota del 27-jul-2026): "Quitar el 98% y el 55M".
     resumen: {
       es: "Planeación fiscal para escenarios de contracción de mercado y defensa aduanera de alta especialidad.",
       en: "Tax planning for contracting-market scenarios and high-specialization customs defense.",
     },
     casos: [
       {
-        cifra: {
-          valor: "98%",
-          etiqueta: {
-            es: "de reducción sobre una contingencia fiscal estimada en $25M MXN",
-            en: "reduction on a tax contingency estimated at $25M MXN",
-          },
-        },
         descripcion: {
           es: "Representación de un grupo comercializador de marcas internacionales: la autoridad aduanera pretendía incrementar la base gravable de importación sumando regalías pagadas a residentes en el extranjero.",
           en: "Representation of a group distributing international brands: customs authorities sought to raise the import tax base by adding royalties paid to foreign residents.",
@@ -162,20 +161,14 @@ export const sectores: Sector[] = [
       es: "Retail y Comercio",
       en: "Retail & Wholesale",
     },
-    destacado: true,
+    // Llevaba `destacado` + la cifra "$55M de beneficio fiscal directo — grupo papelero".
+    // Retiradas por indicación del cliente (nota del 27-jul-2026): "Quitar el 98% y el 55M".
     resumen: {
       es: "Corrección fiscal voluntaria, reestructuras contables de alta dirección y protección de activos familiares.",
       en: "Voluntary tax correction, executive-level accounting restructurings, and protection of family assets.",
     },
     casos: [
       {
-        cifra: {
-          valor: "$55M",
-          etiqueta: {
-            es: "de beneficio fiscal directo para un grupo papelero",
-            en: "in direct tax benefit for a paper-industry group",
-          },
-        },
         descripcion: {
           es: "Reestructuración de fondo y reclasificación técnica de operaciones que devolvió viabilidad financiera a la operación en un ciclo crítico de alta demanda.",
           en: "A structural restructuring and technical reclassification of operations that restored financial viability during a critical high-demand cycle.",
@@ -215,9 +208,10 @@ export const sectores: Sector[] = [
   {
     id: "peps",
     numero: "07",
+    // Sin siglas: el cliente pidió el nombre desarrollado (nota del 27-jul-2026), "no PEPs".
     nombre: {
-      es: "Defensa de PEPs",
-      en: "PEP Defense",
+      es: "Defensa de personas políticamente expuestas",
+      en: "Defense of politically exposed persons",
     },
     resumen: {
       es: "Defensa de alto nivel para personas con cargos públicos o relevancia política frente a investigaciones del poder público.",
@@ -287,36 +281,10 @@ export const sectores: Sector[] = [
       },
     ],
   },
-  {
-    id: "social",
-    numero: "10",
-    nombre: {
-      es: "Dimensión Social",
-      en: "Social Impact",
-    },
-    resumen: {
-      es: "Práctica pro-bono de alto impacto para proteger los derechos fundamentales frente a los abusos del Estado.",
-      en: "High-impact pro-bono practice to protect fundamental rights against abuses by the State.",
-    },
-    casos: [
-      {
-        descripcion: {
-          es: "Restitución de pensiones y servicios médicos suspendidos ilegalmente por el IMSS o el ISSSTE, con pago retroactivo de prestaciones.",
-          en: "Restoration of pensions and medical services unlawfully suspended by the IMSS or ISSSTE, with retroactive payment of benefits.",
-        },
-      },
-      {
-        descripcion: {
-          es: "Indemnizaciones por responsabilidad patrimonial del Estado y defensa de comerciantes ante clausuras arbitrarias y el aseguramiento ilegal de mercancías.",
-          en: "Compensation for State financial liability and defense of merchants against arbitrary closures and the unlawful seizure of goods.",
-        },
-      },
-    ],
-  },
   // Los dos siguientes los agregó el cliente en la nota del 19-jul-2026 ("Agregar:").
   {
     id: "energetico",
-    numero: "11",
+    numero: "10",
     nombre: { es: "Energético", en: "Energy" },
     resumen: {
       es: "Controversias tributarias de proyectos de infraestructura y análisis de incentivos fiscales aplicables a inversiones estratégicas.",
@@ -339,7 +307,7 @@ export const sectores: Sector[] = [
   },
   {
     id: "financiero",
-    numero: "12",
+    numero: "11",
     nombre: { es: "Servicios Financieros", en: "Financial Services" },
     resumen: {
       es: "Representación de instituciones financieras y grupos empresariales en controversias tributarias y administrativas de alta complejidad.",
@@ -356,6 +324,37 @@ export const sectores: Sector[] = [
         descripcion: {
           es: "Defensa en procedimientos sancionadores, actos de supervisión y medios de defensa frente a autoridades regulatorias y fiscales.",
           en: "Defense in sanctioning proceedings, supervisory actions, and appeals before regulatory and tax authorities.",
+        },
+      },
+    ],
+  },
+  /**
+   * Va al final por indicación expresa del cliente (nota del 27-jul-2026): "Dimensión social que
+   * sea la última". Antes era la 10, entre Farmacéutico y Energético. Es la única entrada pro-bono
+   * y la única que no aparece como opción en el formulario de contacto.
+   */
+  {
+    id: "social",
+    numero: "12",
+    nombre: {
+      es: "Dimensión Social",
+      en: "Social Impact",
+    },
+    resumen: {
+      es: "Práctica pro-bono de alto impacto para proteger los derechos fundamentales frente a los abusos del Estado.",
+      en: "High-impact pro-bono practice to protect fundamental rights against abuses by the State.",
+    },
+    casos: [
+      {
+        descripcion: {
+          es: "Restitución de pensiones y servicios médicos suspendidos ilegalmente por el IMSS o el ISSSTE, con pago retroactivo de prestaciones.",
+          en: "Restoration of pensions and medical services unlawfully suspended by the IMSS or ISSSTE, with retroactive payment of benefits.",
+        },
+      },
+      {
+        descripcion: {
+          es: "Indemnizaciones por responsabilidad patrimonial del Estado y defensa de comerciantes ante clausuras arbitrarias y el aseguramiento ilegal de mercancías.",
+          en: "Compensation for State financial liability and defense of merchants against arbitrary closures and the unlawful seizure of goods.",
         },
       },
     ],

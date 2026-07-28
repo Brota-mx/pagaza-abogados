@@ -14,9 +14,15 @@ export const servicios: ServiciosContent = {
     en: "Prevent, manage, resolve.",
   },
   parrafos: [
+    /**
+     * El cliente subrayó "empresas, empresarios y personas" y anotó "Solo ayudamos a prevenir,…"
+     * (nota del 27-jul-2026): fuera la enumeración de destinatarios, la frase arranca directo en
+     * el verbo. Ojo: esto retira el único punto del sitio donde se decía explícitamente que
+     * también atienden a personas físicas.
+     */
     {
-      es: "Ayudamos a empresas, empresarios y personas a prevenir, gestionar y resolver controversias tributarias y administrativas de alta complejidad.",
-      en: "We help companies, business owners, and individuals prevent, manage, and resolve highly complex tax and administrative disputes.",
+      es: "Ayudamos a prevenir, gestionar y resolver controversias tributarias y administrativas de alta complejidad.",
+      en: "We help prevent, manage, and resolve highly complex tax and administrative disputes.",
     },
     /**
      * PARAFRASEADO. El original eran 52 palabras en una sola frase, con tres subordinadas

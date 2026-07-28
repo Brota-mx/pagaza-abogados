@@ -15,8 +15,8 @@ export const metodologia: MetodologiaContent = {
     en: "Three disciplines converging in every case.",
   },
   intro: {
-    es: "Ningún asunto se aborda de forma aislada. Cada defensa integra de manera sinérgica el análisis, la estrategia y el control de la prueba para blindar el resultado.",
-    en: "No matter is handled in isolation. Each defense synergistically integrates analysis, strategy, and control of the evidence to safeguard the outcome.",
+    es: "Ningún asunto se aborda de forma aislada. Cada defensa integra de manera sinérgica el análisis, la estrategia y el litigio para blindar el resultado.",
+    en: "No matter is handled in isolation. Each defense synergistically integrates analysis, strategy, and litigation to safeguard the outcome.",
   },
   disciplinas: [
     {
@@ -41,15 +41,21 @@ export const metodologia: MetodologiaContent = {
         en: "Framing of robust grounds for challenge and the procedural route — technical negotiation or litigation — with the highest probability of success.",
       },
     },
+    /**
+     * Era "Gestión documental". El cliente pidió el cambio (nota del 27-jul-2026): "03 litigio
+     * estratégico en lugar de gestión documental". La disciplina que se va era la única que
+     * hablaba del control de la prueba, así que ese trabajo se conserva dentro de la descripción
+     * nueva en vez de perderse; la `intro` de la sección se ajustó en el mismo sentido.
+     */
     {
       numero: "03",
       titulo: {
-        es: "Gestión documental",
-        en: "Documentary management",
+        es: "Litigio estratégico",
+        en: "Strategic litigation",
       },
       descripcion: {
-        es: "Control estricto y ordenación de la prueba para blindar el juicio: cada afirmación jurídica queda respaldada por su soporte documental.",
-        en: "Strict control and organization of the evidence to fortify the case: every legal assertion is backed by its documentary support.",
+        es: "Cuando la negociación se agota, sostenemos la defensa en recursos, juicio contencioso y amparo, con la prueba ordenada desde el primer día para blindar el resultado.",
+        en: "When negotiation is exhausted, we sustain the defense through administrative appeals, contentious proceedings, and amparo, with the evidence organized from day one to fortify the outcome.",
       },
     },
   ],

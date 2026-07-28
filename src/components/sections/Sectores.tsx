@@ -5,7 +5,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SectoresAccordion, type ResolvedSector } from "./SectoresAccordion";
 
 /**
- * Sectores — el núcleo de credibilidad: 10 industrias con casos y cifras. El contenido se resuelve
+ * Sectores — el núcleo de credibilidad: 12 industrias con casos reales. El contenido se resuelve
  * al `locale` en el SERVER (bundle cliente en un solo idioma, per BUILD-NOTES) y se pasa al
  * acordeón interactivo (client). Sección clara (surface) para leer bien el dossier de casos.
  */
