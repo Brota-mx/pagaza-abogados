@@ -49,9 +49,21 @@ export async function Contacto({ locale }: { locale: Locale }) {
                 >
                   {siteInfo.email}
                 </a>
-                <p className="text-muted max-w-xs pt-2 text-sm leading-relaxed">
-                  {siteInfo.direccion[locale]}
-                </p>
+                {siteInfo.oficinas.map((o) => (
+                  <p
+                    key={o.ciudad.es}
+                    className="text-muted max-w-xs pt-2 text-sm leading-relaxed"
+                  >
+                    {/* La etiqueta de ciudad sólo aporta con dos o más sedes; con una sola sería
+                        ruido sobre una dirección que ya dice "CDMX". */}
+                    {siteInfo.oficinas.length > 1 ? (
+                      <span className="text-ink block font-medium">
+                        {o.ciudad[locale]}
+                      </span>
+                    ) : null}
+                    {o.direccion[locale]}
+                  </p>
+                ))}
               </address>
             </div>
           </div>

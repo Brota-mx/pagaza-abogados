@@ -128,6 +128,12 @@ export interface DocumentoLegal {
   secciones: SeccionLegal[];
 }
 
+/** Una sede del despacho. `ciudad` sólo se pinta cuando hay más de una. */
+export interface Oficina {
+  ciudad: LocalizedText;
+  direccion: LocalizedText;
+}
+
 /** Datos globales del sitio / contacto. */
 export interface SiteInfo {
   slogan: LocalizedText;
@@ -135,7 +141,13 @@ export interface SiteInfo {
   nombre: string;
   telefono: string;
   email: string;
-  direccion: LocalizedText;
+  /**
+   * Sedes, en orden de aparición. Era una `direccion` única hasta que el cliente pidió sumar
+   * Ciudad Juárez (nota del 27-jul-2026). Footer y Contacto recorren la lista y muestran la
+   * etiqueta de ciudad sólo a partir de la segunda entrada, así que agregar una sede es añadir
+   * un objeto aquí y nada más.
+   */
+  oficinas: Oficina[];
   /**
    * Link WhatsApp normalizado (p.ej. "https://wa.me/525578918865"). Opcional: el número de
    * atención está en formato fijo local, por lo que aún NO se confirma que sea WhatsApp (M9).

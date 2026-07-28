@@ -72,9 +72,20 @@ export async function Footer({ locale }: { locale: Locale }) {
           >
             {siteInfo.email}
           </a>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/60">
-            {siteInfo.direccion[locale]}
-          </p>
+          {siteInfo.oficinas.map((o) => (
+            <p
+              key={o.ciudad.es}
+              className="mt-3 max-w-xs text-sm leading-relaxed text-white/60"
+            >
+              {/* Ver Contacto.tsx: la ciudad se etiqueta sólo a partir de la segunda sede. */}
+              {siteInfo.oficinas.length > 1 ? (
+                <span className="block font-medium text-white/80">
+                  {o.ciudad[locale]}
+                </span>
+              ) : null}
+              {o.direccion[locale]}
+            </p>
+          ))}
         </address>
       </Container>
 
