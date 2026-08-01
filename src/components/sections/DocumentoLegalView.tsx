@@ -59,6 +59,14 @@ export function DocumentoLegalView({
                   ))}
                 </ul>
               )}
+              {seccion.cierre?.map((parrafo, j) => (
+                <p
+                  key={j}
+                  className="prose-justificado text-muted mt-4 leading-relaxed"
+                >
+                  {t(parrafo, locale)}
+                </p>
+              ))}
             </section>
           ))}
         </div>

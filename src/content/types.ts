@@ -123,6 +123,8 @@ export interface SeccionLegal {
   titulo: LocalizedText;
   parrafos: LocalizedText[];
   lista?: LocalizedText[];
+  /** Párrafo(s) que cierran la sección después de la lista, si la hay. */
+  cierre?: LocalizedText[];
 }
 
 /** Documento legal bilingüe (aviso de privacidad, aviso legal). */

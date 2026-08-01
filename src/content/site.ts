@@ -18,19 +18,9 @@ export const siteInfo: SiteInfo = {
   telefono: "(55) 78-91-88-65",
   email: "a@pagaza.mx",
   /**
-   * ⚠️ FALTA LA SEDE DE CIUDAD JUÁREZ. El cliente la pidió en su nota del 27-jul-2026 ("Agregar
-   * domicilio de ciudad Juárez que ya habíamos compartido previamente"), pero el domicilio no
-   * está en ningún material que nos haya llegado: ni en los dos DOCX de comentarios, ni en el
-   * brochure PDF, ni en `docs/`. Hay que pedírselo.
-   *
-   * Cuando llegue, esto es todo lo que hay que hacer — Footer y Contacto ya recorren la lista y
-   * encienden solos las etiquetas de ciudad al detectar la segunda sede:
-   *
-   *   { ciudad: { es: "Ciudad Juárez", en: "Ciudad Juárez" }, direccion: { es: "…", en: "…" } }
-   *
-   * Ojo: el domicilio de CDMX también aparece literal en el aviso de privacidad
-   * (`content/legal.ts`, como domicilio del responsable). Ése es el domicilio fiscal y NO se
-   * duplica por sede; no tocarlo al agregar Juárez.
+   * El domicilio de CDMX también aparece literal en el aviso de privacidad (`content/legal.ts`,
+   * como domicilio del responsable). Ése es el domicilio fiscal y NO se duplica por sede; no
+   * tocarlo al agregar sedes nuevas.
    */
   oficinas: [
     {
@@ -38,6 +28,13 @@ export const siteInfo: SiteInfo = {
       direccion: {
         es: "Prado Sur 525, Lomas de Chapultepec, Miguel Hidalgo, 11000, CDMX",
         en: "Prado Sur 525, Lomas de Chapultepec, Miguel Hidalgo, 11000, Mexico City",
+      },
+    },
+    {
+      ciudad: { es: "Ciudad Juárez", en: "Ciudad Juárez" },
+      direccion: {
+        es: "Punto Alpha Torre de Negocios, Campos Elíseos 1961 – 8C, Ciudad Juárez, Chihuahua 32472",
+        en: "Punto Alpha Torre de Negocios, Campos Elíseos 1961 – 8C, Ciudad Juárez, Chihuahua 32472",
       },
     },
   ],
