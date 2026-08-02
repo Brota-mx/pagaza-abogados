@@ -32,12 +32,9 @@ export function Capacidades({ locale }: { locale: Locale }) {
               <Reveal delay={Math.min(i, 5) * 60}>
                 <details className="group border-line border-t py-4">
                   <summary className="focus-visible:ring-brand flex cursor-pointer list-none items-start gap-4 rounded-[2px] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none [&::-webkit-details-marker]:hidden">
-                    <span
-                      aria-hidden
-                      className="text-brand mt-1 shrink-0 font-serif text-sm tabular-nums"
-                    >
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
+                    {/* Hairline en vez de número: las 11 áreas no tienen un orden jerárquico real
+                        (a diferencia de Pilares), así que no se marcan como si lo tuvieran. */}
+                    <span aria-hidden className="bg-brand mt-3 h-px w-4 shrink-0" />
                     <h3 className="text-navy flex-1 font-serif text-lg md:text-xl">
                       {t(area.titulo, locale)}
                     </h3>

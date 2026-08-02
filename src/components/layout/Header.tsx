@@ -163,7 +163,7 @@ export function Header() {
                 key={s.id}
                 href={ancla(s.id)}
                 onClick={() => setOpen(false)}
-                className="hover:text-brand rounded-[2px] py-2.5 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+                className="hover:text-brand flex items-center rounded-[2px] py-3 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
               >
                 {t(s.key)}
               </a>
@@ -173,7 +173,7 @@ export function Header() {
               <a
                 href={ancla("contacto")}
                 onClick={() => setOpen(false)}
-                className="bg-navy hover:bg-navy-2 cursor-pointer rounded-[2px] px-5 py-2.5 text-xs font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:outline-none"
+                className="bg-navy hover:bg-navy-2 flex cursor-pointer items-center justify-center rounded-[2px] px-5 py-3.5 text-xs font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:outline-none"
               >
                 {tCta("consulta")}
               </a>

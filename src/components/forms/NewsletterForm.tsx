@@ -102,6 +102,8 @@ export function NewsletterForm() {
             {...register("email")}
             type="email"
             autoComplete="email"
+            required
+            aria-required="true"
             placeholder={t("emailPlaceholder")}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? emailErrorId : undefined}
@@ -130,6 +132,8 @@ export function NewsletterForm() {
         <input
           {...register("consentimiento")}
           type="checkbox"
+          required
+          aria-required="true"
           aria-invalid={Boolean(errors.consentimiento)}
           aria-describedby={errors.consentimiento ? consentErrorId : undefined}
           className="focus-visible:ring-offset-navy accent-steel mt-0.5 h-4 w-4 shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"

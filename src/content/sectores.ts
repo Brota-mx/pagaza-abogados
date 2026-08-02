@@ -30,7 +30,6 @@ export const sectoresIntro: SectionIntro = {
 export const sectores: Sector[] = [
   {
     id: "automotriz",
-    numero: "01",
     nombre: { es: "Automotriz", en: "Automotive" },
     resumen: {
       es: "Asesoría a empresas tractoras y a la cadena de suministro en auditorías fiscales y de seguridad social, litigio local y operaciones internacionales bajo el T-MEC.",
@@ -59,7 +58,6 @@ export const sectores: Sector[] = [
   },
   {
     id: "manufactura",
-    numero: "02",
     nombre: {
       es: "Manufactura y Transformación",
       en: "Manufacturing",
@@ -85,7 +83,6 @@ export const sectores: Sector[] = [
   },
   {
     id: "inmobiliario",
-    numero: "03",
     nombre: {
       es: "Inmobiliario y Construcción",
       en: "Real Estate & Construction",
@@ -131,7 +128,6 @@ export const sectores: Sector[] = [
   },
   {
     id: "textil",
-    numero: "04",
     nombre: { es: "Textil", en: "Textile" },
     // Llevaba `destacado` + la cifra "98% de reducción sobre una contingencia de $25M MXN".
     // Retiradas por indicación del cliente (nota del 27-jul-2026): "Quitar el 98% y el 55M".
@@ -156,7 +152,6 @@ export const sectores: Sector[] = [
   },
   {
     id: "retail",
-    numero: "05",
     nombre: {
       es: "Retail y Comercio",
       en: "Retail & Wholesale",
@@ -184,7 +179,6 @@ export const sectores: Sector[] = [
   },
   {
     id: "educativo",
-    numero: "06",
     nombre: { es: "Educativo", en: "Education" },
     resumen: {
       es: "Reestructuras patrimoniales para aislar la infraestructura escolar de los riesgos operativos, y regularización fiscal en materia de IVA.",
@@ -207,7 +201,6 @@ export const sectores: Sector[] = [
   },
   {
     id: "peps",
-    numero: "07",
     // Sin siglas: el cliente pidió el nombre desarrollado (nota del 27-jul-2026), "no PEPs".
     nombre: {
       es: "Defensa de personas políticamente expuestas",
@@ -234,7 +227,6 @@ export const sectores: Sector[] = [
   },
   {
     id: "consumo",
-    numero: "08",
     nombre: {
       es: "Suplementos y Consumo",
       en: "Supplements & Consumer Goods",
@@ -260,7 +252,6 @@ export const sectores: Sector[] = [
   },
   {
     id: "farmaceutico",
-    numero: "09",
     nombre: { es: "Farmacéutico", en: "Pharmaceutical" },
     resumen: {
       es: "Representación frente a regulaciones sanitarias complejas y auditorías del SAT.",
@@ -284,7 +275,6 @@ export const sectores: Sector[] = [
   // Los dos siguientes los agregó el cliente en la nota del 19-jul-2026 ("Agregar:").
   {
     id: "energetico",
-    numero: "10",
     nombre: { es: "Energético", en: "Energy" },
     resumen: {
       es: "Controversias tributarias de proyectos de infraestructura y análisis de incentivos fiscales aplicables a inversiones estratégicas.",
@@ -307,7 +297,6 @@ export const sectores: Sector[] = [
   },
   {
     id: "financiero",
-    numero: "11",
     nombre: { es: "Servicios Financieros", en: "Financial Services" },
     resumen: {
       es: "Representación de instituciones financieras y grupos empresariales en controversias tributarias y administrativas de alta complejidad.",
@@ -335,7 +324,6 @@ export const sectores: Sector[] = [
    */
   {
     id: "social",
-    numero: "12",
     nombre: {
       es: "Dimensión Social",
       en: "Social Impact",

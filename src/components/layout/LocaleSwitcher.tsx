@@ -9,9 +9,11 @@ import { cn } from "@/lib/utils";
  * Selector ES/EN. Crawlable y sin JS de navegación: cada idioma es un <Link> localizado que
  * conserva la ruta actual (usePathname devuelve el path SIN prefijo de locale).
  *
- * A2 + Regla #5: el idioma activo NO se distingue solo por color (el bronce sobre blanco reprueba
- * AA). Se marca con subrayado bronce + aria-current + texto a contraste pleno (color heredado del
- * header); el inactivo se atenúa por opacidad.
+ * A2 + Regla #5: el idioma activo NO se distingue solo por color. Se marca con subrayado acero +
+ * aria-current + texto a contraste pleno (color heredado del header); el inactivo se atenúa por
+ * opacidad — pero solo hasta donde AA lo permite: al 60% sobre el header sólido (navy sobre
+ * blanco) el texto caía a 4.24:1, por debajo del 4.5:1 mínimo (auditoría de diseño, 1-ago-2026).
+ * 70% da 5.83:1 en ese estado y de paso mejora el 6.46:1 que ya tenía sobre el hero transparente.
  */
 export function LocaleSwitcher() {
   const active = useLocale();
@@ -41,7 +43,7 @@ export function LocaleSwitcher() {
                 "rounded-[2px] underline-offset-4 transition-opacity focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none",
                 isActive
                   ? "decoration-steel underline decoration-2"
-                  : "no-underline opacity-60 hover:opacity-100",
+                  : "no-underline opacity-70 hover:opacity-100",
               )}
             >
               {loc}
