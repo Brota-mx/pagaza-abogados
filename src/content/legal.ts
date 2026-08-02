@@ -62,8 +62,11 @@ export const avisoPrivacidad: DocumentoLegal = {
           en: "Newsletter subscription: email address and a record of your consent.",
         },
         {
-          es: "Datos técnicos de seguridad: dirección IP y datos del navegador, tratados de forma automática y transitoria para limitar el número de envíos y verificar que no se trata de un envío automatizado.",
-          en: "Technical security data: IP address and browser information, processed automatically and transiently to rate-limit submissions and verify that they are not automated.",
+          // Se retiró "y verificar que no se trata de un envío automatizado": describía la
+          // verificación de Turnstile, que salió del sitio el 1-ago-2026. Lo que queda tratando la
+          // IP es el rate-limit. PENDIENTE DE VALIDACIÓN DE ALFONSO.
+          es: "Datos técnicos de seguridad: dirección IP y datos del navegador, tratados de forma automática y transitoria para limitar el número de envíos.",
+          en: "Technical security data: IP address and browser information, processed automatically and transiently to rate-limit submissions.",
         },
       ],
     },
@@ -182,8 +185,12 @@ export const avisoPrivacidad: DocumentoLegal = {
       },
       parrafos: [
         {
-          es: "Este sitio no utiliza cookies publicitarias ni de seguimiento entre sitios, ni construye perfiles de sus visitantes. La verificación anti-automatización del formulario y las métricas agregadas de uso pueden emplear identificadores técnicos temporales, necesarios para que esas funciones operen. Puedes configurar tu navegador para bloquear o eliminar estos identificadores técnicos; sin embargo, hacerlo puede afectar el funcionamiento de determinadas funcionalidades del sitio, incluido el formulario de contacto.",
-          en: "This site does not use advertising or cross-site tracking cookies, and does not build profiles of its visitors. The form's anti-automation check and the aggregate usage metrics may use temporary technical identifiers necessary for those functions to work. You can configure your browser to block or delete these technical identifiers; however, doing so may affect certain functionality on the site, including the contact form.",
+          // Se retiraron dos fragmentos que describían Turnstile: "La verificación
+          // anti-automatización del formulario y" e "incluido el formulario de contacto" (el
+          // formulario ya no depende de identificadores técnicos, es un POST sin cookies).
+          // PENDIENTE DE VALIDACIÓN DE ALFONSO.
+          es: "Este sitio no utiliza cookies publicitarias ni de seguimiento entre sitios, ni construye perfiles de sus visitantes. Las métricas agregadas de uso pueden emplear identificadores técnicos temporales, necesarios para que esa función opere. Puedes configurar tu navegador para bloquear o eliminar estos identificadores técnicos; sin embargo, hacerlo puede afectar el funcionamiento de determinadas funcionalidades del sitio.",
+          en: "This site does not use advertising or cross-site tracking cookies, and does not build profiles of its visitors. The aggregate usage metrics may use temporary technical identifiers necessary for that function to work. You can configure your browser to block or delete these technical identifiers; however, doing so may affect certain functionality on the site.",
         },
       ],
     },
