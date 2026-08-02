@@ -1,20 +1,18 @@
 "use client";
 
-import { cloneElement, isValidElement, useId, useRef, useState } from "react";
+import { cloneElement, isValidElement, useId } from "react";
 import type { ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { CheckCircle2 } from "lucide-react";
 import { contactFormSchema, type ContactFormValues } from "@/lib/validation";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { TurnstileWidget } from "./TurnstileWidget";
+import { useEnvio } from "./useEnvio";
 
-type Status = "idle" | "submitting" | "success" | "error";
 type SectorOption = { value: string; label: string };
-
-const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const fieldBase =
   "w-full rounded-[2px] border bg-surface px-4 py-3 text-ink transition-colors placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1 focus:ring-offset-bg";
@@ -25,13 +23,21 @@ export function ContactForm({
   sectorOptions: SectorOption[];
 }) {
   const t = useTranslations("form");
-  const locale = useLocale();
-  const [status, setStatus] = useState<Status>("idle");
-  const [errorCode, setErrorCode] = useState<string>("INTERNAL_ERROR");
-  const [token, setToken] = useState<string>("");
-  const [resetSignal, setResetSignal] = useState(0);
-  const hpRef = useRef<HTMLInputElement>(null);
   const consentErrorId = useId();
+  const {
+    estado,
+    setEstado,
+    errorCode,
+    enviar,
+    hpRef,
+    siteKey,
+    captchaOn,
+    captchaReady,
+    setToken,
+    resetSignal,
+    captchaMontado,
+    formRef,
+  } = useEnvio<ContactFormValues>("/api/contact");
 
   const {
     register,
@@ -43,45 +49,9 @@ export function ContactForm({
     mode: "onBlur",
   });
 
-  const captchaOn = SITE_KEY.length > 0;
-  const captchaReady = !captchaOn || token.length > 0;
+  const onSubmit = (values: ContactFormValues) => enviar(values, reset);
 
-  const onSubmit = async (values: ContactFormValues) => {
-    setStatus("submitting");
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...values,
-          _hp: hpRef.current?.value ?? "",
-          turnstileToken: captchaOn ? token : "dev-bypass",
-          locale,
-        }),
-      });
-      const json = (await res.json().catch(() => null)) as {
-        success?: boolean;
-        error?: { code?: string };
-      } | null;
-
-      if (res.ok && json?.success) {
-        setStatus("success");
-        reset();
-      } else {
-        setErrorCode(json?.error?.code ?? "INTERNAL_ERROR");
-        setStatus("error");
-      }
-    } catch {
-      setErrorCode("NETWORK");
-      setStatus("error");
-    } finally {
-      // Token de un solo uso: resetear el widget y limpiar el token tras cada intento.
-      setToken("");
-      setResetSignal((s) => s + 1);
-    }
-  };
-
-  if (status === "success") {
+  if (estado === "success") {
     return (
       <div
         role="status"
@@ -96,7 +66,7 @@ export function ContactForm({
         <p className="text-muted mt-2 leading-relaxed">{t("successMessage")}</p>
         <button
           type="button"
-          onClick={() => setStatus("idle")}
+          onClick={() => setEstado("idle")}
           className="text-brand focus-visible:ring-brand mt-6 cursor-pointer text-sm font-medium tracking-[0.1em] uppercase underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:outline-none"
         >
           {t("sendAnother")}
@@ -106,7 +76,12 @@ export function ContactForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="space-y-5"
+    >
       {/* Honeypot: oculto para humanos, visible para bots. */}
       <div
         aria-hidden
@@ -246,15 +221,15 @@ export function ContactForm({
         </p>
       )}
 
-      {captchaOn && (
+      {captchaOn && captchaMontado && (
         <TurnstileWidget
-          siteKey={SITE_KEY}
+          siteKey={siteKey}
           onToken={setToken}
           resetSignal={resetSignal}
         />
       )}
 
-      {status === "error" && (
+      {estado === "error" && (
         <p
           role="alert"
           className="border-error/30 bg-error/5 text-error rounded-[2px] border px-4 py-3 text-sm"
@@ -265,12 +240,12 @@ export function ContactForm({
 
       <button
         type="submit"
-        disabled={status === "submitting" || !captchaReady}
+        disabled={estado === "submitting" || !captchaReady}
         className="bg-navy hover:bg-navy-2 focus-visible:ring-brand focus-visible:ring-offset-bg inline-flex cursor-pointer items-center justify-center rounded-[2px] px-8 py-3.5 text-sm font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {status === "submitting" ? t("submitting") : t("submit")}
+        {estado === "submitting" ? t("submitting") : t("submit")}
       </button>
-      {captchaOn && !captchaReady && status !== "submitting" && (
+      {captchaOn && captchaMontado && !captchaReady && estado !== "submitting" && (
         <p className="text-muted text-xs">{t("turnstilePending")}</p>
       )}
     </form>

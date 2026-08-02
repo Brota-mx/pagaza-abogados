@@ -77,18 +77,21 @@ export function Alianzas({ locale }: { locale: Locale }) {
           {alianzas.map((alianza, i) => {
             const Icon = ICONS[alianza.id] ?? Scale;
             return (
-              <Reveal key={alianza.id} delay={(i % 3) * 60}>
-                <li className="flex items-center gap-3 border-b border-white/10 py-3">
-                  <Icon
-                    aria-hidden
-                    size={18}
-                    strokeWidth={1.5}
-                    className="text-steel-soft shrink-0"
-                  />
-                  <span className="font-serif text-base text-white/90">
-                    {t(alianza.nombre, locale)}
-                  </span>
-                </li>
+              <Reveal
+                key={alianza.id}
+                as="li"
+                delay={(i % 3) * 60}
+                className="flex items-center gap-3 border-b border-white/10 py-3"
+              >
+                <Icon
+                  aria-hidden
+                  size={18}
+                  strokeWidth={1.5}
+                  className="text-steel-soft shrink-0"
+                />
+                <span className="font-serif text-base text-white/90">
+                  {t(alianza.nombre, locale)}
+                </span>
               </Reveal>
             );
           })}

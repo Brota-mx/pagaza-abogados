@@ -63,18 +63,21 @@ export function Pilares({ locale }: { locale: Locale }) {
 
           <ol className="mt-8 flex flex-col gap-x-12 gap-y-4 md:flex-row md:items-center">
             {metodologia.disciplinas.map((d, i) => (
-              <Reveal key={d.numero} delay={i * 80}>
-                <li className="flex items-baseline gap-3">
-                  <span
-                    aria-hidden
-                    className="text-steel-soft font-serif text-sm"
-                  >
-                    {d.numero}
-                  </span>
-                  <span className="font-serif text-lg text-white">
-                    {t(d.titulo, locale)}
-                  </span>
-                </li>
+              <Reveal
+                key={d.numero}
+                as="li"
+                delay={i * 80}
+                className="flex items-baseline gap-3"
+              >
+                <span
+                  aria-hidden
+                  className="text-steel-soft font-serif text-sm"
+                >
+                  {d.numero}
+                </span>
+                <span className="font-serif text-lg text-white">
+                  {t(d.titulo, locale)}
+                </span>
               </Reveal>
             ))}
           </ol>

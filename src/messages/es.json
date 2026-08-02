@@ -1,8 +1,7 @@
 {
   "home": {
     "eyebrow": "Derecho Fiscal · Administrativo · Constitucional",
-    "cta": "Agendar una consulta",
-    "scaffoldNote": "Scaffold inicial listo. La construcción sigue el orden numerado de BLUEPRINT.md."
+    "cta": "Agendar una consulta"
   },
   "metadata": {
     "brand": "Pagaza Abogados Tributarios",
@@ -37,7 +36,6 @@
     "contact": "Contacto",
     "rights": "Todos los derechos reservados.",
     "brotaBy": "Sitio por Brota Mx",
-    "legal": "Legal",
     "avisoPrivacidad": "Aviso de Privacidad",
     "avisoLegal": "Aviso Legal"
   },

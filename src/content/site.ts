@@ -2,7 +2,6 @@ import type { SiteInfo } from "./types";
 
 /**
  * Datos globales del sitio / contacto. Fuente: docs/contenido-fuente.md §5.
- * `whatsapp` queda sin poblar hasta confirmar que el tel es un canal de WhatsApp (M9).
  *
  * ⚠️ Ya no existe `socio`. El cliente pidió expresamente que su nombre no aparezca en el sitio
  * ("contacto → no pongan mi nombre solo el despacho", nota del 19-jul-2026): el contacto es
@@ -29,12 +28,24 @@ export const siteInfo: SiteInfo = {
         es: "Prado Sur 525, Lomas de Chapultepec, Miguel Hidalgo, 11000, CDMX",
         en: "Prado Sur 525, Lomas de Chapultepec, Miguel Hidalgo, 11000, Mexico City",
       },
+      postal: {
+        calle: "Prado Sur 525, Lomas de Chapultepec",
+        localidad: "Miguel Hidalgo",
+        region: "Ciudad de México",
+        cp: "11000",
+      },
     },
     {
       ciudad: { es: "Ciudad Juárez", en: "Ciudad Juárez" },
       direccion: {
         es: "Punto Alpha Torre de Negocios, Campos Elíseos 1961 – 8C, Ciudad Juárez, Chihuahua 32472",
         en: "Punto Alpha Torre de Negocios, Campos Elíseos 1961 – 8C, Ciudad Juárez, Chihuahua 32472",
+      },
+      postal: {
+        calle: "Punto Alpha Torre de Negocios, Campos Elíseos 1961 – 8C",
+        localidad: "Ciudad Juárez",
+        region: "Chihuahua",
+        cp: "32472",
       },
     },
   ],

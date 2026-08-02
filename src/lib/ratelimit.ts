@@ -12,11 +12,14 @@ const hasUpstash =
   !!process.env.UPSTASH_REDIS_REST_URL &&
   !!process.env.UPSTASH_REDIS_REST_TOKEN;
 
+const isProd = process.env.NODE_ENV === "production";
+
+const VENTANA_MS = 600_000; // 10 min, la ventana de las dos cuotas
+
 /**
- * Instanciación perezosa: solo se crea el limitador real si ambas envs existen (trap 6.2). En dev
- * sin credenciales devolvemos un limitador no-op que PERMITE (fail-open por config ausente). Nunca
- * fail-closed por falta de credenciales locales. `analytics: false` evita la promesa `pending` que
- * se pierde en serverless (trap 6.4).
+ * Instanciación perezosa: solo se crea el limitador compartido si ambas envs existen (trap 6.2).
+ * Sin ellas se usa el de memoria (ver `aplicar`). `analytics: false` evita la promesa `pending`
+ * que se pierde en serverless (trap 6.4).
  */
 const limiter = hasUpstash
   ? new Ratelimit({
@@ -41,42 +44,102 @@ const limiterNewsletter = hasUpstash
     })
   : null;
 
-/** ¿Está configurado el rate-limit real? Si no, el route sabe que un fallo NO debe ser 503. */
-export const rateLimitConfigured = hasUpstash;
+/**
+ * Ventana deslizante en la memoria del proceso: el respaldo cuando no hay Upstash.
+ *
+ * ponytail: el límite es POR INSTANCIA y se pierde en cada arranque en frío. Con varias instancias
+ * calientes, un atacante consigue la cuota multiplicada por el número de instancias; en un sitio
+ * de este tráfico eso normalmente es una sola. Frena el abuso automatizado ordinario, no a alguien
+ * decidido. Upgrade: poblar UPSTASH_REDIS_REST_URL y UPSTASH_REDIS_REST_TOKEN y este respaldo deja
+ * de usarse solo, sin tocar código.
+ */
+const memoria = new Map<string, number[]>();
+
+function limitarEnMemoria(ip: string, cuota: number): LimitResult {
+  const ahora = Date.now();
+  // Cota del Map: una instancia longeva acumularía una entrada por IP vista. 5.000 sobra para este
+  // sitio, y vaciarlo de golpe es aceptable —lo peor que pasa es regalar una ventana de cuota—.
+  if (memoria.size > 5000) memoria.clear();
+
+  const sellos = (memoria.get(ip) ?? []).filter((t) => ahora - t < VENTANA_MS);
+  if (sellos.length >= cuota) {
+    return {
+      success: false,
+      limit: cuota,
+      remaining: 0,
+      reset: sellos[0] + VENTANA_MS,
+    };
+  }
+  sellos.push(ahora);
+  memoria.set(ip, sellos);
+  return {
+    success: true,
+    limit: cuota,
+    remaining: cuota - sellos.length,
+    reset: ahora + VENTANA_MS,
+  };
+}
 
 /**
- * Aplica el rate-limit por IP. Si no hay Upstash configurado → permite (fail-open, dev).
- * Si está configurado y Upstash cae, `limiter.limit` lanza y el route responde 503 (no fail-open).
+ * Aplica el rate-limit por IP, con tres comportamientos según lo que haya:
+ *
+ *  · Upstash configurado → límite compartido de verdad, entre instancias y entre despliegues.
+ *  · Producción sin Upstash → ventana en memoria. Parcial (ver arriba), pero un límite real.
+ *  · Desarrollo sin Upstash → permite. Limitar en local sólo estorba y volvería los E2E
+ *    dependientes de cuántas veces se corrieron en los últimos diez minutos.
+ *
+ * Antes permitía EN SILENCIO también en producción, así que un deploy sin las dos variables
+ * publicaba el sitio sin ningún límite y sin una sola señal (auditoría del 1-ago-2026: 6 de 6
+ * envíos aceptados con la cuota en 3). El primer arreglo fue lanzar en producción para que el
+ * fallo fuera ruidoso, pero eso deja el formulario MUERTO —503 permanente— en un despliegue sin
+ * Upstash, y el cliente no va a configurarlo. El respaldo en memoria cubre el hueco sin fingir
+ * que la defensa está completa. Turnstile sigue delante como barrera que falla cerrada.
+ *
+ * Si Upstash está configurado y se cae, `limiter.limit` lanza y el route responde 503: ahí sí es
+ * indisponibilidad de algo que debería estar.
  */
-export async function limit(ip: string): Promise<LimitResult> {
-  if (!limiter) {
+async function aplicar(
+  instancia: Ratelimit | null,
+  cuota: number,
+  ip: string,
+): Promise<LimitResult> {
+  if (instancia) return instancia.limit(ip);
+  if (!isProd) {
     return {
       success: true,
-      limit: 5,
-      remaining: 5,
-      reset: Date.now() + 600_000,
+      limit: cuota,
+      remaining: cuota,
+      reset: Date.now() + VENTANA_MS,
     };
   }
-  return limiter.limit(ip);
+  return limitarEnMemoria(ip, cuota);
 }
 
-/** Igual que `limit`, para el formulario de newsletter (cuota y prefijo propios). */
-export async function limitNewsletter(ip: string): Promise<LimitResult> {
-  if (!limiterNewsletter) {
-    return {
-      success: true,
-      limit: 3,
-      remaining: 3,
-      reset: Date.now() + 600_000,
-    };
-  }
-  return limiterNewsletter.limit(ip);
+/** Rate-limit del formulario de contacto (5 / 10 min). */
+export function limit(ip: string): Promise<LimitResult> {
+  return aplicar(limiter, 5, ip);
 }
 
-/** IP del cliente. En Vercel el primer valor de x-forwarded-for es el cliente real (trap 6.3). */
+/** Rate-limit del newsletter, con su cuota propia (3 / 10 min). */
+export function limitNewsletter(ip: string): Promise<LimitResult> {
+  return aplicar(limiterNewsletter, 3, ip);
+}
+
+/**
+ * IP del cliente para el rate-limit. El ORDEN es lo que importa (auditoría del 1-ago-2026):
+ *
+ * `x-forwarded-for` es una cabecera que puede enviar el propio cliente, así que tomar su primer
+ * valor deja el único control anti-abuso del sitio apoyado en que la plataforma reescriba lo que
+ * llegue. Vercel publica la IP real en `x-vercel-forwarded-for` y `x-real-ip`, que el visitante no
+ * puede falsificar; XFF queda de último recurso para entornos que no las emiten (incluido `pnpm
+ * dev` en local, donde no hay proxy delante).
+ */
 export function getClientIp(req: Request): string {
-  const xff = req.headers.get("x-forwarded-for");
+  const h = req.headers;
   return (
-    xff?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "127.0.0.1"
+    h.get("x-vercel-forwarded-for") ||
+    h.get("x-real-ip") ||
+    h.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "127.0.0.1"
   );
 }

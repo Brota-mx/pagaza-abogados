@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import { Link, getPathname } from "@/i18n/navigation";
 import { siteInfo, NAV_SECTIONS } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 import { Wordmark } from "@/components/ui/Wordmark";
@@ -8,12 +8,18 @@ import type { Locale } from "@/content/types";
 /**
  * Footer institucional sobre navy. Signature de marca: la "P" de gran tamaño como marca de agua de
  * fondo (en la sans del logo, no serif). Datos de contacto en <address> real con tel:/mailto:.
+ *
+ * El footer es global, así que sus enlaces de sección se emiten absolutos (`/es#servicios`): con
+ * anclas crudas los siete quedaban muertos en las páginas legales, donde esos ids no existen
+ * (auditoría del 1-ago-2026). Estando en la home el navegador los trata como fragmento y hace
+ * scroll suave, sin recargar.
  */
 export async function Footer({ locale }: { locale: Locale }) {
   const t = await getTranslations("footer");
   const tNav = await getTranslations("nav");
   const tel = siteInfo.telefono.replace(/[^\d]/g, "");
   const year = new Date().getFullYear();
+  const home = getPathname({ href: "/", locale });
 
   return (
     <footer className="bg-navy relative overflow-hidden text-white">
@@ -47,7 +53,7 @@ export async function Footer({ locale }: { locale: Locale }) {
           {NAV_SECTIONS.map((s) => (
             <a
               key={s.id}
-              href={`#${s.id}`}
+              href={`${home}#${s.id}`}
               className="hover:text-steel-soft focus-visible:ring-offset-navy w-fit rounded-[2px] text-sm text-white/80 transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               {tNav(s.key)}

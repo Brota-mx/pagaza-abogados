@@ -62,20 +62,12 @@ export interface Sector {
   nombre: LocalizedText;
   resumen: LocalizedText;
   casos: CasoExito[];
-  /**
-   * Saca la cifra del sector al badge de la fila cerrada. Hoy no lo usa ninguno: eran Textil (98%)
-   * y Retail ($55M), y el cliente retiró ambas cifras (nota del 27-jul-2026). Se conserva por si
-   * vuelve a destacar alguno.
-   */
-  destacado?: boolean;
 }
 
 /** Alianza estratégica por materia (9 en total). */
 export interface Alianza {
   id: string;
   nombre: LocalizedText;
-  /** Descripción breve de la materia que cubre la alianza. */
-  descripcion?: LocalizedText;
 }
 
 /** Cobertura geográfica. */
@@ -138,6 +130,17 @@ export interface DocumentoLegal {
 export interface Oficina {
   ciudad: LocalizedText;
   direccion: LocalizedText;
+  /**
+   * El mismo domicilio, desglosado para el JSON-LD (schema.org PostalAddress). Se guarda aparte en
+   * vez de trocear `direccion` con una expresión regular: el texto visible cambia de forma y de
+   * idioma, el desglose no. `addressCountry` no vive aquí porque las dos sedes son MX.
+   */
+  postal: {
+    calle: string;
+    localidad: string;
+    region: string;
+    cp: string;
+  };
 }
 
 /** Datos globales del sitio / contacto. */
@@ -154,10 +157,4 @@ export interface SiteInfo {
    * un objeto aquí y nada más.
    */
   oficinas: Oficina[];
-  /**
-   * Link WhatsApp normalizado (p.ej. "https://wa.me/525578918865"). Opcional: el número de
-   * atención está en formato fijo local, por lo que aún NO se confirma que sea WhatsApp (M9).
-   * Poblar solo cuando el cliente lo confirme.
-   */
-  whatsapp?: string;
 }

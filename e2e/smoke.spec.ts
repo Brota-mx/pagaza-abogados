@@ -155,6 +155,20 @@ test.describe("secciones", () => {
     await page.goto("/es");
     await expect(page.locator("body")).not.toContainText("Alfonso");
   });
+
+  test("cada <li> cuelga de su propia lista", async ({ page }) => {
+    await page.goto("/es");
+    // `Reveal` metía un <div> entre <ul>/<ol> y sus <li> en Compromiso, Pilares y Alianzas:
+    // HTML inválido que dejaba 15 ítems fuera de su lista y hacía que un lector de pantalla
+    // anunciara "lista, 0 elementos" (auditoría del 1-ago-2026).
+    const desconectados = await page.evaluate(
+      () =>
+        [...document.querySelectorAll("li")].filter(
+          (li) => !["UL", "OL"].includes(li.parentElement?.tagName ?? ""),
+        ).length,
+    );
+    expect(desconectados).toBe(0);
+  });
 });
 
 test.describe("páginas legales", () => {
@@ -191,12 +205,67 @@ test.describe("páginas legales", () => {
       .click();
     await expect(page).toHaveURL(/\/es\/aviso-de-privacidad$/);
   });
+
+  test("el header nace sólido: sin hero navy detrás, nada de texto blanco", async ({
+    page,
+  }) => {
+    await page.goto("/es/aviso-de-privacidad");
+    // El wordmark solo se pinta en el estado sólido. Su ausencia significaba header transparente
+    // con texto blanco sobre #F5F6F8 —contraste 1.08:1, invisible— hasta que el visitante bajaba.
+    await expect(page.locator("header").getByText("PAGAZA")).toBeVisible();
+  });
+
+  test("los enlaces de sección del pie llevan a la home, no a un ancla muerta", async ({
+    page,
+  }) => {
+    await page.goto("/es/aviso-legal");
+    await page
+      .locator("footer")
+      .getByRole("link", { name: "Capacidades" })
+      .click();
+    await expect(page).toHaveURL(/\/es#capacidades$/);
+    await expect(page.locator("#capacidades")).toBeInViewport();
+  });
+});
+
+test.describe("rutas y datos estructurados", () => {
+  test("una URL inexistente da el 404 del sitio, en su idioma", async ({
+    page,
+  }) => {
+    // Sin el catch-all de [locale], la ruta moría en el router antes del layout y Next servía su
+    // 404 interno en inglés, dejando not-found.tsx sin usar (auditoría del 1-ago-2026).
+    const es = await page.goto("/es/ruta-que-no-existe");
+    expect(es?.status()).toBe(404);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /Página no encontrada/i,
+    );
+
+    await page.goto("/en/no-such-page");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /Page not found/i,
+    );
+  });
+
+  test("el JSON-LD declara las dos sedes", async ({ page }) => {
+    await page.goto("/es");
+    const crudo = await page
+      .locator('script[type="application/ld+json"]')
+      .textContent();
+    const datos = JSON.parse(crudo ?? "{}");
+    expect(datos.address).toHaveLength(2);
+    expect(JSON.stringify(datos.address)).toContain("Ciudad Juárez");
+  });
 });
 
 test.describe("formulario de contacto", () => {
   test("submit vacío muestra errores de validación", async ({ page }) => {
     await page.goto("/es");
     const form = page.locator("#contacto");
+    // El captcha se monta cuando el formulario se acerca a pantalla, y hasta que resuelve el botón
+    // sigue deshabilitado. Playwright da por "visible" un elemento fuera de pantalla y no desplaza
+    // hasta poder pulsar, así que sin este scroll se queda esperando un botón que nunca se habilita.
+    // Una persona no puede pulsar un botón que no ha visto: esto reproduce el gesto real.
+    await form.scrollIntoViewIfNeeded();
     await form.getByRole("button", { name: /^Enviar mensaje$/ }).click();
     await expect(form.getByText(/Ingresa tu nombre/i)).toBeVisible();
     await expect(form.getByText(/correo electrónico válido/i)).toBeVisible();

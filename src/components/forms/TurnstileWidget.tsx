@@ -73,6 +73,12 @@ export function TurnstileWidget({
     return () => {
       script?.removeEventListener("load", onLoad);
       clearInterval(poll);
+      // Devolverle el widget a Turnstile al desmontar (p. ej. al pasar a la pantalla de éxito):
+      // si no, su instancia queda viva apuntando a un nodo que ya no está en el DOM.
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.remove(widgetIdRef.current);
+        widgetIdRef.current = null;
+      }
     };
   }, [renderWidget]);
 
