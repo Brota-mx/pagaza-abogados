@@ -11,7 +11,6 @@ import {
 } from "@/lib/validation";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { TurnstileWidget } from "./TurnstileWidget";
 import { useEnvio } from "./useEnvio";
 
 /**
@@ -28,19 +27,8 @@ export function NewsletterForm() {
   // lector de pantalla los lea al aparecer, y `aria-describedby` para atarlos a su campo.
   const emailErrorId = useId();
   const consentErrorId = useId();
-  const {
-    estado,
-    errorCode,
-    enviar,
-    hpRef,
-    siteKey,
-    captchaOn,
-    captchaReady,
-    setToken,
-    resetSignal,
-    captchaMontado,
-    formRef,
-  } = useEnvio<NewsletterFormValues>("/api/newsletter");
+  const { estado, errorCode, enviar, hpRef } =
+    useEnvio<NewsletterFormValues>("/api/newsletter");
 
   const {
     register,
@@ -73,12 +61,7 @@ export function NewsletterForm() {
   }
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={handleSubmit(onSubmit)}
-      noValidate
-      className="space-y-4"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
       {/* Honeypot: oculto para humanos, visible para bots. */}
       <div
         aria-hidden
@@ -113,7 +96,7 @@ export function NewsletterForm() {
         </label>
         <button
           type="submit"
-          disabled={estado === "submitting" || !captchaReady}
+          disabled={estado === "submitting"}
           className="text-navy focus-visible:ring-offset-navy shrink-0 cursor-pointer rounded-[2px] bg-white px-7 py-3 text-sm font-medium tracking-[0.1em] uppercase transition-colors hover:bg-white/85 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
         >
           {estado === "submitting" ? t("submitting") : t("submit")}
@@ -151,14 +134,6 @@ export function NewsletterForm() {
         </p>
       )}
 
-      {captchaOn && captchaMontado && (
-        <TurnstileWidget
-          siteKey={siteKey}
-          onToken={setToken}
-          resetSignal={resetSignal}
-        />
-      )}
-
       {estado === "error" && (
         <p
           role="alert"
@@ -166,9 +141,6 @@ export function NewsletterForm() {
         >
           {tForm(`errors.${errorCode}`)}
         </p>
-      )}
-      {captchaOn && captchaMontado && !captchaReady && estado !== "submitting" && (
-        <p className="text-xs text-white/60">{tForm("turnstilePending")}</p>
       )}
     </form>
   );

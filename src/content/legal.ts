@@ -123,10 +123,6 @@ export const avisoPrivacidad: DocumentoLegal = {
           es: "Upstash (Estados Unidos): control del número de envíos por dirección IP.",
           en: "Upstash (United States): rate-limiting of submissions by IP address.",
         },
-        {
-          es: "Cloudflare, Inc. (Estados Unidos): verificación anti-automatización del formulario.",
-          en: "Cloudflare, Inc. (United States): anti-automation verification of the form.",
-        },
       ],
       cierre: [
         {

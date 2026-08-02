@@ -65,7 +65,6 @@ export const contactSchema = z
   .object({
     ...userFields,
     _hp: z.string().max(0).optional().or(z.literal("")), // honeypot: DEBE venir vacío
-    turnstileToken: z.string().min(1).max(2048),
     locale: z.enum(["es", "en"]),
   })
   .strict();
@@ -90,7 +89,6 @@ export const newsletterSchema = z
   .object({
     ...newsletterFields,
     _hp: z.string().max(0).optional().or(z.literal("")), // honeypot: DEBE venir vacío
-    turnstileToken: z.string().min(1).max(2048),
     locale: z.enum(["es", "en"]),
   })
   .strict();
