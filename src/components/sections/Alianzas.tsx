@@ -98,7 +98,11 @@ export function Alianzas({ locale }: { locale: Locale }) {
         </ul>
 
         <div className="mt-16">
-          <CoverageMap cobertura={resolvedCobertura} labels={labels} />
+          <CoverageMap
+            cobertura={resolvedCobertura}
+            labels={labels}
+            locale={locale}
+          />
         </div>
       </Container>
     </section>

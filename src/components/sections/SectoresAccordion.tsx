@@ -34,9 +34,9 @@ export function SectoresAccordion({
             className="group border-line border-b"
           >
             <summary className="focus-visible:ring-brand flex cursor-pointer list-none items-center gap-4 rounded-[2px] py-6 text-left focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none [&::-webkit-details-marker]:hidden">
-              <span className="text-brand/80 w-6 shrink-0 font-serif text-sm tabular-nums">
-                {sector.numero}
-              </span>
+              {/* Hairline en vez de número: el orden de los sectores no es una jerarquía (a
+                  diferencia de Pilares), así que no se marca como si lo fuera. */}
+              <span aria-hidden className="bg-brand h-px w-5 shrink-0" />
               <h3 className="text-navy group-hover:text-brand flex-1 font-serif text-xl transition-colors md:text-2xl">
                 {t(sector.nombre, locale)}
               </h3>

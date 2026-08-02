@@ -55,10 +55,11 @@ export interface CasoExito {
   cifra?: { valor: string; etiqueta: LocalizedText };
 }
 
-/** Sector / industria (12 en total). */
+/** Sector / industria (12 en total). Sin `numero`: el orden es el de la nota del cliente, no una
+ *  jerarquía real — un marcador secuencial prometería un orden que no existe (auditoría de diseño,
+ *  1-ago-2026). */
 export interface Sector {
   id: string;
-  numero: string;
   nombre: LocalizedText;
   resumen: LocalizedText;
   casos: CasoExito[];

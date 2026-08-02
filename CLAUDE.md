@@ -48,13 +48,16 @@ Todo es **estático (SSG)**: las páginas leen `src/content/*` en el server y re
 
 ## Design System
 
-### Colors (tokens en `globals.css` → utilidades Tailwind `bg-navy`, `text-bronze`, etc.)
+### Colors (tokens en `globals.css` → utilidades Tailwind `bg-navy`, `text-brand`, `text-steel`, etc.)
 
 - Navy `#16243b` · Navy-2 `#1e2f4a` · Navy-ink `#101b2d`
-- Bronce `#B0894E` · Bronce-soft `#C9A96A`
+- Brand `#203870` (azul de marca, muestreado del logo — wordmark, titulares de acento, CTAs sobre claro)
+- Steel `#6890a8` · Steel-soft `#8fb0c4` (acero de la paleta aprobada por el cliente — hairlines, subrayados, eyebrows sobre navy)
 - Bg `#F5F6F8` · Surface `#FFFFFF` · Line `#E6E8EB`
 - Ink `#1C1D1F` · Muted `#55606E`
 - Success `#15803D` · Error `#B91C1C`
+
+> El bronce (`#B0894E`/`#C9A96A`) que documentaba esta sección se removió del sistema (era una invención sin respaldo en el logo real, ver `Wordmark.tsx`). Los tokens vigentes son brand + steel.
 
 ### Typography
 
@@ -66,7 +69,7 @@ Todo es **estático (SSG)**: las páginas leen `src/content/*` en el server y re
 
 - Radios: 2px (botones), 4px (tarjetas). Hairlines 1px `#E6E8EB` en vez de sombras fuertes.
 - Espaciado base 4px. Max-width 1200–1280px. Mucho whitespace.
-- Motion con propósito: fade-up on-scroll, count-up en cifras, hover con subrayado bronce. **Respeta `prefers-reduced-motion`.**
+- Motion con propósito: fade-up on-scroll, hover con subrayado que crece o cambia de color. **Respeta `prefers-reduced-motion`.**
 - Estética: sobria, premium, institucional. Iconos SVG (lucide), **nunca emojis**. Fotografía B/N alto contraste.
 
 ## Environment Variables
