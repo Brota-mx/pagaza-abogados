@@ -82,10 +82,21 @@ export function limitNewsletter(ip: string): Promise<LimitResult> {
   return aplicar(limiterNewsletter, 3, ip);
 }
 
-/** IP del cliente. En Vercel el primer valor de x-forwarded-for es el cliente real (trap 6.3). */
+/**
+ * IP del cliente para el rate-limit. El ORDEN es lo que importa (auditoría del 1-ago-2026):
+ *
+ * `x-forwarded-for` es una cabecera que puede enviar el propio cliente, así que tomar su primer
+ * valor deja el único control anti-abuso del sitio apoyado en que la plataforma reescriba lo que
+ * llegue. Vercel publica la IP real en `x-vercel-forwarded-for` y `x-real-ip`, que el visitante no
+ * puede falsificar; XFF queda de último recurso para entornos que no las emiten (incluido `pnpm
+ * dev` en local, donde no hay proxy delante).
+ */
 export function getClientIp(req: Request): string {
-  const xff = req.headers.get("x-forwarded-for");
+  const h = req.headers;
   return (
-    xff?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "127.0.0.1"
+    h.get("x-vercel-forwarded-for") ||
+    h.get("x-real-ip") ||
+    h.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "127.0.0.1"
   );
 }

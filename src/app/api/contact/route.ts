@@ -87,7 +87,11 @@ function detectLocale(raw: unknown): "es" | "en" {
 }
 
 export async function POST(req: Request) {
-  // Modo A — límite de tamaño antes de parsear.
+  // Modo A — límite de tamaño. El chequeo por cabecera es el barato, pero `content-length` NO
+  // viene en una petición chunked, así que por sí solo se evadía omitiéndolo (auditoría del
+  // 1-ago-2026: 60 KB pasaban el filtro). Se mide también el cuerpo ya leído. Ojo: esto no evita
+  // bufferizarlo —para eso habría que ir por el stream—, pero el techo lo pone la plataforma
+  // (4.5 MB en Vercel) y aquí el límite vuelve a ser cierto de cara al parseo.
   const contentLength = Number(req.headers.get("content-length") ?? "0");
   if (Number.isFinite(contentLength) && contentLength > MAX_BODY) {
     return fail(413, "BAD_REQUEST", "es");
@@ -96,7 +100,11 @@ export async function POST(req: Request) {
   // Modo A — parseo defensivo.
   let raw: unknown;
   try {
-    raw = await req.json();
+    const cuerpo = await req.text();
+    if (Buffer.byteLength(cuerpo, "utf8") > MAX_BODY) {
+      return fail(413, "BAD_REQUEST", "es");
+    }
+    raw = JSON.parse(cuerpo);
   } catch {
     return fail(400, "BAD_REQUEST", "es");
   }

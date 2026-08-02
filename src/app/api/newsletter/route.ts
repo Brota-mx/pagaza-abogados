@@ -92,6 +92,8 @@ function detectLocale(raw: unknown): "es" | "en" {
  * que las dos superficies dinámicas del sitio se auditen como una sola.
  */
 export async function POST(req: Request) {
+  // Ver /api/contact: `content-length` falta en las peticiones chunked, así que el tope real se
+  // aplica sobre el cuerpo ya leído.
   const contentLength = Number(req.headers.get("content-length") ?? "0");
   if (Number.isFinite(contentLength) && contentLength > MAX_BODY) {
     return fail(413, "BAD_REQUEST", "es");
@@ -99,7 +101,11 @@ export async function POST(req: Request) {
 
   let raw: unknown;
   try {
-    raw = await req.json();
+    const cuerpo = await req.text();
+    if (Buffer.byteLength(cuerpo, "utf8") > MAX_BODY) {
+      return fail(413, "BAD_REQUEST", "es");
+    }
+    raw = JSON.parse(cuerpo);
   } catch {
     return fail(400, "BAD_REQUEST", "es");
   }

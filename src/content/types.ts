@@ -138,6 +138,17 @@ export interface DocumentoLegal {
 export interface Oficina {
   ciudad: LocalizedText;
   direccion: LocalizedText;
+  /**
+   * El mismo domicilio, desglosado para el JSON-LD (schema.org PostalAddress). Se guarda aparte en
+   * vez de trocear `direccion` con una expresión regular: el texto visible cambia de forma y de
+   * idioma, el desglose no. `addressCountry` no vive aquí porque las dos sedes son MX.
+   */
+  postal: {
+    calle: string;
+    localidad: string;
+    region: string;
+    cp: string;
+  };
 }
 
 /** Datos globales del sitio / contacto. */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
@@ -33,6 +33,10 @@ export function NewsletterForm() {
   const [token, setToken] = useState<string>("");
   const [resetSignal, setResetSignal] = useState(0);
   const hpRef = useRef<HTMLInputElement>(null);
+  // Los errores se anuncian igual que en el formulario de contacto: `role="alert"` para que el
+  // lector de pantalla los lea al aparecer, y `aria-describedby` para atarlos a su campo.
+  const emailErrorId = useId();
+  const consentErrorId = useId();
 
   const {
     register,
@@ -127,6 +131,7 @@ export function NewsletterForm() {
             autoComplete="email"
             placeholder={t("emailPlaceholder")}
             aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? emailErrorId : undefined}
             className={cn(
               "focus:ring-offset-navy w-full rounded-[2px] border bg-white/10 px-4 py-3 text-white transition-colors placeholder:text-white/50 focus:ring-2 focus:ring-white focus:ring-offset-1 focus:outline-none",
               errors.email ? "border-error" : "border-white/25",
@@ -143,7 +148,9 @@ export function NewsletterForm() {
       </div>
 
       {errors.email && (
-        <p className="text-error text-sm">{tForm("fieldErrors.email")}</p>
+        <p id={emailErrorId} role="alert" className="text-error text-sm">
+          {tForm("fieldErrors.email")}
+        </p>
       )}
 
       <label className="flex items-start gap-3 text-sm text-white/70">
@@ -151,6 +158,7 @@ export function NewsletterForm() {
           {...register("consentimiento")}
           type="checkbox"
           aria-invalid={Boolean(errors.consentimiento)}
+          aria-describedby={errors.consentimiento ? consentErrorId : undefined}
           className="focus-visible:ring-offset-navy accent-steel mt-0.5 h-4 w-4 shrink-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
         />
         <span>
@@ -165,7 +173,9 @@ export function NewsletterForm() {
         </span>
       </label>
       {errors.consentimiento && (
-        <p className="text-error text-sm">{t("consentimientoError")}</p>
+        <p id={consentErrorId} role="alert" className="text-error text-sm">
+          {t("consentimientoError")}
+        </p>
       )}
 
       {captchaOn && (

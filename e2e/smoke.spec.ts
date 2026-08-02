@@ -228,6 +228,35 @@ test.describe("páginas legales", () => {
   });
 });
 
+test.describe("rutas y datos estructurados", () => {
+  test("una URL inexistente da el 404 del sitio, en su idioma", async ({
+    page,
+  }) => {
+    // Sin el catch-all de [locale], la ruta moría en el router antes del layout y Next servía su
+    // 404 interno en inglés, dejando not-found.tsx sin usar (auditoría del 1-ago-2026).
+    const es = await page.goto("/es/ruta-que-no-existe");
+    expect(es?.status()).toBe(404);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /Página no encontrada/i,
+    );
+
+    await page.goto("/en/no-such-page");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /Page not found/i,
+    );
+  });
+
+  test("el JSON-LD declara las dos sedes", async ({ page }) => {
+    await page.goto("/es");
+    const crudo = await page
+      .locator('script[type="application/ld+json"]')
+      .textContent();
+    const datos = JSON.parse(crudo ?? "{}");
+    expect(datos.address).toHaveLength(2);
+    expect(JSON.stringify(datos.address)).toContain("Ciudad Juárez");
+  });
+});
+
 test.describe("formulario de contacto", () => {
   test("submit vacío muestra errores de validación", async ({ page }) => {
     await page.goto("/es");

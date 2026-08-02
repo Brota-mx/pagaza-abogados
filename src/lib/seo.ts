@@ -42,14 +42,19 @@ export function legalServiceJsonLd(locale: Locale, description: string) {
     // Sin `founder`: el cliente pidió que su nombre no figure en el sitio mientras define la
     // sección de equipo. Se retira también del JSON-LD para no publicar por la puerta de atrás lo
     // que se quitó de la interfaz.
-    address: {
+    //
+    // Una entrada por sede, derivadas de `siteInfo.oficinas`: el domicilio estaba hardcodeado y se
+    // quedó en CDMX cuando el cliente sumó Ciudad Juárez, así que Google seguía viendo un despacho
+    // de una sola sede (auditoría del 1-ago-2026). Ahora agregar una sede al contenido la publica
+    // también en los datos estructurados.
+    address: siteInfo.oficinas.map((oficina) => ({
       "@type": "PostalAddress",
-      streetAddress: "Prado Sur 525, Lomas de Chapultepec",
-      addressLocality: "Miguel Hidalgo",
-      addressRegion: "Ciudad de México",
-      postalCode: "11000",
+      streetAddress: oficina.postal.calle,
+      addressLocality: oficina.postal.localidad,
+      addressRegion: oficina.postal.region,
+      postalCode: oficina.postal.cp,
       addressCountry: "MX",
-    },
+    })),
   } as const;
 }
 

@@ -138,7 +138,12 @@ export default async function LocaleLayout({
         <script
           type="application/ld+json"
           // JSON-LD (LegalService/LocalBusiness) — datos controlados, sin input de usuario.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          // `<` se escapa igualmente: JSON.stringify no lo hace, así que un "</script>" dentro de
+          // cualquier texto de content/ cerraría la etiqueta antes de tiempo. Hoy no ocurre; el
+          // escape evita que dependa de que nadie escriba nunca un signo de menor-que.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          }}
         />
         <NextIntlClientProvider messages={messages}>
           <a
