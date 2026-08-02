@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
-import { Link } from "@/i18n/navigation";
+import { Link, getPathname, usePathname } from "@/i18n/navigation";
+import type { Locale } from "@/content/types";
 import { NAV_SECTIONS } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 import { Wordmark } from "@/components/ui/Wordmark";
@@ -28,6 +29,11 @@ const subrayadoNav =
  * El <main> compensa el header fijo con scroll-padding-top (globals.css) para que las anclas no
  * queden ocultas.
  *
+ * ⚠️ El estado transparente SOLO es legible sobre el hero navy, así que está atado a la home. En
+ * las páginas legales, que abren sobre fondo claro, el header nace sólido: antes heredaba el texto
+ * blanco sobre #F5F6F8 y quedaba en un contraste de 1.08:1 —invisible— hasta que el visitante
+ * bajaba (auditoría del 1-ago-2026).
+ *
  * AA: los enlaces mantienen el color heredado (contraste pleno en ambos estados) y el hover se
  * marca con un subrayado que crece, no con un cambio de color. Solo transición de
  * color/opacidad → seguro con reduced-motion.
@@ -35,8 +41,20 @@ const subrayadoNav =
 export function Header() {
   const t = useTranslations("nav");
   const tCta = useTranslations("cta");
+  const locale = useLocale() as Locale;
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  // `usePathname` de next-intl devuelve la ruta INTERNA, sin prefijo de idioma: la home es "/".
+  const enHome = pathname === "/";
+  /**
+   * Las secciones viven en la home, así que las anclas se emiten absolutas (`/es#contacto`) y
+   * funcionan igual desde una página legal. Estando ya en la home, el navegador las trata como
+   * navegación de fragmento: hace scroll suave sin recargar.
+   */
+  const home = getPathname({ href: "/", locale });
+  const ancla = (id: string) => `${home}#${id}`;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -55,7 +73,7 @@ export function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const solid = scrolled || open;
+  const solid = !enHome || scrolled || open;
 
   return (
     <header
@@ -82,7 +100,7 @@ export function Header() {
               className="hidden items-center gap-8 lg:flex"
             >
               {NAV_SECTIONS.map((s) => (
-                <a key={s.id} href={`#${s.id}`} className={enlaceNav}>
+                <a key={s.id} href={ancla(s.id)} className={enlaceNav}>
                   {t(s.key)}
                   <span aria-hidden className={subrayadoNav} />
                 </a>
@@ -92,7 +110,7 @@ export function Header() {
             <div className="hidden items-center gap-6 lg:flex">
               <LocaleSwitcher />
               <a
-                href="#contacto"
+                href={ancla("contacto")}
                 className="bg-brand hover:bg-navy cursor-pointer rounded-[2px] px-5 py-2.5 text-xs font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none"
               >
                 {tCta("consulta")}
@@ -117,14 +135,14 @@ export function Header() {
               aria-label={t("menu")}
               className="flex items-center gap-7 text-sm"
             >
-              <a href="#inicio" className={enlaceNav}>
+              <a href={ancla("inicio")} className={enlaceNav}>
                 {t("inicio")}
                 <span aria-hidden className={subrayadoNav} />
               </a>
               <span aria-hidden className="text-current/30">
                 |
               </span>
-              <a href="#newsletter" className={enlaceNav}>
+              <a href={ancla("newsletter")} className={enlaceNav}>
                 {t("newsletter")}
                 <span aria-hidden className={subrayadoNav} />
               </a>
@@ -143,7 +161,7 @@ export function Header() {
             {NAV_SECTIONS.map((s) => (
               <a
                 key={s.id}
-                href={`#${s.id}`}
+                href={ancla(s.id)}
                 onClick={() => setOpen(false)}
                 className="hover:text-brand rounded-[2px] py-2.5 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
               >
@@ -153,7 +171,7 @@ export function Header() {
             <div className="border-line mt-3 flex items-center justify-between border-t pt-4">
               <LocaleSwitcher />
               <a
-                href="#contacto"
+                href={ancla("contacto")}
                 onClick={() => setOpen(false)}
                 className="bg-navy hover:bg-navy-2 cursor-pointer rounded-[2px] px-5 py-2.5 text-xs font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:outline-none"
               >

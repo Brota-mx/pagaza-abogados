@@ -155,6 +155,20 @@ test.describe("secciones", () => {
     await page.goto("/es");
     await expect(page.locator("body")).not.toContainText("Alfonso");
   });
+
+  test("cada <li> cuelga de su propia lista", async ({ page }) => {
+    await page.goto("/es");
+    // `Reveal` metía un <div> entre <ul>/<ol> y sus <li> en Compromiso, Pilares y Alianzas:
+    // HTML inválido que dejaba 15 ítems fuera de su lista y hacía que un lector de pantalla
+    // anunciara "lista, 0 elementos" (auditoría del 1-ago-2026).
+    const desconectados = await page.evaluate(
+      () =>
+        [...document.querySelectorAll("li")].filter(
+          (li) => !["UL", "OL"].includes(li.parentElement?.tagName ?? ""),
+        ).length,
+    );
+    expect(desconectados).toBe(0);
+  });
 });
 
 test.describe("páginas legales", () => {
@@ -190,6 +204,27 @@ test.describe("páginas legales", () => {
       .getByRole("link", { name: /Aviso de Privacidad/i })
       .click();
     await expect(page).toHaveURL(/\/es\/aviso-de-privacidad$/);
+  });
+
+  test("el header nace sólido: sin hero navy detrás, nada de texto blanco", async ({
+    page,
+  }) => {
+    await page.goto("/es/aviso-de-privacidad");
+    // El wordmark solo se pinta en el estado sólido. Su ausencia significaba header transparente
+    // con texto blanco sobre #F5F6F8 —contraste 1.08:1, invisible— hasta que el visitante bajaba.
+    await expect(page.locator("header").getByText("PAGAZA")).toBeVisible();
+  });
+
+  test("los enlaces de sección del pie llevan a la home, no a un ancla muerta", async ({
+    page,
+  }) => {
+    await page.goto("/es/aviso-legal");
+    await page
+      .locator("footer")
+      .getByRole("link", { name: "Capacidades" })
+      .click();
+    await expect(page).toHaveURL(/\/es#capacidades$/);
+    await expect(page.locator("#capacidades")).toBeInViewport();
   });
 });
 

@@ -25,16 +25,19 @@ export function Compromiso({ locale }: { locale: Locale }) {
 
         <ul className="mt-12 grid gap-x-10 gap-y-6 md:grid-cols-3">
           {compromiso.valores.map((valor, i) => (
-            <Reveal key={valor.id} delay={i * 80}>
-              <li className="border-line relative border-t pt-5">
-                <span
-                  aria-hidden
-                  className="bg-brand absolute -top-px left-0 h-px w-12"
-                />
-                <h3 className="text-navy font-serif text-xl md:text-2xl">
-                  {t(valor.titulo, locale)}
-                </h3>
-              </li>
+            <Reveal
+              key={valor.id}
+              as="li"
+              delay={i * 80}
+              className="border-line relative border-t pt-5"
+            >
+              <span
+                aria-hidden
+                className="bg-brand absolute -top-px left-0 h-px w-12"
+              />
+              <h3 className="text-navy font-serif text-xl md:text-2xl">
+                {t(valor.titulo, locale)}
+              </h3>
             </Reveal>
           ))}
         </ul>
