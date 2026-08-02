@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
 import { contactSchema } from "@/lib/validation";
 import { getClientIp, limit } from "@/lib/ratelimit";
 import { turnstileBypassed, verifyTurnstile } from "@/lib/turnstile";
 import { hasHeaderInjection, sendContactEmail } from "@/lib/resend";
 import { report } from "@/lib/reporter";
+import { crearRespuestas, detectLocale, leerCuerpo } from "@/lib/api-form";
 
 // Runtime Node (Resend + sanitización viven mejor en Node, no Edge). Solo POST → resto 405 auto.
 export const runtime = "nodejs";
@@ -11,103 +11,24 @@ export const dynamic = "force-dynamic";
 
 const MAX_BODY = 16 * 1024; // ~16 KB: defensa cheap contra mensaje gigante / bomba JSON.
 
-type ErrCode =
-  | "BAD_REQUEST"
-  | "RATE_LIMITED"
-  | "CAPTCHA_FAILED"
-  | "CAPTCHA_UNAVAILABLE"
-  | "VALIDATION_ERROR"
-  | "INTERNAL_ERROR";
-
-// Mensajes genéricos localizables. NUNCA stack traces, envs ni respuestas de proveedores.
-const MESSAGES: Record<"es" | "en", Record<ErrCode, string>> = {
+const { fail, succeed } = crearRespuestas({
   es: {
-    BAD_REQUEST: "Solicitud inválida.",
-    RATE_LIMITED:
-      "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
-    CAPTCHA_FAILED:
-      "No pudimos verificar que eres humano. Recarga e inténtalo de nuevo.",
-    CAPTCHA_UNAVAILABLE:
-      "La verificación no está disponible por el momento. Inténtalo más tarde.",
     VALIDATION_ERROR: "Revisa los campos del formulario.",
     INTERNAL_ERROR:
       "No pudimos enviar tu mensaje. Escríbenos directo a a@pagaza.mx.",
   },
   en: {
-    BAD_REQUEST: "Invalid request.",
-    RATE_LIMITED: "Too many attempts. Please wait a few minutes and try again.",
-    CAPTCHA_FAILED:
-      "We couldn't verify you're human. Please reload and try again.",
-    CAPTCHA_UNAVAILABLE:
-      "Verification is unavailable right now. Please try again later.",
     VALIDATION_ERROR: "Please review the form fields.",
     INTERNAL_ERROR:
       "We couldn't send your message. Please email us directly at a@pagaza.mx.",
   },
-};
-
-const noStore = { "Cache-Control": "no-store" };
-
-function fail(
-  status: number,
-  code: ErrCode,
-  locale: "es" | "en",
-  extra?: {
-    details?: Record<string, string[]>;
-    headers?: Record<string, string>;
-  },
-) {
-  return NextResponse.json(
-    {
-      success: false,
-      error: {
-        code,
-        message: MESSAGES[locale][code],
-        ...(extra?.details ? { details: extra.details } : {}),
-      },
-    },
-    { status, headers: { ...noStore, ...(extra?.headers ?? {}) } },
-  );
-}
-
-function succeed() {
-  return NextResponse.json({ success: true }, { headers: noStore });
-}
-
-/** Locale defensivo para los mensajes, leído del cuerpo crudo antes de validar. */
-function detectLocale(raw: unknown): "es" | "en" {
-  if (
-    raw &&
-    typeof raw === "object" &&
-    (raw as { locale?: unknown }).locale === "en"
-  ) {
-    return "en";
-  }
-  return "es";
-}
+});
 
 export async function POST(req: Request) {
-  // Modo A — límite de tamaño. El chequeo por cabecera es el barato, pero `content-length` NO
-  // viene en una petición chunked, así que por sí solo se evadía omitiéndolo (auditoría del
-  // 1-ago-2026: 60 KB pasaban el filtro). Se mide también el cuerpo ya leído. Ojo: esto no evita
-  // bufferizarlo —para eso habría que ir por el stream—, pero el techo lo pone la plataforma
-  // (4.5 MB en Vercel) y aquí el límite vuelve a ser cierto de cara al parseo.
-  const contentLength = Number(req.headers.get("content-length") ?? "0");
-  if (Number.isFinite(contentLength) && contentLength > MAX_BODY) {
-    return fail(413, "BAD_REQUEST", "es");
-  }
-
-  // Modo A — parseo defensivo.
-  let raw: unknown;
-  try {
-    const cuerpo = await req.text();
-    if (Buffer.byteLength(cuerpo, "utf8") > MAX_BODY) {
-      return fail(413, "BAD_REQUEST", "es");
-    }
-    raw = JSON.parse(cuerpo);
-  } catch {
-    return fail(400, "BAD_REQUEST", "es");
-  }
+  // Modo A — tope de tamaño + parseo defensivo.
+  const cuerpo = await leerCuerpo(req, MAX_BODY);
+  if (!cuerpo.ok) return fail(cuerpo.status, "BAD_REQUEST", "es");
+  const raw = cuerpo.raw;
   const locale = detectLocale(raw);
 
   // Modo B / J — rate-limit por IP (fail-cheap primero). Si Upstash cae estando configurado → 503.

@@ -1,9 +1,9 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { CheckCircle2 } from "lucide-react";
 import {
   newsletterFormSchema,
@@ -12,10 +12,7 @@ import {
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { TurnstileWidget } from "./TurnstileWidget";
-
-type Status = "idle" | "submitting" | "success" | "error";
-
-const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
+import { useEnvio } from "./useEnvio";
 
 /**
  * Alta al newsletter. Vive sobre navy, así que los campos van en blanco translúcido con borde
@@ -27,16 +24,21 @@ const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 export function NewsletterForm() {
   const t = useTranslations("newsletter");
   const tForm = useTranslations("form");
-  const locale = useLocale();
-  const [status, setStatus] = useState<Status>("idle");
-  const [errorCode, setErrorCode] = useState<string>("INTERNAL_ERROR");
-  const [token, setToken] = useState<string>("");
-  const [resetSignal, setResetSignal] = useState(0);
-  const hpRef = useRef<HTMLInputElement>(null);
   // Los errores se anuncian igual que en el formulario de contacto: `role="alert"` para que el
   // lector de pantalla los lea al aparecer, y `aria-describedby` para atarlos a su campo.
   const emailErrorId = useId();
   const consentErrorId = useId();
+  const {
+    estado,
+    errorCode,
+    enviar,
+    hpRef,
+    siteKey,
+    captchaOn,
+    captchaReady,
+    setToken,
+    resetSignal,
+  } = useEnvio<NewsletterFormValues>("/api/newsletter");
 
   const {
     register,
@@ -48,45 +50,9 @@ export function NewsletterForm() {
     mode: "onBlur",
   });
 
-  const captchaOn = SITE_KEY.length > 0;
-  const captchaReady = !captchaOn || token.length > 0;
+  const onSubmit = (values: NewsletterFormValues) => enviar(values, reset);
 
-  const onSubmit = async (values: NewsletterFormValues) => {
-    setStatus("submitting");
-    try {
-      const res = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...values,
-          _hp: hpRef.current?.value ?? "",
-          turnstileToken: captchaOn ? token : "dev-bypass",
-          locale,
-        }),
-      });
-      const json = (await res.json().catch(() => null)) as {
-        success?: boolean;
-        error?: { code?: string };
-      } | null;
-
-      if (res.ok && json?.success) {
-        setStatus("success");
-        reset();
-      } else {
-        setErrorCode(json?.error?.code ?? "INTERNAL_ERROR");
-        setStatus("error");
-      }
-    } catch {
-      setErrorCode("NETWORK");
-      setStatus("error");
-    } finally {
-      // Token de un solo uso: resetear el widget y limpiar el token tras cada intento.
-      setToken("");
-      setResetSignal((s) => s + 1);
-    }
-  };
-
-  if (status === "success") {
+  if (estado === "success") {
     return (
       <p
         role="status"
@@ -140,10 +106,10 @@ export function NewsletterForm() {
         </label>
         <button
           type="submit"
-          disabled={status === "submitting" || !captchaReady}
+          disabled={estado === "submitting" || !captchaReady}
           className="text-navy focus-visible:ring-offset-navy shrink-0 cursor-pointer rounded-[2px] bg-white px-7 py-3 text-sm font-medium tracking-[0.1em] uppercase transition-colors hover:bg-white/85 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {status === "submitting" ? t("submitting") : t("submit")}
+          {estado === "submitting" ? t("submitting") : t("submit")}
         </button>
       </div>
 
@@ -180,13 +146,13 @@ export function NewsletterForm() {
 
       {captchaOn && (
         <TurnstileWidget
-          siteKey={SITE_KEY}
+          siteKey={siteKey}
           onToken={setToken}
           resetSignal={resetSignal}
         />
       )}
 
-      {status === "error" && (
+      {estado === "error" && (
         <p
           role="alert"
           className="border-error/40 bg-error/10 rounded-[2px] border px-4 py-3 text-sm text-white"
@@ -194,7 +160,7 @@ export function NewsletterForm() {
           {tForm(`errors.${errorCode}`)}
         </p>
       )}
-      {captchaOn && !captchaReady && status !== "submitting" && (
+      {captchaOn && !captchaReady && estado !== "submitting" && (
         <p className="text-xs text-white/60">{tForm("turnstilePending")}</p>
       )}
     </form>

@@ -24,20 +24,12 @@ export const alianzas: Alianza[] = [
       es: "Contable y financiero",
       en: "Accounting & finance",
     },
-    descripcion: {
-      es: "Auditorías de estados financieros y dictámenes contables.",
-      en: "Financial-statement audits and accounting opinions.",
-    },
   },
   {
     id: "laboral",
     nombre: {
       es: "Laboral individual y colectivo",
       en: "Individual & collective labor",
-    },
-    descripcion: {
-      es: "Litigio laboral corporativo y relaciones con sindicatos.",
-      en: "Corporate labor litigation and union relations.",
     },
   },
   {
@@ -46,20 +38,12 @@ export const alianzas: Alianza[] = [
       es: "Corporativo y societario",
       en: "Corporate & M&A",
     },
-    descripcion: {
-      es: "Constitución, fusiones, adquisiciones y actas de asambleas.",
-      en: "Incorporation, mergers, acquisitions, and shareholder resolutions.",
-    },
   },
   {
     id: "lifesciences",
     nombre: {
       es: "Ciencias de la vida y publicidad",
       en: "Life sciences & advertising",
-    },
-    descripcion: {
-      es: "Cumplimiento COFEPRIS y normas de etiquetado y anuncios.",
-      en: "COFEPRIS compliance and labeling and advertising rules.",
     },
   },
   {
@@ -68,10 +52,6 @@ export const alianzas: Alianza[] = [
       es: "Penal (enfoque penal-fiscal)",
       en: "Criminal (tax-crime focus)",
     },
-    descripcion: {
-      es: "Prevención y defensa en delitos fiscales y de cuello blanco.",
-      en: "Prevention and defense in tax and white-collar crimes.",
-    },
   },
   {
     id: "compliance",
@@ -79,20 +59,12 @@ export const alianzas: Alianza[] = [
       es: "Regulatorio y compliance",
       en: "Regulatory & compliance",
     },
-    descripcion: {
-      es: "Gobierno corporativo y mitigación de riesgos operativos.",
-      en: "Corporate governance and operational-risk mitigation.",
-    },
   },
   {
     id: "preciostransferencia",
     nombre: {
       es: "Precios de transferencia y avalúos",
       en: "Transfer pricing & appraisals",
-    },
-    descripcion: {
-      es: "Estudios de operaciones entre partes relacionadas y valuaciones comerciales.",
-      en: "Related-party transaction studies and commercial valuations.",
     },
   },
   // Aquí iba "Servicios de traducción" (traductores peritos certificados). El cliente pidió
@@ -103,20 +75,12 @@ export const alianzas: Alianza[] = [
       es: "Civil y mercantil",
       en: "Civil & commercial",
     },
-    descripcion: {
-      es: "Disputas contractuales, juicios ejecutivos y arrendamientos.",
-      en: "Contract disputes, enforcement suits, and leasing matters.",
-    },
   },
   {
     id: "financiero",
     nombre: {
       es: "Financiero y mercado de capitales",
       en: "Finance & capital markets",
-    },
-    descripcion: {
-      es: "Estructuración de deuda, emisiones y asesoría bancaria.",
-      en: "Debt structuring, securities issuances, and banking advisory.",
     },
   },
 ];

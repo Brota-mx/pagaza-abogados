@@ -1,26 +1,9 @@
 import { Plus } from "lucide-react";
-
-export type ResolvedCaso = {
-  descripcion: string;
-  cifra?: { valor: string; etiqueta: string };
-};
-
-export type ResolvedSector = {
-  id: string;
-  numero: string;
-  nombre: string;
-  resumen: string;
-  casos: ResolvedCaso[];
-  destacado: boolean;
-};
+import { t, type Locale, type Sector } from "@/content/types";
 
 /**
- * Acordeón de sectores. Cada fila: número + nombre + badge de cifra (en los destacados) + control
- * "+". Al abrir muestra el resumen y los casos; los casos con cifra reciben tratamiento destacado.
- *
- * Hoy ningún sector lleva `destacado`: el cliente retiró las dos cifras que lo usaban (98% y $55M,
- * nota del 27-jul-2026), así que no se pinta ningún badge y el acordeón abre por defecto en el
- * primer sector. La mecánica se conserva por si vuelve a marcar alguno.
+ * Acordeón de sectores. Cada fila: número + nombre + control "+". Al abrir muestra el resumen y
+ * los casos; los casos con cifra reciben tratamiento destacado. Abre por defecto en el primero.
  *
  * Usa `<details>/<summary>` nativo en lugar del acordeón de Radix que había antes. El motivo es de
  * fondo, no de estilo: Radix no monta el contenido cerrado, así que TODOS los casos de éxito —la
@@ -35,24 +18,19 @@ export type ResolvedSector = {
  */
 export function SectoresAccordion({
   sectores,
+  locale,
 }: {
-  sectores: ResolvedSector[];
+  sectores: Sector[];
+  locale: Locale;
 }) {
-  const abiertoPorDefecto =
-    sectores.find((s) => s.destacado)?.id ?? sectores[0]?.id;
-
   return (
     <div className="border-line mt-14 border-t">
-      {sectores.map((sector) => {
-        const badge = sector.destacado
-          ? sector.casos.find((c) => c.cifra)?.cifra?.valor
-          : undefined;
-
+      {sectores.map((sector, i) => {
         return (
           <details
             key={sector.id}
             name="sectores"
-            open={sector.id === abiertoPorDefecto}
+            open={i === 0}
             className="group border-line border-b"
           >
             <summary className="focus-visible:ring-brand flex cursor-pointer list-none items-center gap-4 rounded-[2px] py-6 text-left focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none [&::-webkit-details-marker]:hidden">
@@ -60,13 +38,8 @@ export function SectoresAccordion({
                 {sector.numero}
               </span>
               <h3 className="text-navy group-hover:text-brand flex-1 font-serif text-xl transition-colors md:text-2xl">
-                {sector.nombre}
+                {t(sector.nombre, locale)}
               </h3>
-              {badge && (
-                <span className="bg-brand/10 text-brand hidden shrink-0 rounded-[2px] px-2.5 py-1 text-xs font-medium sm:inline-block">
-                  {badge}
-                </span>
-              )}
               <Plus
                 size={18}
                 aria-hidden
@@ -75,7 +48,9 @@ export function SectoresAccordion({
             </summary>
 
             <div className="grid gap-6 pb-9 md:grid-cols-[1fr_1.4fr] md:gap-12 md:pl-10">
-              <p className="text-muted leading-relaxed">{sector.resumen}</p>
+              <p className="text-muted leading-relaxed">
+                {t(sector.resumen, locale)}
+              </p>
               <ul className="space-y-6">
                 {sector.casos.map((caso, i) => (
                   <li key={i}>
@@ -85,10 +60,10 @@ export function SectoresAccordion({
                           {caso.cifra.valor}
                         </p>
                         <p className="text-muted mt-1.5 text-xs tracking-[0.1em] uppercase">
-                          {caso.cifra.etiqueta}
+                          {t(caso.cifra.etiqueta, locale)}
                         </p>
                         <p className="text-ink/80 mt-3 text-sm leading-relaxed">
-                          {caso.descripcion}
+                          {t(caso.descripcion, locale)}
                         </p>
                       </div>
                     ) : (
@@ -98,7 +73,7 @@ export function SectoresAccordion({
                           className="bg-brand mt-2.5 h-px w-3 shrink-0"
                         />
                         <p className="text-muted text-sm leading-relaxed">
-                          {caso.descripcion}
+                          {t(caso.descripcion, locale)}
                         </p>
                       </div>
                     )}

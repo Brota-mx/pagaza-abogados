@@ -1,5 +1,4 @@
-import { Inter, Montserrat } from "next/font/google";
-import localFont from "next/font/local";
+import { fontVariables } from "@/lib/fonts";
 import "@/styles/globals.css";
 
 /**
@@ -10,36 +9,6 @@ import "@/styles/globals.css";
  * Se declaran las mismas familias que el sitio para que el wordmark y los enlaces no salten al
  * entrar, pero sin Header, Footer, providers de i18n ni analítica: la puerta es solo la puerta.
  */
-const pagella = localFont({
-  src: [
-    {
-      path: "../../../public/fonts/pagella-regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../../public/fonts/pagella-italic.woff2",
-      weight: "400",
-      style: "italic",
-    },
-  ],
-  variable: "--font-pagella",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  variable: "--font-montserrat",
-  display: "swap",
-});
-
 export default function EntradaLayout({
   children,
 }: {
@@ -48,10 +17,7 @@ export default function EntradaLayout({
   return (
     // `lang="es"` porque el contenido visible por defecto es español; el par ENTRAR/ENTER lleva
     // su propio `lang` y `hreflang` en cada enlace.
-    <html
-      lang="es"
-      className={`${pagella.variable} ${inter.variable} ${montserrat.variable}`}
-    >
+    <html lang="es" className={fontVariables}>
       <body>{children}</body>
     </html>
   );

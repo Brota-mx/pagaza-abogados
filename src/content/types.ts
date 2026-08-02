@@ -62,20 +62,12 @@ export interface Sector {
   nombre: LocalizedText;
   resumen: LocalizedText;
   casos: CasoExito[];
-  /**
-   * Saca la cifra del sector al badge de la fila cerrada. Hoy no lo usa ninguno: eran Textil (98%)
-   * y Retail ($55M), y el cliente retiró ambas cifras (nota del 27-jul-2026). Se conserva por si
-   * vuelve a destacar alguno.
-   */
-  destacado?: boolean;
 }
 
 /** Alianza estratégica por materia (9 en total). */
 export interface Alianza {
   id: string;
   nombre: LocalizedText;
-  /** Descripción breve de la materia que cubre la alianza. */
-  descripcion?: LocalizedText;
 }
 
 /** Cobertura geográfica. */
@@ -165,10 +157,4 @@ export interface SiteInfo {
    * un objeto aquí y nada más.
    */
   oficinas: Oficina[];
-  /**
-   * Link WhatsApp normalizado (p.ej. "https://wa.me/525578918865"). Opcional: el número de
-   * atención está en formato fijo local, por lo que aún NO se confirma que sea WhatsApp (M9).
-   * Poblar solo cuando el cliente lo confirme.
-   */
-  whatsapp?: string;
 }

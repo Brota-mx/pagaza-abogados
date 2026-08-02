@@ -9,27 +9,20 @@ export function SectionHeading({
   eyebrow,
   title,
   intro,
-  align = "left",
   tone = "dark",
-  as: Heading = "h2",
 }: {
   eyebrow?: string;
   title: string;
   intro?: string;
-  align?: "left" | "center";
   tone?: "dark" | "light";
-  as?: React.ElementType;
 }) {
   const light = tone === "light";
   return (
-    <div
-      className={cn("max-w-2xl", align === "center" && "mx-auto text-center")}
-    >
+    <div className="max-w-2xl">
       {eyebrow && (
         <p
           className={cn(
             "mb-4 flex items-center gap-3 text-xs font-medium tracking-[0.14em] uppercase",
-            align === "center" && "justify-center",
             // Contraste: brand (11.28:1) sobre claro; steel-soft (6.8:1) sobre navy.
             light ? "text-steel-soft" : "text-brand",
           )}
@@ -41,14 +34,14 @@ export function SectionHeading({
           {eyebrow}
         </p>
       )}
-      <Heading
+      <h2
         className={cn(
           "font-serif text-3xl leading-tight md:text-4xl",
           light ? "text-white" : "text-navy",
         )}
       >
         {title}
-      </Heading>
+      </h2>
       {intro && (
         // Medido a 1440px: `max-w-2xl` (42rem) con Pagella a 18px da ~63 caracteres por línea,
         // dentro del rango legible de 55–80. Estrecharlo a `max-w-xl` lo bajaba a 54 y además

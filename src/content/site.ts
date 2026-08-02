@@ -2,7 +2,6 @@ import type { SiteInfo } from "./types";
 
 /**
  * Datos globales del sitio / contacto. Fuente: docs/contenido-fuente.md §5.
- * `whatsapp` queda sin poblar hasta confirmar que el tel es un canal de WhatsApp (M9).
  *
  * ⚠️ Ya no existe `socio`. El cliente pidió expresamente que su nombre no aparezca en el sitio
  * ("contacto → no pongan mi nombre solo el despacho", nota del 19-jul-2026): el contacto es
