@@ -12,11 +12,12 @@ const hasUpstash =
   !!process.env.UPSTASH_REDIS_REST_URL &&
   !!process.env.UPSTASH_REDIS_REST_TOKEN;
 
+const isProd = process.env.NODE_ENV === "production";
+
 /**
  * Instanciación perezosa: solo se crea el limitador real si ambas envs existen (trap 6.2). En dev
- * sin credenciales devolvemos un limitador no-op que PERMITE (fail-open por config ausente). Nunca
- * fail-closed por falta de credenciales locales. `analytics: false` evita la promesa `pending` que
- * se pierde en serverless (trap 6.4).
+ * sin credenciales se degrada a un no-op que PERMITE; en producción NO (ver `aplicar`).
+ * `analytics: false` evita la promesa `pending` que se pierde en serverless (trap 6.4).
  */
 const limiter = hasUpstash
   ? new Ratelimit({
@@ -41,36 +42,44 @@ const limiterNewsletter = hasUpstash
     })
   : null;
 
-/** ¿Está configurado el rate-limit real? Si no, el route sabe que un fallo NO debe ser 503. */
-export const rateLimitConfigured = hasUpstash;
-
 /**
- * Aplica el rate-limit por IP. Si no hay Upstash configurado → permite (fail-open, dev).
- * Si está configurado y Upstash cae, `limiter.limit` lanza y el route responde 503 (no fail-open).
+ * Aplica el rate-limit por IP. Sin Upstash configurado hay dos lecturas posibles, y el entorno
+ * decide cuál:
+ *
+ *  · En desarrollo, no tener credenciales es lo normal → no-op que PERMITE.
+ *  · En producción es un ERROR DE CONFIGURACIÓN → lanza, y el route responde 503.
+ *
+ * Antes permitía en silencio también en producción, así que un deploy sin las dos variables
+ * publicaba el sitio SIN NINGÚN límite y sin una sola señal de que faltaba (lo confirmó la
+ * auditoría del 1-ago-2026: 6 de 6 envíos aceptados con la cuota en 3). Mismo criterio que
+ * `sendContactEmail` sin RESEND_API_KEY y que el fail-CLOSED de Turnstile: ante una defensa
+ * ausente preferimos un fallo ruidoso, que se ve en el primer envío después de un deploy.
+ *
+ * Si Upstash está configurado y se cae, `limiter.limit` también lanza → mismo 503.
  */
-export async function limit(ip: string): Promise<LimitResult> {
-  if (!limiter) {
-    return {
-      success: true,
-      limit: 5,
-      remaining: 5,
-      reset: Date.now() + 600_000,
-    };
-  }
-  return limiter.limit(ip);
+async function aplicar(
+  instancia: Ratelimit | null,
+  cuota: number,
+  ip: string,
+): Promise<LimitResult> {
+  if (instancia) return instancia.limit(ip);
+  if (isProd) throw new Error("ratelimit_not_configured");
+  return {
+    success: true,
+    limit: cuota,
+    remaining: cuota,
+    reset: Date.now() + 600_000,
+  };
 }
 
-/** Igual que `limit`, para el formulario de newsletter (cuota y prefijo propios). */
-export async function limitNewsletter(ip: string): Promise<LimitResult> {
-  if (!limiterNewsletter) {
-    return {
-      success: true,
-      limit: 3,
-      remaining: 3,
-      reset: Date.now() + 600_000,
-    };
-  }
-  return limiterNewsletter.limit(ip);
+/** Rate-limit del formulario de contacto (5 / 10 min). */
+export function limit(ip: string): Promise<LimitResult> {
+  return aplicar(limiter, 5, ip);
+}
+
+/** Rate-limit del newsletter, con su cuota propia (3 / 10 min). */
+export function limitNewsletter(ip: string): Promise<LimitResult> {
+  return aplicar(limiterNewsletter, 3, ip);
 }
 
 /** IP del cliente. En Vercel el primer valor de x-forwarded-for es el cliente real (trap 6.3). */

@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 import { newsletterSchema } from "@/lib/validation";
-import {
-  getClientIp,
-  limitNewsletter,
-  rateLimitConfigured,
-} from "@/lib/ratelimit";
+import { getClientIp, limitNewsletter } from "@/lib/ratelimit";
 import { turnstileBypassed, verifyTurnstile } from "@/lib/turnstile";
 import { hasHeaderInjection, subscribeToNewsletter } from "@/lib/resend";
 import { report } from "@/lib/reporter";
@@ -115,7 +111,8 @@ export async function POST(req: Request) {
     rl = await limitNewsletter(ip);
   } catch {
     report("ratelimit_error");
-    return fail(rateLimitConfigured ? 503 : 500, "INTERNAL_ERROR", locale);
+    // Ver /api/contact: sin límite aplicable no se acepta el alta.
+    return fail(503, "INTERNAL_ERROR", locale);
   }
   if (!rl.success) {
     report("newsletter_rate_limited");

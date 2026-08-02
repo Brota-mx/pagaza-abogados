@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { contactSchema } from "@/lib/validation";
-import { getClientIp, limit, rateLimitConfigured } from "@/lib/ratelimit";
+import { getClientIp, limit } from "@/lib/ratelimit";
 import { turnstileBypassed, verifyTurnstile } from "@/lib/turnstile";
 import { hasHeaderInjection, sendContactEmail } from "@/lib/resend";
 import { report } from "@/lib/reporter";
@@ -109,8 +109,9 @@ export async function POST(req: Request) {
     rl = await limit(ip);
   } catch {
     report("ratelimit_error");
-    // Solo puede fallar si el limitador real está configurado (Upstash caído).
-    return fail(rateLimitConfigured ? 503 : 500, "INTERNAL_ERROR", locale);
+    // Upstash caído, o producción sin credenciales: en ambos casos no podemos aplicar el límite,
+    // y sin límite no se acepta el envío (503, no 500: es indisponibilidad, no un bug).
+    return fail(503, "INTERNAL_ERROR", locale);
   }
   if (!rl.success) {
     report("rate_limited");
