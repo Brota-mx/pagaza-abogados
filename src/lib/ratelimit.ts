@@ -91,9 +91,9 @@ function limitarEnMemoria(ip: string, cuota: number): LimitResult {
  * Antes permitía EN SILENCIO también en producción, así que un deploy sin las dos variables
  * publicaba el sitio sin ningún límite y sin una sola señal (auditoría del 1-ago-2026: 6 de 6
  * envíos aceptados con la cuota en 3). El primer arreglo fue lanzar en producción para que el
- * fallo fuera ruidoso, pero al retirarse Turnstile ese camino dejaba el formulario muerto en un
- * despliegue sin Upstash: sin captcha y sin límite, un 503 permanente. El respaldo en memoria
- * cubre el hueco sin fingir que la defensa está completa.
+ * fallo fuera ruidoso, pero eso deja el formulario MUERTO —503 permanente— en un despliegue sin
+ * Upstash, y el cliente no va a configurarlo. El respaldo en memoria cubre el hueco sin fingir
+ * que la defensa está completa. Turnstile sigue delante como barrera que falla cerrada.
  *
  * Si Upstash está configurado y se cae, `limiter.limit` lanza y el route responde 503: ahí sí es
  * indisponibilidad de algo que debería estar.

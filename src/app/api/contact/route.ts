@@ -1,5 +1,6 @@
 import { contactSchema } from "@/lib/validation";
 import { getClientIp, limit } from "@/lib/ratelimit";
+import { turnstileBypassed, verifyTurnstile } from "@/lib/turnstile";
 import { hasHeaderInjection, sendContactEmail } from "@/lib/resend";
 import { report } from "@/lib/reporter";
 import { crearRespuestas, detectLocale, leerCuerpo } from "@/lib/api-form";
@@ -73,6 +74,19 @@ export async function POST(req: Request) {
   if (hasHeaderInjection([data.nombre, data.email, data.empresa ?? ""])) {
     report("header_injection_attempt");
     return fail(400, "VALIDATION_ERROR", locale); // genérico, no confirmar el vector
+  }
+
+  // Modo D / E — Turnstile server-side (salvo bypass de dev sin secret).
+  if (!turnstileBypassed()) {
+    const verdict = await verifyTurnstile(data.turnstileToken, ip);
+    if (!verdict.ok) {
+      if (verdict.reason === "failed") {
+        report("captcha_failed");
+        return fail(400, "CAPTCHA_FAILED", locale);
+      }
+      report("captcha_unavailable");
+      return fail(503, "CAPTCHA_UNAVAILABLE", locale); // fail-CLOSED
+    }
   }
 
   // Modo H — Resend. Falla → 500 genérico (sin filtrar detalles del proveedor).

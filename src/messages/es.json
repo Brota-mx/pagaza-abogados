@@ -62,6 +62,7 @@
     "successTitle": "Mensaje enviado",
     "successMessage": "Gracias por escribirnos. Te contactaremos a la brevedad.",
     "sendAnother": "Enviar otro mensaje",
+    "turnstilePending": "Completa la verificación de seguridad para enviar.",
     "directTitle": "O contáctanos directo",
     "hp": "No llenar este campo",
     "fieldErrors": {
@@ -72,6 +73,8 @@
     },
     "errors": {
       "RATE_LIMITED": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+      "CAPTCHA_FAILED": "No pudimos verificar que eres humano. Recarga la página e inténtalo de nuevo.",
+      "CAPTCHA_UNAVAILABLE": "La verificación no está disponible por el momento. Inténtalo más tarde.",
       "VALIDATION_ERROR": "Revisa los campos del formulario e inténtalo de nuevo.",
       "BAD_REQUEST": "No pudimos procesar la solicitud. Inténtalo de nuevo.",
       "INTERNAL_ERROR": "No pudimos enviar tu mensaje. Escríbenos directo a a@pagaza.mx.",

@@ -15,19 +15,29 @@ import type { Locale } from "@/content/types";
 export type ErrCode =
   | "BAD_REQUEST"
   | "RATE_LIMITED"
+  | "CAPTCHA_FAILED"
+  | "CAPTCHA_UNAVAILABLE"
   | "VALIDATION_ERROR"
   | "INTERNAL_ERROR";
 
-/** Los mensajes que no dependen del formulario. Genéricos: nunca stacks, envs ni proveedores. */
+/** Los cuatro mensajes que no dependen del formulario. Genéricos: nunca stacks, envs ni proveedores. */
 const COMUNES = {
   es: {
     BAD_REQUEST: "Solicitud inválida.",
     RATE_LIMITED:
       "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+    CAPTCHA_FAILED:
+      "No pudimos verificar que eres humano. Recarga e inténtalo de nuevo.",
+    CAPTCHA_UNAVAILABLE:
+      "La verificación no está disponible por el momento. Inténtalo más tarde.",
   },
   en: {
     BAD_REQUEST: "Invalid request.",
     RATE_LIMITED: "Too many attempts. Please wait a few minutes and try again.",
+    CAPTCHA_FAILED:
+      "We couldn't verify you're human. Please reload and try again.",
+    CAPTCHA_UNAVAILABLE:
+      "Verification is unavailable right now. Please try again later.",
   },
 } as const;
 

@@ -8,19 +8,18 @@ const isProd = process.env.NODE_ENV === "production";
 /**
  * CSP estática por header (SIN nonce): un nonce por request forzaría render dinámico y mataría el
  * SSG (BUILD-NOTES M1 / trampa 4.1). Allowances (§3.6):
+ * - Turnstile: script-src (api.js) + frame-src (iframe del reto) + connect-src (postback).
  * - Vercel Analytics/Speed-Insights: script-src va.vercel-scripts.com + connect-src vitals.vercel-insights.com
  *   (la recolección /_vercel/* es same-origin, cubierta por 'self').
  * - 'unsafe-inline' es el compromiso aceptado por no usar nonce (bootstrap de hidratación + estilos
  *   inline de next/font y Tailwind). En DEV se añade 'unsafe-eval' (HMR/React Refresh) y se omite
  *   upgrade-insecure-requests (fricción en http://localhost).
- *
- * Sin allowances de Cloudflare: Turnstile se retiró a petición del cliente (1-ago-2026). Al no
- * quedar ningún tercero embebido, `frame-src` desaparece y hereda de `default-src 'self'`.
  */
 const scriptSrc = [
   "'self'",
   "'unsafe-inline'",
   ...(isProd ? [] : ["'unsafe-eval'"]),
+  "https://challenges.cloudflare.com",
   "https://va.vercel-scripts.com",
 ].join(" ");
 
@@ -30,7 +29,8 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
-  "connect-src 'self' https://vitals.vercel-insights.com",
+  "connect-src 'self' https://challenges.cloudflare.com https://vitals.vercel-insights.com",
+  "frame-src https://challenges.cloudflare.com",
   "form-action 'self'",
   "frame-ancestors 'none'",
   "base-uri 'self'",

@@ -9,6 +9,7 @@ import { CheckCircle2 } from "lucide-react";
 import { contactFormSchema, type ContactFormValues } from "@/lib/validation";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { TurnstileWidget } from "./TurnstileWidget";
 import { useEnvio } from "./useEnvio";
 
 type SectorOption = { value: string; label: string };
@@ -23,8 +24,20 @@ export function ContactForm({
 }) {
   const t = useTranslations("form");
   const consentErrorId = useId();
-  const { estado, setEstado, errorCode, enviar, hpRef } =
-    useEnvio<ContactFormValues>("/api/contact");
+  const {
+    estado,
+    setEstado,
+    errorCode,
+    enviar,
+    hpRef,
+    siteKey,
+    captchaOn,
+    captchaReady,
+    setToken,
+    resetSignal,
+    captchaMontado,
+    formRef,
+  } = useEnvio<ContactFormValues>("/api/contact");
 
   const {
     register,
@@ -63,7 +76,12 @@ export function ContactForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="space-y-5"
+    >
       {/* Honeypot: oculto para humanos, visible para bots. */}
       <div
         aria-hidden
@@ -203,6 +221,14 @@ export function ContactForm({
         </p>
       )}
 
+      {captchaOn && captchaMontado && (
+        <TurnstileWidget
+          siteKey={siteKey}
+          onToken={setToken}
+          resetSignal={resetSignal}
+        />
+      )}
+
       {estado === "error" && (
         <p
           role="alert"
@@ -214,11 +240,14 @@ export function ContactForm({
 
       <button
         type="submit"
-        disabled={estado === "submitting"}
+        disabled={estado === "submitting" || !captchaReady}
         className="bg-navy hover:bg-navy-2 focus-visible:ring-brand focus-visible:ring-offset-bg inline-flex cursor-pointer items-center justify-center rounded-[2px] px-8 py-3.5 text-sm font-medium tracking-[0.1em] text-white uppercase transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       >
         {estado === "submitting" ? t("submitting") : t("submit")}
       </button>
+      {captchaOn && captchaMontado && !captchaReady && estado !== "submitting" && (
+        <p className="text-muted text-xs">{t("turnstilePending")}</p>
+      )}
     </form>
   );
 }

@@ -1,5 +1,6 @@
 import { newsletterSchema } from "@/lib/validation";
 import { getClientIp, limitNewsletter } from "@/lib/ratelimit";
+import { turnstileBypassed, verifyTurnstile } from "@/lib/turnstile";
 import { hasHeaderInjection, subscribeToNewsletter } from "@/lib/resend";
 import { report } from "@/lib/reporter";
 import { crearRespuestas, detectLocale, leerCuerpo } from "@/lib/api-form";
@@ -25,8 +26,8 @@ const { fail, succeed } = crearRespuestas({
 
 /**
  * Alta en el newsletter. Mismo pipeline de defensa que /api/contact y en el mismo orden
- * (tamaño → parseo → rate-limit → honeypot → Zod → anti-injection → proveedor), para que las dos
- * superficies dinámicas del sitio se auditen como una sola.
+ * (tamaño → parseo → rate-limit → honeypot → Zod → anti-injection → Turnstile → proveedor), para
+ * que las dos superficies dinámicas del sitio se auditen como una sola.
  */
 export async function POST(req: Request) {
   const cuerpo = await leerCuerpo(req, MAX_BODY);
@@ -74,6 +75,18 @@ export async function POST(req: Request) {
   if (hasHeaderInjection([data.email])) {
     report("header_injection_attempt");
     return fail(400, "VALIDATION_ERROR", locale); // genérico, no confirmar el vector
+  }
+
+  if (!turnstileBypassed()) {
+    const verdict = await verifyTurnstile(data.turnstileToken, ip);
+    if (!verdict.ok) {
+      if (verdict.reason === "failed") {
+        report("captcha_failed");
+        return fail(400, "CAPTCHA_FAILED", locale);
+      }
+      report("captcha_unavailable");
+      return fail(503, "CAPTCHA_UNAVAILABLE", locale); // fail-CLOSED
+    }
   }
 
   try {
