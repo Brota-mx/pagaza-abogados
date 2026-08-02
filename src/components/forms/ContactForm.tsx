@@ -35,6 +35,8 @@ export function ContactForm({
     captchaReady,
     setToken,
     resetSignal,
+    captchaMontado,
+    formRef,
   } = useEnvio<ContactFormValues>("/api/contact");
 
   const {
@@ -74,7 +76,12 @@ export function ContactForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="space-y-5"
+    >
       {/* Honeypot: oculto para humanos, visible para bots. */}
       <div
         aria-hidden
@@ -214,7 +221,7 @@ export function ContactForm({
         </p>
       )}
 
-      {captchaOn && (
+      {captchaOn && captchaMontado && (
         <TurnstileWidget
           siteKey={siteKey}
           onToken={setToken}
@@ -238,7 +245,7 @@ export function ContactForm({
       >
         {estado === "submitting" ? t("submitting") : t("submit")}
       </button>
-      {captchaOn && !captchaReady && estado !== "submitting" && (
+      {captchaOn && captchaMontado && !captchaReady && estado !== "submitting" && (
         <p className="text-muted text-xs">{t("turnstilePending")}</p>
       )}
     </form>

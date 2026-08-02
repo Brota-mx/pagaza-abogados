@@ -1,7 +1,16 @@
 import { ImageResponse } from "next/og";
+import { routing } from "@/i18n/routing";
 
-// OG image dinámica por locale (Next la autodetecta y la inyecta en la metadata del segmento).
+// OG image por locale (Next la autodetecta y la inyecta en la metadata del segmento).
 export const runtime = "nodejs";
+
+/**
+ * Son dos imágenes fijas, así que se generan en el build. Sin esto la ruta quedaba dinámica y cada
+ * rastreador o preview de red social pagaba un render de satori en cold start (auditoría 1-ago-2026).
+ */
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 export const alt = "Pagaza Abogados Tributarios";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

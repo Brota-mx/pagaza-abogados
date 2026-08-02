@@ -1,4 +1,4 @@
-import { Inter, Montserrat } from "next/font/google";
+import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 /**
@@ -50,10 +50,25 @@ export const inter = Inter({
   display: "swap",
 });
 
-// Sans geométrico para el WORDMARK (iguala el logo real: "PAGAZA" sans, tracking amplio).
-export const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["500", "600"],
+/**
+ * Sans geométrico para el WORDMARK (iguala el logo real: "PAGAZA" sans, tracking amplio).
+ *
+ * Va auto-alojada y RECORTADA a los 12 glifos que dibuja —ABDGIOPRSTUZ, o sea "PAGAZA",
+ * "ABOGADOS TRIBUTARIOS" y la P de agua del footer—: vía next/font/google bajaban 35 kB del
+ * subset latino completo para pintar doce letras (auditoría del 1-ago-2026). El recorte deja el
+ * archivo en 3 kB, un 91% menos, conservando el eje variable de peso 100–900 para que sigan
+ * funcionando el 500 de la bajada y el 600 del wordmark.
+ *
+ * Regenerar tras cambiar el texto de la marca:
+ *   pyftsubset <montserrat-variable.ttf> --text="ABDGIOPRSTUZ" --flavor=woff2 \
+ *     --output-file=public/fonts/montserrat-wordmark.woff2
+ *
+ * Licencia SIL OFL 1.1 — ver public/fonts/LICENSE-MONTSERRAT-OFL.txt (obligatorio conservarla al
+ * redistribuir la fuente, y este repo es público).
+ */
+export const montserrat = localFont({
+  src: "../../public/fonts/montserrat-wordmark.woff2",
+  weight: "100 900",
   variable: "--font-montserrat",
   display: "swap",
 });

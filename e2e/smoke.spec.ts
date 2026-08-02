@@ -261,6 +261,11 @@ test.describe("formulario de contacto", () => {
   test("submit vacío muestra errores de validación", async ({ page }) => {
     await page.goto("/es");
     const form = page.locator("#contacto");
+    // El captcha se monta cuando el formulario se acerca a pantalla, y hasta que resuelve el botón
+    // sigue deshabilitado. Playwright da por "visible" un elemento fuera de pantalla y no desplaza
+    // hasta poder pulsar, así que sin este scroll se queda esperando un botón que nunca se habilita.
+    // Una persona no puede pulsar un botón que no ha visto: esto reproduce el gesto real.
+    await form.scrollIntoViewIfNeeded();
     await form.getByRole("button", { name: /^Enviar mensaje$/ }).click();
     await expect(form.getByText(/Ingresa tu nombre/i)).toBeVisible();
     await expect(form.getByText(/correo electrónico válido/i)).toBeVisible();

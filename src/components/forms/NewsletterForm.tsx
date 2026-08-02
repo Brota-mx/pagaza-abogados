@@ -38,6 +38,8 @@ export function NewsletterForm() {
     captchaReady,
     setToken,
     resetSignal,
+    captchaMontado,
+    formRef,
   } = useEnvio<NewsletterFormValues>("/api/newsletter");
 
   const {
@@ -71,7 +73,12 @@ export function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="space-y-4"
+    >
       {/* Honeypot: oculto para humanos, visible para bots. */}
       <div
         aria-hidden
@@ -144,7 +151,7 @@ export function NewsletterForm() {
         </p>
       )}
 
-      {captchaOn && (
+      {captchaOn && captchaMontado && (
         <TurnstileWidget
           siteKey={siteKey}
           onToken={setToken}
@@ -160,7 +167,7 @@ export function NewsletterForm() {
           {tForm(`errors.${errorCode}`)}
         </p>
       )}
-      {captchaOn && !captchaReady && estado !== "submitting" && (
+      {captchaOn && captchaMontado && !captchaReady && estado !== "submitting" && (
         <p className="text-xs text-white/60">{tForm("turnstilePending")}</p>
       )}
     </form>

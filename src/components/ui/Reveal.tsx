@@ -52,7 +52,9 @@ export function Reveal({
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
       className={cn(
-        "transition-all duration-500 ease-out motion-reduce:transition-none",
+        // Sólo opacidad y transform: `transition-all` animaba toda propiedad animable en los 29
+        // Reveal de la home, incluidas las que nunca cambian.
+        "transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none",
         visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
         className,
       )}
