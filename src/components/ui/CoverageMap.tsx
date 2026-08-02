@@ -17,13 +17,15 @@ const PINES_OFICINAS = [
 ];
 
 /**
- * Cobertura geográfica: mapa real de México (tiles CARTO Positron sin etiquetas, dominio público/
- * uso libre, recorteados y recoloreados a duotono navy/brand una sola vez — ver
+ * Cobertura geográfica: nota + lista de regiones (contenida, como el resto de la sección) seguida
+ * de un mapa real de México a todo lo ancho de la pantalla (tiles CARTO Positron sin etiquetas,
+ * dominio público/uso libre, recortados y recoloreados a duotono navy/brand una sola vez — ver
  * `public/images/mapa-mexico.png`) con un pin por sede física. Un mapa esquemático dibujado a mano
  * se descartó en una auditoría anterior por representar mal la silueta; este usa geografía real, no
- * inventada. El mapa + pines son decorativos (aria-hidden): la dirección completa de cada sede ya
- * vive como texto accesible en Footer y Contacto. La lista de la izquierda (corresponsalías por
- * región) es distinta del mapa: la red de aliados no son puntos en México. Server component.
+ * inventada. El mapa rompe el `Container` con el truco estándar de full-bleed
+ * (`w-screen` + márgenes negativos de 50vw): no depende del ancho del padre, solo de que ningún
+ * ancestro tenga `overflow-x: hidden`. Mapa + pines son decorativos (aria-hidden): la dirección
+ * completa de cada sede ya vive como texto accesible en Footer y Contacto. Server component.
  */
 export function CoverageMap({
   cobertura,
@@ -43,15 +45,15 @@ export function CoverageMap({
   const internacional = cobertura.filter((c) => c.tipo === "internacional");
 
   return (
-    <div className="grid gap-12 border-t border-white/15 pt-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-      <div>
+    <>
+      <div className="border-t border-white/15 pt-12">
         <p className="text-steel-soft mb-4 flex items-center gap-3 text-xs font-medium tracking-[0.14em] uppercase">
           <span aria-hidden className="bg-steel h-px w-8" />
           {labels.titulo}
         </p>
         <p className="max-w-md leading-relaxed text-white/70">{labels.nota}</p>
 
-        <dl className="mt-8 grid grid-cols-2 gap-8">
+        <dl className="mt-8 grid max-w-md grid-cols-2 gap-8">
           <div>
             <dt className="text-steel-soft text-xs font-medium tracking-[0.14em] uppercase">
               {labels.nacional}
@@ -75,14 +77,14 @@ export function CoverageMap({
         </dl>
       </div>
 
-      <div className="border-white/15 relative w-full overflow-hidden rounded-[4px] border">
-        <div aria-hidden>
+      <div className="relative left-1/2 mt-12 w-screen -translate-x-1/2">
+        <div aria-hidden className="relative">
           <Image
             src="/images/mapa-mexico.png"
             alt=""
-            width={900}
-            height={678}
-            sizes="(min-width: 1024px) 50vw, 100vw"
+            width={1500}
+            height={1130}
+            sizes="100vw"
             className="w-full"
           />
           {siteInfo.oficinas.map((oficina, i) => {
@@ -94,8 +96,8 @@ export function CoverageMap({
                 className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5"
                 style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
               >
-                <span className="bg-steel-soft ring-navy/60 h-2 w-2 rounded-full ring-2" />
-                <span className="bg-navy-ink/80 rounded-[2px] px-1.5 py-0.5 text-[10px] font-medium tracking-[0.08em] whitespace-nowrap text-white uppercase">
+                <span className="bg-steel-soft ring-navy/60 h-2 w-2 rounded-full ring-2 md:h-2.5 md:w-2.5" />
+                <span className="bg-navy-ink/80 rounded-[2px] px-2 py-1 text-[10px] font-medium tracking-[0.08em] whitespace-nowrap text-white uppercase md:text-xs">
                   {localize(oficina.ciudad, locale)}
                 </span>
               </div>
@@ -104,7 +106,7 @@ export function CoverageMap({
         </div>
         {/* Atribución de datos (ODbL): obligatoria aunque el mapa esté recoloreado y horneado
             como imagen estática — es la geometría de OpenStreetMap la que se reutiliza. */}
-        <p className="absolute right-2 bottom-1.5 text-[9px] text-white/40">
+        <p className="absolute right-3 bottom-2 text-[10px] text-white/40">
           ©{" "}
           <a
             href="https://www.openstreetmap.org/copyright"
@@ -116,6 +118,6 @@ export function CoverageMap({
           </a>
         </p>
       </div>
-    </div>
+    </>
   );
 }
