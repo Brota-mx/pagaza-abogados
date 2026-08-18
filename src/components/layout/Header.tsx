@@ -138,7 +138,9 @@ export function Header() {
         ) : (
           <>
             {/* Primera pantalla: unos pocos enlaces y el idioma. Nada más — ni marca ni
-                hamburguesa. `gap-4` en móvil: con tres enlaces, `gap-7` desbordaba a 375px. */}
+                hamburguesa. El gap se aprieta en el breakpoint base porque al sumar el tercer
+                enlace la fila va justa en pantallas estrechas; medido hasta 320px, donde con
+                `gap-7` el rótulo chocaba con el selector de idioma. */}
             <nav
               aria-label={t("menu")}
               className="flex items-center gap-3 text-sm sm:gap-7"

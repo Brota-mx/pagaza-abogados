@@ -8,8 +8,10 @@ import { cn } from "@/lib/utils";
  * La marca X no tiene icono correcto en lucide: su export `X` es la cruz de cerrar (la que usa el
  * menú móvil del Header) y `Twitter` es el pájaro anterior al rebranding. Se dibuja aquí en el
  * mismo registro de trazo que el resto de iconos del sitio, en vez de incrustar el glifo sólido
- * oficial: mezclar una marca sólida con iconos de trazo 1.5px rompe el sistema visual, y el trazo
+ * oficial: mezclar una marca sólida con iconos de trazo rompe el sistema visual, y el trazo
  * transmite igual de bien de qué red se trata cuando el enlace ya lleva su nombre accesible.
+ * `strokeWidth={2}` no es arbitrario: es el valor por defecto de lucide, así que la X pesa lo
+ * mismo que los iconos de Instagram y Facebook que tiene al lado.
  */
 function IconoX({ className }: { className?: string }) {
   return (
@@ -17,7 +19,7 @@ function IconoX({ className }: { className?: string }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={2}
       strokeLinecap="round"
       aria-hidden
       focusable="false"
@@ -75,7 +77,12 @@ export async function RedesSociales({
       >
         {t("titulo")}
       </p>
-      <ul className="flex items-center">
+      {/* El -ml-3 va en la lista, no en cada enlace: recupera una sola vez la alineación óptica
+          con el texto de arriba, que el padding del área táctil rompería. Estaba como
+          `first:-ml-3` en el <a>, pero el <a> es hijo ÚNICO de su <li>, así que `first:` casaba
+          con todos y el desplazamiento se aplicaba a cada icono — invisible con una sola red,
+          roto en cuanto se añadiera Facebook o X. */}
+      <ul className="-ml-3 flex items-center">
         {redes.map(({ red, url }) => {
           const Icono = ICONOS[red];
           return (
@@ -85,11 +92,10 @@ export async function RedesSociales({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={t("enlace", { red: NOMBRES[red] })}
-                /* h-11 w-11 = 44px de área táctil: el commit e264ef7 ya tuvo que corregir objetivos
-                   por debajo de ese mínimo en el menú móvil. El -ml-3 del primero recupera la
-                   alineación óptica con el texto de al lado, que el padding rompería. */
+                /* h-11 w-11 = 44px de área táctil: el commit e264ef7 ya tuvo que corregir
+                   objetivos por debajo de ese mínimo en el menú móvil. */
                 className={cn(
-                  "flex h-11 w-11 items-center justify-center rounded-[2px] transition-colors first:-ml-3 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+                  "flex h-11 w-11 items-center justify-center rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
                   light
                     ? "focus-visible:ring-offset-navy text-white/80 hover:text-white focus-visible:ring-white"
                     : "text-muted hover:text-brand focus-visible:ring-brand",
