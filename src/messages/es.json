@@ -17,6 +17,7 @@
     "capacidades": "Capacidades",
     "sectores": "Experiencias",
     "alianzas": "Alianzas",
+    "equipo": "Equipo",
     "contacto": "Contacto",
     "menu": "Menú principal",
     "open": "Abrir menú",
@@ -55,6 +56,7 @@
     "telefono": "Teléfono",
     "sector": "Sector",
     "sectorPlaceholder": "Selecciona un sector",
+    "sectorOtro": "Otro",
     "mensaje": "Mensaje",
     "optional": "opcional",
     "submit": "Enviar mensaje",
@@ -83,6 +85,10 @@
     "consentimiento": "Acepto el tratamiento de mis datos conforme al",
     "avisoLink": "Aviso de Privacidad",
     "consentimientoError": "Debes aceptar el Aviso de Privacidad para enviar el formulario."
+  },
+  "redes": {
+    "titulo": "Redes",
+    "enlace": "{red} (abre en una pestaña nueva)"
   },
   "newsletter": {
     "eyebrow": "Newsletter",

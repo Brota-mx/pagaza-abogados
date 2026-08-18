@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { Link, getPathname, usePathname } from "@/i18n/navigation";
@@ -16,6 +16,13 @@ const enlaceNav =
   "group relative rounded-[2px] py-1 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none";
 const subrayadoNav =
   "absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-current transition-transform duration-200 group-hover:scale-x-100";
+
+/**
+ * Enlaces de la primera pantalla (estado transparente). Se mapean en vez de escribirlos a mano:
+ * "Nuestro equipo" se sumó en agosto de 2026 y triplicar el literal `<a>` + separador es
+ * exactamente como se desincronizan. Las claves son de `messages.nav`.
+ */
+const ENLACES_PORTADA = ["inicio", "newsletter", "equipo"] as const;
 
 /**
  * Header fijo de dos capas (petición del cliente, 19-jul-2026):
@@ -84,7 +91,7 @@ export function Header() {
           : "border-b border-transparent bg-transparent text-white",
       )}
     >
-      <Container className="flex h-20 items-center justify-between">
+      <Container className="flex h-20 items-center justify-between gap-3">
         {solid ? (
           <>
             <Link
@@ -130,22 +137,27 @@ export function Header() {
           </>
         ) : (
           <>
-            {/* Primera pantalla: dos enlaces y el idioma. Nada más — ni marca ni hamburguesa. */}
+            {/* Primera pantalla: unos pocos enlaces y el idioma. Nada más — ni marca ni
+                hamburguesa. El gap se aprieta en el breakpoint base porque al sumar el tercer
+                enlace la fila va justa en pantallas estrechas; medido hasta 320px, donde con
+                `gap-7` el rótulo chocaba con el selector de idioma. */}
             <nav
               aria-label={t("menu")}
-              className="flex items-center gap-7 text-sm"
+              className="flex items-center gap-3 text-sm sm:gap-7"
             >
-              <a href={ancla("inicio")} className={enlaceNav}>
-                {t("inicio")}
-                <span aria-hidden className={subrayadoNav} />
-              </a>
-              <span aria-hidden className="text-current/30">
-                |
-              </span>
-              <a href={ancla("newsletter")} className={enlaceNav}>
-                {t("newsletter")}
-                <span aria-hidden className={subrayadoNav} />
-              </a>
+              {ENLACES_PORTADA.map((clave, i) => (
+                <Fragment key={clave}>
+                  {i > 0 && (
+                    <span aria-hidden className="text-current/30">
+                      |
+                    </span>
+                  )}
+                  <a href={ancla(clave)} className={enlaceNav}>
+                    {t(clave)}
+                    <span aria-hidden className={subrayadoNav} />
+                  </a>
+                </Fragment>
+              ))}
             </nav>
             <LocaleSwitcher />
           </>

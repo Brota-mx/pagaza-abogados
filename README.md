@@ -51,8 +51,8 @@ transición de cliente.
 Home one-page bilingüe, **estática (SSG)** salvo dos superficies dinámicas: `POST /api/contact` y
 `POST /api/newsletter`, que comparten el mismo pipeline de defensa. Secciones, en el orden que
 pidió el cliente: Hero · Nuestro compromiso · Servicios · ¿Cómo lo hacemos? · Capacidades ·
-Experiencias e industrias (12 sectores) · Alianzas · Newsletter · Contacto. Metodología no es
-sección propia: vive dentro de "¿Cómo lo hacemos?".
+Experiencias e industrias (12 sectores) · Alianzas · Nuestro equipo · Newsletter · Contacto.
+Metodología no es sección propia: vive dentro de "¿Cómo lo hacemos?".
 
 Páginas legales con **URL traducida** (`routing.pathnames`): `/es/aviso-de-privacidad` ↔
 `/en/privacy-notice`, `/es/aviso-legal` ↔ `/en/legal-notice`.
@@ -96,6 +96,18 @@ la lista completa y las llaves de test de dev.
       `CONTACT_FROM_EMAIL` de `onboarding@resend.dev` a `no-reply@pagaza.mx`.
 - [ ] Configurar el dominio `pagaza.mx` en Vercel cuando el cliente entregue el DNS; actualizar
       `NEXT_PUBLIC_SITE_URL`.
+- [ ] 🔴 **Fotografías y semblanzas del equipo.** La sección "Nuestro equipo" está montada con
+      marcadores de posición: el retrato es un monograma y la semblanza dice, en la propia página,
+      que está pendiente. Sólo el nombre y el cargo del socio fundador son datos verificados; NO se
+      han inventado credenciales, años de experiencia ni membresías, y no deben inventarse (ver la
+      regla en `src/content/equipo.ts`). **No desactivar Deployment Protection antes de sustituir
+      esto**, o el sitio público mostrará los marcadores.
+- [ ] **Perfiles de Facebook y X.** Sólo hay Instagram
+      (`https://www.instagram.com/pagaza_abogados`). Cuando el cliente los pase, se añaden en
+      `siteInfo.redes` (`src/content/site.ts`) y aparecen solos en el footer y en el `sameAs` del
+      JSON-LD; no hay que tocar ningún componente.
+- [ ] **Contenido real del boletín.** La sección Newsletter muestra un envío de EJEMPLO, rotulado
+      como tal en la página. Los titulares son temas ilustrativos, no publicaciones existentes.
 - [ ] 🔴 **Validación legal del Aviso de Privacidad y del Aviso Legal** (`src/content/legal.ts`).
       Están redactados como BORRADOR desde el lado técnico: el inventario de datos y encargados sí
       está verificado contra el código, pero Alfonso debe revisar y firmar el marco normativo (en
@@ -112,6 +124,8 @@ la lista completa y las llaves de test de dev.
 - **`docs/BUILD-NOTES.md`** — auditoría, plan por fases, trampas del stack y checklist.
 - **`docs/contenido-fuente.md`** — contenido canónico del despacho (fuente de `src/content`).
 - **`docs/glosario-es-en.md`** — terminología jurídico-fiscal ES→EN fija.
+- **`docs/bitacora-sesion-2026-08-18.md`** — registro completo de la sesión del 18-ago-2026:
+  qué se pidió, qué se decidió y por qué, inventario de archivos, verificación y pendientes.
 - **`CLAUDE.md`** — guía para trabajar con Claude Code en este repo.
 
 ## Notas de organización (Brota)
@@ -122,7 +136,13 @@ si se requiere, puede transferirse al **Team Brota**.
 
 ## Estado
 
-Fases 1–10 completas: chrome + SEO, contenido tipado bilingüe, las 7 secciones (Hero, Compromiso,
-Pilares, Metodología, Sectores interactivo, Alianzas + Cobertura, Contacto), formulario seguro
-(`/api/contact`), JSON-LD + OG dinámico, CSP + security headers, y E2E Playwright. Falta la
-**Fase 11** operativa: cargar secretos reales en Vercel, dominio y verificación de Resend.
+Fases 1–10 completas: chrome + SEO, contenido tipado bilingüe, las secciones (Hero, Compromiso,
+Pilares, Metodología, Sectores interactivo, Alianzas + Cobertura, Nuestro equipo, Newsletter,
+Contacto), formulario seguro (`/api/contact`), JSON-LD + OG dinámico, CSP + security headers, y
+E2E Playwright. Falta la **Fase 11** operativa: cargar secretos reales en Vercel, dominio y
+verificación de Resend.
+
+Comentarios del cliente de agosto de 2026, aplicados: opción "Otro" en el desplegable de sector,
+sección "Nuestro equipo" (borrador, pendiente de fotos y semblanzas), muestra de un envío en el
+apartado Newsletter, iconos de redes sociales (sólo Instagram por ahora) y corrección del pin de
+Ciudad Juárez, que en móvil se dibujaba del lado estadounidense de la frontera.

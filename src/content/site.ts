@@ -49,6 +49,18 @@ export const siteInfo: SiteInfo = {
       },
     },
   ],
+  /**
+   * Perfiles reales, verificados. El cliente pasó Instagram en agosto de 2026 como enlace a un post
+   * (`/p/DbUfzETDfGf/?igsh=…`); aquí se guarda el PERFIL y sin el parámetro de tracking, que es lo
+   * que debe abrir un icono del sitio.
+   *
+   * Facebook y X: el cliente aún no los ha pasado. Cuando lleguen, se añaden aquí y aparecen solos
+   * en el footer y en el `sameAs` del JSON-LD — no hay que tocar ningún componente. Mientras tanto
+   * NO se inventa un enlace ni se deja un icono muerto.
+   */
+  redes: {
+    instagram: "https://www.instagram.com/pagaza_abogados",
+  },
 };
 
 /**
@@ -62,5 +74,6 @@ export const NAV_SECTIONS = [
   { id: "capacidades", key: "capacidades" },
   { id: "sectores", key: "sectores" },
   { id: "alianzas", key: "alianzas" },
+  { id: "equipo", key: "equipo" },
   { id: "contacto", key: "contacto" },
 ] as const;

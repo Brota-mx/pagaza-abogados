@@ -10,6 +10,12 @@ type Region = { region: string; tipo: "nacional" | "internacional" };
  * de cada sede sobre el recorte final del mapa (script de un solo uso, no versionado: el mapa es
  * un asset estático, no se regenera en build). Si cambia el recorte de la imagen o el orden de
  * `oficinas`, hay que recalcular.
+ *
+ * ⚠️ ESTOS NÚMEROS SON CORRECTOS — verificados por Mercator inverso (el aspect-ratio que implican,
+ * 1.344, cuadra con el real de la imagen, 1500×1130 = 1.327, dentro del 1.2%). El cliente reportó
+ * en agosto de 2026 que el pin de Ciudad Juárez caía del lado estadounidense en móvil, pero el
+ * error estaba en el ANCLA DEL RENDER, no aquí (ver el comentario del bloque de pines abajo).
+ * Antes de recalcular nada, mide con `e2e/mapa.spec.ts`.
  */
 const PINES_OFICINAS = [
   { x: 58.0, y: 74.3 }, // Ciudad de México
@@ -26,6 +32,15 @@ const PINES_OFICINAS = [
  * (`w-screen` + márgenes negativos de 50vw): no depende del ancho del padre, solo de que ningún
  * ancestro tenga `overflow-x: hidden`. Mapa + pines son decorativos (aria-hidden): la dirección
  * completa de cada sede ya vive como texto accesible en Footer y Contacto. Server component.
+ *
+ * Anclaje de los pines: cada sede es un contenedor SIN dimensiones colocado exactamente en su
+ * coordenada porcentual, del que cuelgan punto y etiqueta en posición absoluta. Antes el
+ * contenedor era un flex column con `-translate-y-1/2`, que centraba el conjunto punto+etiqueta
+ * (~37px de alto) sobre la coordenada y dejaba el punto ~14.5px por encima de su sitio. Ese offset
+ * es en píxeles FIJOS mientras la coordenada es un PORCENTAJE, así que el error crecía al encoger
+ * la pantalla: 1.4 puntos porcentuales a 1440px pero 5.1 a 375px, suficiente para empujar el pin
+ * de Ciudad Juárez —que está a un paso de la frontera— al lado estadounidense. Medido en
+ * `e2e/mapa.spec.ts`, que corre a tres anchos precisamente para fijar esa independencia.
  */
 export function CoverageMap({
   cobertura,
@@ -93,11 +108,23 @@ export function CoverageMap({
             return (
               <div
                 key={oficina.ciudad.es}
-                className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5"
+                className="absolute"
                 style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
               >
-                <span className="bg-steel-soft ring-navy/60 h-2 w-2 rounded-full ring-2 md:h-2.5 md:w-2.5" />
-                <span className="bg-navy-ink/80 rounded-[2px] px-2 py-1 text-[10px] font-medium tracking-[0.08em] whitespace-nowrap text-white uppercase md:text-xs">
+                {/* El punto se centra sobre el origen usando SU PROPIO tamaño (10px fijos), así que
+                    su posición no depende ni del texto de la etiqueta ni del ancho de la pantalla.
+                    `data-punto` es el gancho de `e2e/mapa.spec.ts`, que mide dónde cae de verdad:
+                    no lo quites sin actualizar el test. */}
+                <span
+                  data-punto={i}
+                  className="bg-steel-soft ring-navy/60 absolute top-0 left-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2"
+                />
+                {/* La etiqueta también cuelga del origen en absoluto: por mucho que crezca —o que
+                    cambie de idioma— no puede arrastrar al punto. Oculta bajo `md` porque sobre un
+                    mapa de 375px una píldora ocupa ~24% del ancho; el bloque es decorativo
+                    (aria-hidden) y las direcciones completas viven como texto en Footer y Contacto,
+                    así que ocultarla no quita información, solo ruido. */}
+                <span className="bg-navy-ink/80 absolute top-0 left-0 hidden -translate-x-1/2 translate-y-[9px] rounded-[2px] px-2 py-1 text-xs font-medium tracking-[0.08em] whitespace-nowrap text-white uppercase md:inline-block">
                   {localize(oficina.ciudad, locale)}
                 </span>
               </div>
@@ -112,7 +139,7 @@ export function CoverageMap({
             href="https://www.openstreetmap.org/copyright"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-white/70 underline underline-offset-2"
+            className="underline underline-offset-2 hover:text-white/70"
           >
             OpenStreetMap
           </a>

@@ -6,13 +6,19 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { CheckCircle2 } from "lucide-react";
-import { contactFormSchema, type ContactFormValues } from "@/lib/validation";
+import {
+  SECTOR_OTRO,
+  contactFormSchema,
+  type ContactFormValues,
+  type SectorId,
+} from "@/lib/validation";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { TurnstileWidget } from "./TurnstileWidget";
 import { useEnvio } from "./useEnvio";
 
-type SectorOption = { value: string; label: string };
+/** `value` tipado contra el enum: una opción con un id inexistente no compila. */
+type SectorOption = { value: SectorId; label: string };
 
 const fieldBase =
   "w-full rounded-[2px] border bg-surface px-4 py-3 text-ink transition-colors placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1 focus:ring-offset-bg";
@@ -172,6 +178,11 @@ export function ContactForm({
               {o.label}
             </option>
           ))}
+          {/* "Otro" cierra la lista: es la salida para quien no encaja en las doce industrias, no
+              una industria más, así que no viene de `content/sectores.ts`. El value se importa de
+              `lib/validation` —la misma fuente que el `z.enum`— porque un literal desalineado no
+              da error: RHF simplemente deja de disparar el submit y el botón parece muerto. */}
+          <option value={SECTOR_OTRO}>{t("sectorOtro")}</option>
         </select>
       </Field>
 
@@ -245,9 +256,12 @@ export function ContactForm({
       >
         {estado === "submitting" ? t("submitting") : t("submit")}
       </button>
-      {captchaOn && captchaMontado && !captchaReady && estado !== "submitting" && (
-        <p className="text-muted text-xs">{t("turnstilePending")}</p>
-      )}
+      {captchaOn &&
+        captchaMontado &&
+        !captchaReady &&
+        estado !== "submitting" && (
+          <p className="text-muted text-xs">{t("turnstilePending")}</p>
+        )}
     </form>
   );
 }
@@ -307,7 +321,11 @@ function Field({
       </span>
       {field}
       {error && (
-        <span id={errorId} role="alert" className="text-error mt-1 block text-sm">
+        <span
+          id={errorId}
+          role="alert"
+          className="text-error mt-1 block text-sm"
+        >
           {error}
         </span>
       )}

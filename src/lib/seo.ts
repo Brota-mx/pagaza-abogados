@@ -1,6 +1,8 @@
 import { routing } from "@/i18n/routing";
 import { siteInfo } from "@/content/site";
-import type { Locale } from "@/content/types";
+import { equipo } from "@/content/equipo";
+import { listaRedes } from "./redes";
+import { t, type Locale } from "@/content/types";
 
 /** URL canónica del sitio, sin barra final. Fallback seguro para no romper el build si falta env. */
 export const SITE_URL =
@@ -24,7 +26,10 @@ export const SEO_KEYWORDS = [
  * geo-coordenadas y horarios por no tener el dato exacto (mejor omitir que inventar).
  */
 export function legalServiceJsonLd(locale: Locale, description: string) {
-  return {
+  const perfiles = listaRedes().map((r) => r.url);
+  const fundador = equipo.miembros.find((m) => m.fundador);
+
+  const datos = {
     "@context": "https://schema.org",
     "@type": ["LegalService", "LocalBusiness"],
     "@id": `${SITE_URL}/#organization`,
@@ -39,10 +44,24 @@ export function legalServiceJsonLd(locale: Locale, description: string) {
       { "@type": "Country", name: "México" },
       { "@type": "Country", name: "Estados Unidos" },
     ],
-    // Sin `founder`: el cliente pidió que su nombre no figure en el sitio mientras define la
-    // sección de equipo. Se retira también del JSON-LD para no publicar por la puerta de atrás lo
-    // que se quitó de la interfaz.
+    // `founder` vuelve: se había retirado porque el cliente pidió (19-jul-2026) que su nombre no
+    // figurara mientras definía la sección de equipo, y no se quería publicar por la puerta de
+    // atrás lo que se había quitado de la interfaz. En agosto de 2026 confirmó la sección, así que
+    // se cumple la condición. Se deriva de `content/equipo.ts` para que el dato estructurado no
+    // pueda divergir de lo que la página muestra.
     //
+    // Sólo nombre y cargo, que son los dos datos verificados. NUNCA la semblanza: hoy es un
+    // marcador de posición y emitirlo como `description` sería exactamente publicar un placeholder
+    // como si fuera dato.
+    ...(fundador
+      ? {
+          founder: {
+            "@type": "Person",
+            name: fundador.nombre,
+            jobTitle: t(fundador.cargo, locale),
+          },
+        }
+      : {}),
     // Una entrada por sede, derivadas de `siteInfo.oficinas`: el domicilio estaba hardcodeado y se
     // quedó en CDMX cuando el cliente sumó Ciudad Juárez, así que Google seguía viendo un despacho
     // de una sola sede (auditoría del 1-ago-2026). Ahora agregar una sede al contenido la publica
@@ -56,6 +75,12 @@ export function legalServiceJsonLd(locale: Locale, description: string) {
       addressCountry: "MX",
     })),
   } as const;
+
+  // `sameAs` sólo si hay perfiles de verdad: un array vacío contradiría la política de arriba
+  // ("mejor omitir que inventar"). Se deriva de `listaRedes()`, la misma fuente que pinta los
+  // iconos del footer, para que los datos estructurados no puedan anunciar un perfil que la
+  // interfaz no muestra.
+  return perfiles.length > 0 ? { ...datos, sameAs: perfiles } : datos;
 }
 
 /**

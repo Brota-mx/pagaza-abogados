@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link, getPathname } from "@/i18n/navigation";
 import { siteInfo, NAV_SECTIONS } from "@/content/site";
 import { Container } from "@/components/ui/Container";
+import { RedesSociales } from "@/components/ui/RedesSociales";
 import { Wordmark } from "@/components/ui/Wordmark";
 import type { Locale } from "@/content/types";
 
@@ -92,6 +93,13 @@ export async function Footer({ locale }: { locale: Locale }) {
               {o.direccion[locale]}
             </p>
           ))}
+
+          {/* Al final de la columna de canales, que es donde el visitante busca a la firma. Aparece
+              en todas las páginas, incluidas las legales. */}
+          <RedesSociales
+            tone="light"
+            className="mt-5 border-t border-white/10 pt-4"
+          />
         </address>
       </Container>
 
