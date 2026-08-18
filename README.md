@@ -124,6 +124,8 @@ la lista completa y las llaves de test de dev.
 - **`docs/BUILD-NOTES.md`** — auditoría, plan por fases, trampas del stack y checklist.
 - **`docs/contenido-fuente.md`** — contenido canónico del despacho (fuente de `src/content`).
 - **`docs/glosario-es-en.md`** — terminología jurídico-fiscal ES→EN fija.
+- **`docs/bitacora-sesion-2026-08-18.md`** — registro completo de la sesión del 18-ago-2026:
+  qué se pidió, qué se decidió y por qué, inventario de archivos, verificación y pendientes.
 - **`CLAUDE.md`** — guía para trabajar con Claude Code en este repo.
 
 ## Notas de organización (Brota)
