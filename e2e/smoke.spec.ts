@@ -52,7 +52,7 @@ test.describe("puerta de entrada", () => {
 });
 
 test.describe("header de dos capas", () => {
-  test("arriba solo muestra Inicio | Newsletter, sin hamburguesa", async ({
+  test("arriba solo muestra Inicio | Newsletter | Equipo, sin hamburguesa", async ({
     page,
   }) => {
     await page.goto("/es");
@@ -61,9 +61,25 @@ test.describe("header de dos capas", () => {
     await expect(
       header.getByRole("link", { name: "Newsletter" }),
     ).toBeVisible();
+    // "Equipo" se sumó en agosto de 2026, a petición del cliente, junto a Newsletter.
+    await expect(header.getByRole("link", { name: "Equipo" })).toBeVisible();
     // Petición explícita del cliente: fuera el icono de tres líneas en la primera pantalla.
     await expect(header.getByRole("button", { name: /menú/i })).toHaveCount(0);
     await expect(header.getByText("PAGAZA")).toHaveCount(0);
+  });
+
+  test("la barra de portada no desborda en pantallas estrechas", async ({
+    page,
+  }) => {
+    // Con tres enlaces + dos separadores + el selector de idioma, la barra iba justa. Playwright
+    // da por "visible" un elemento que desborda, así que hay que MEDIRLO: la visibilidad sola no
+    // habría detectado el scroll horizontal.
+    await page.setViewportSize({ width: 320, height: 720 });
+    await page.goto("/es");
+    const desborda = await page
+      .locator("header")
+      .evaluate((el) => el.scrollWidth > el.clientWidth);
+    expect(desborda).toBe(false);
   });
 
   test("al bajar aparece el menú completo", async ({ page }) => {
@@ -97,7 +113,7 @@ test.describe("header de dos capas", () => {
 });
 
 test.describe("secciones", () => {
-  test("están las 7 secciones que pidió el cliente, en orden", async ({
+  test("están las secciones que pidió el cliente, en orden", async ({
     page,
   }) => {
     await page.goto("/es");
@@ -112,6 +128,7 @@ test.describe("secciones", () => {
       "capacidades",
       "sectores",
       "alianzas",
+      "equipo",
       "newsletter",
       "contacto",
     ]);
@@ -151,9 +168,27 @@ test.describe("secciones", () => {
     await expect(primera.locator("p")).toBeVisible();
   });
 
-  test("el nombre del socio ya no aparece", async ({ page }) => {
+  test("el nombre del socio sólo aparece en la sección de equipo", async ({
+    page,
+  }) => {
+    // El cliente pidió el 19-jul-2026 que su nombre no figurara "en contacto, sólo el despacho"
+    // mientras definía la sección de equipo. En agosto confirmó la sección, así que el nombre
+    // vuelve — pero SÓLO ahí: el contacto sigue siendo institucional, que era el fondo de la
+    // petición. Antes este test comprobaba que no aparecía en ningún sitio.
     await page.goto("/es");
-    await expect(page.locator("body")).not.toContainText("Alfonso");
+    await expect(page.locator("#equipo")).toContainText("Alfonso Pagaza");
+    await expect(page.locator("#contacto")).not.toContainText("Alfonso");
+    await expect(page.locator("footer")).not.toContainText("Alfonso");
+  });
+
+  test("las semblanzas del equipo siguen marcadas como provisionales", async ({
+    page,
+  }) => {
+    // Trinquete deliberado: cuando el cliente entregue las semblanzas reales este test se pondrá
+    // rojo y obligará a quitar el marcador a conciencia, en vez de que se quede olvidado en
+    // producción pasando por texto real. Ver la regla dura en src/content/equipo.ts.
+    await page.goto("/es");
+    await expect(page.locator("#equipo")).toContainText("Texto provisional");
   });
 
   test("cada <li> cuelga de su propia lista", async ({ page }) => {
@@ -255,6 +290,33 @@ test.describe("rutas y datos estructurados", () => {
     expect(datos.address).toHaveLength(2);
     expect(JSON.stringify(datos.address)).toContain("Ciudad Juárez");
   });
+
+  test("el JSON-LD publica el socio fundador y los perfiles sociales", async ({
+    page,
+  }) => {
+    await page.goto("/es");
+    const crudo = await page
+      .locator('script[type="application/ld+json"]')
+      .textContent();
+    const datos = JSON.parse(crudo ?? "{}");
+    expect(datos.founder?.name).toBe("Alfonso Pagaza");
+    // La semblanza de la sección es un marcador de posición: no debe filtrarse al dato estructurado.
+    expect(datos.founder?.description).toBeUndefined();
+    expect(datos.sameAs).toContain("https://www.instagram.com/pagaza_abogados");
+  });
+});
+
+test.describe("redes sociales", () => {
+  test("el footer enlaza sólo las redes con URL real", async ({ page }) => {
+    await page.goto("/es");
+    const footer = page.locator("footer");
+    await expect(
+      footer.locator('a[href*="instagram.com/pagaza_abogados"]'),
+    ).toHaveCount(1);
+    // Facebook y X aún no los ha pasado el cliente: no debe haber iconos muertos.
+    await expect(footer.locator('a[href="#"]')).toHaveCount(0);
+    await expect(footer.locator('a[href*="facebook"]')).toHaveCount(0);
+  });
 });
 
 test.describe("formulario de contacto", () => {
@@ -298,6 +360,31 @@ test.describe("formulario de contacto", () => {
     await form
       .locator('textarea[name="mensaje"]')
       .fill("Mensaje de prueba E2E para verificar el flujo completo.");
+    await form.locator('input[name="consentimiento"]').check();
+    await form.getByRole("button", { name: /^Enviar mensaje$/ }).click();
+    await expect(
+      form.getByRole("heading", { name: /Mensaje enviado/i }),
+    ).toBeVisible({ timeout: 20_000 });
+  });
+
+  test('"Otro" cierra el desplegable de sector', async ({ page }) => {
+    await page.goto("/es");
+    const opciones = page.locator('#contacto select[name="sector"] option');
+    await expect(opciones.last()).toHaveAttribute("value", "otro");
+  });
+
+  test('enviar con sector "Otro" no se cae en silencio', async ({ page }) => {
+    // Éste es el guardián del fallo silencioso: si alguien añade una opción al desplegable sin
+    // añadirla a SECTOR_IDS, el z.enum la rechaza, RHF no dispara el submit y el botón parece
+    // muerto — sin ningún mensaje de error que lo delate.
+    await page.goto("/es");
+    const form = page.locator("#contacto");
+    await form.locator('input[name="nombre"]').fill("Prueba Cliente");
+    await form.locator('input[name="email"]').fill("prueba@example.com");
+    await form.locator('select[name="sector"]').selectOption("otro");
+    await form
+      .locator('textarea[name="mensaje"]')
+      .fill("Mensaje de prueba E2E con el sector Otro seleccionado.");
     await form.locator('input[name="consentimiento"]').check();
     await form.getByRole("button", { name: /^Enviar mensaje$/ }).click();
     await expect(

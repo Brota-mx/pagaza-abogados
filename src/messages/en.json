@@ -17,6 +17,7 @@
     "capacidades": "Capabilities",
     "sectores": "Experience",
     "alianzas": "Alliances",
+    "equipo": "Team",
     "contacto": "Contact",
     "menu": "Main menu",
     "open": "Open menu",
@@ -55,6 +56,7 @@
     "telefono": "Phone",
     "sector": "Sector",
     "sectorPlaceholder": "Select a sector",
+    "sectorOtro": "Other",
     "mensaje": "Message",
     "optional": "optional",
     "submit": "Send message",
@@ -83,6 +85,10 @@
     "consentimiento": "I consent to the processing of my data under the",
     "avisoLink": "Privacy Notice",
     "consentimientoError": "You must accept the Privacy Notice to submit the form."
+  },
+  "redes": {
+    "titulo": "Social",
+    "enlace": "{red} (opens in a new tab)"
   },
   "newsletter": {
     "eyebrow": "Newsletter",

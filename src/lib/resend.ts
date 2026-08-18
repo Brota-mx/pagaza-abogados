@@ -1,4 +1,6 @@
 import { Resend } from "resend";
+import { sectores } from "@/content/sectores";
+import { SECTOR_OTRO, type SectorId } from "./validation";
 import type { ContactInput, NewsletterInput } from "./validation";
 
 const resend = process.env.RESEND_API_KEY
@@ -10,6 +12,23 @@ export function hasHeaderInjection(fields: string[]): boolean {
   return fields.some((v) => /[\r\n]|%0a|%0d/i.test(v));
 }
 
+/**
+ * Etiqueta legible del sector para el correo interno. El id crudo (`peps`, `farmaceutico`) no se
+ * entiende sin diccionario cuando llega un lead y hay que triarlo. Se resuelve contra el nombre en
+ * español porque quien lee el correo es el despacho, no el prospecto — por eso el resto del cuerpo
+ * también es castellano fijo: es plumbing interno monolingüe, no UI del visitante, y la regla de
+ * "nada hardcodeado" no aplica aquí.
+ *
+ * Se conserva el id entre paréntesis para poder cruzar el correo con la telemetría del reporter,
+ * que sigue enviando el id crudo a propósito (es una clave de analítica: traducirla rompería la
+ * serie histórica).
+ */
+function etiquetaSector(id: SectorId): string {
+  if (id === SECTOR_OTRO) return `Otro / no especificado (${id})`;
+  const sector = sectores.find((s) => s.id === id);
+  return sector ? `${sector.nombre.es} (${id})` : id;
+}
+
 /** Cuerpo del correo en texto plano (sin HTML → sin riesgo de HTML injection). */
 function buildText(data: ContactInput): string {
   return [
@@ -19,7 +38,7 @@ function buildText(data: ContactInput): string {
     `Email:    ${data.email}`,
     data.empresa ? `Empresa:  ${data.empresa}` : null,
     data.telefono ? `Teléfono: ${data.telefono}` : null,
-    data.sector ? `Sector:   ${data.sector}` : null,
+    data.sector ? `Sector:   ${etiquetaSector(data.sector)}` : null,
     `Idioma:   ${data.locale}`,
     "",
     "Mensaje:",
@@ -45,6 +64,9 @@ export async function sendContactEmail(data: ContactInput): Promise<void> {
         to,
         nombre: data.nombre,
       });
+      // El cuerpo completo sólo en dev: es la única forma de verificar el formato (p. ej. la
+      // etiqueta de sector) sin credenciales reales de Resend.
+      console.info(buildText(data));
       return;
     }
     throw new Error("resend_not_configured");

@@ -4,6 +4,7 @@ import { sectores } from "@/content/sectores";
 import { t, type Locale } from "@/content/types";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { RedesSociales } from "@/components/ui/RedesSociales";
 import { ContactForm } from "@/components/forms/ContactForm";
 
 /**
@@ -65,6 +66,9 @@ export async function Contacto({ locale }: { locale: Locale }) {
                   </p>
                 ))}
               </address>
+
+              {/* Junto al teléfono y el correo: el bloque ya es la lista de canales directos. */}
+              <RedesSociales className="mt-6" />
             </div>
           </div>
 

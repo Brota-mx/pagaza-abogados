@@ -1,3 +1,5 @@
+import type { SectorId } from "@/lib/validation";
+
 /** Texto bilingüe. Toda cadena de contenido del dominio usa este tipo. */
 export type LocalizedText = { es: string; en: string };
 
@@ -57,9 +59,14 @@ export interface CasoExito {
 
 /** Sector / industria (12 en total). Sin `numero`: el orden es el de la nota del cliente, no una
  *  jerarquía real — un marcador secuencial prometería un orden que no existe (auditoría de diseño,
- *  1-ago-2026). */
+ *  1-ago-2026).
+ *
+ *  `id` se tipa contra `SECTOR_IDS` (la lista que valida el formulario) a propósito: hasta ahora
+ *  eran dos listas paralelas mantenidas a mano, y añadir un sector aquí sin añadirlo allá hacía que
+ *  el `z.enum` rechazara la opción y que el submit se cayera EN SILENCIO. Ahora es un error de
+ *  compilación. El enum es el superconjunto (incluye "otro", que no es una industria). */
 export interface Sector {
-  id: string;
+  id: SectorId;
   nombre: LocalizedText;
   resumen: LocalizedText;
   casos: CasoExito[];
@@ -127,6 +134,57 @@ export interface DocumentoLegal {
   secciones: SeccionLegal[];
 }
 
+/**
+ * Integrante del equipo. Ver `content/equipo.ts` para las reglas de qué se puede escribir aquí.
+ */
+export interface MiembroEquipo {
+  id: string;
+  /** Nombre propio: no se traduce. */
+  nombre: string;
+  /** Dato verificado (docs/contenido-fuente.md §5). */
+  cargo: LocalizedText;
+  /** Monograma que ocupa el retrato mientras el cliente no manda la fotografía. */
+  iniciales: string;
+  /** Alimenta el `founder` del JSON-LD; sólo uno debería tenerlo. */
+  fundador?: boolean;
+  /** `true` ⇒ la semblanza es un marcador de posición y la interfaz lo declara. */
+  provisional: boolean;
+  /**
+   * Retrato. Obligatoriamente un archivo local en `public/`: la CSP es `img-src 'self' data: blob:`
+   * y `next.config.ts` no declara `remotePatterns`, así que una URL externa no cargaría.
+   */
+  retrato?: { src: string; alt: LocalizedText; width: number; height: number };
+}
+
+/** Sección "Nuestro equipo". */
+export interface EquipoContent {
+  eyebrow: LocalizedText;
+  titulo: LocalizedText;
+  intro: LocalizedText;
+  /** Rótulo que marca una semblanza como provisional. */
+  etiquetaProvisional: LocalizedText;
+  /** Texto único compartido por todos los miembros provisionales. Ver `content/equipo.ts`. */
+  semblanzaPendiente: LocalizedText;
+  miembros: MiembroEquipo[];
+}
+
+/**
+ * Una pieza de la muestra del boletín. NO lleva fecha a propósito: ver `content/newsletter.ts`.
+ */
+export interface PiezaNewsletter {
+  id: string;
+  categoria: LocalizedText;
+  titular: LocalizedText;
+}
+
+/** Muestra ilustrativa de un envío del boletín (sección Newsletter). */
+export interface NewsletterMuestra {
+  etiqueta: LocalizedText;
+  /** Ranura de fecha: se pinta el FORMATO, no un valor. Ver `content/newsletter.ts`. */
+  formatoFecha: LocalizedText;
+  piezas: PiezaNewsletter[];
+}
+
 /** Una sede del despacho. `ciudad` sólo se pinta cuando hay más de una. */
 export interface Oficina {
   ciudad: LocalizedText;
@@ -144,6 +202,14 @@ export interface Oficina {
   };
 }
 
+/**
+ * Redes sociales del despacho. Se modela como `Partial<Record<...>>` y no como lista para que la
+ * AUSENCIA sea el estado por defecto: una red sin URL simplemente no existe en `site.ts` y no se
+ * renderiza. Nada de `"#"` ni de enlaces a la home como relleno — un icono que no lleva a ningún
+ * lado se lee peor que no tenerlo. Añadir una red es una línea en `site.ts` y nada más.
+ */
+export type RedSocial = "instagram" | "facebook" | "x";
+
 /** Datos globales del sitio / contacto. */
 export interface SiteInfo {
   slogan: LocalizedText;
@@ -158,4 +224,6 @@ export interface SiteInfo {
    * un objeto aquí y nada más.
    */
   oficinas: Oficina[];
+  /** Sólo URLs de perfil reales y verificadas. Ver `RedSocial`. */
+  redes?: Partial<Record<RedSocial, string>>;
 }

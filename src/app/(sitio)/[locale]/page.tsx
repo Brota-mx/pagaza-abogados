@@ -6,6 +6,7 @@ import { Pilares } from "@/components/sections/Pilares";
 import { Capacidades } from "@/components/sections/Capacidades";
 import { Sectores } from "@/components/sections/Sectores";
 import { Alianzas } from "@/components/sections/Alianzas";
+import { Equipo } from "@/components/sections/Equipo";
 import { Newsletter } from "@/components/sections/Newsletter";
 import { Contacto } from "@/components/sections/Contacto";
 import type { Locale } from "@/content/types";
@@ -16,6 +17,8 @@ import type { Locale } from "@/content/types";
  * El orden es el que el cliente listó en su nota del 19-jul-2026: Pagaza (hero) → Nuestro
  * compromiso → Servicios → ¿Cómo lo hacemos? (Pilares) → Capacidades → Experiencias e industrias
  * (Sectores) → Alianzas → Contacto. Metodología ya no es sección propia: vive dentro de Pilares.
+ * En agosto de 2026 el cliente sumó "Nuestro equipo", que entra antes del Newsletter: los pidió
+ * juntos en la barra de la primera pantalla, y Contacto debe seguir cerrando la página.
  * El ritmo navy → claro alternado da jerarquía institucional.
  */
 export default async function HomePage({
@@ -36,7 +39,8 @@ export default async function HomePage({
       <Capacidades locale={loc} />
       <Sectores locale={loc} />
       <Alianzas locale={loc} />
-      <Newsletter />
+      <Equipo locale={loc} />
+      <Newsletter locale={loc} />
       <Contacto locale={loc} />
     </>
   );

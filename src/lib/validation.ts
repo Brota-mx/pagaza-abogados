@@ -1,8 +1,23 @@
 import { z } from "zod";
 
 /**
- * IDs de sector — coinciden 1:1 con los `id` de src/content/sectores.ts (BUILD-NOTES §3.1).
- * "social" (pro-bono) es válido en el enum pero no se ofrece en el dropdown del formulario.
+ * El valor de la opción "Otro". Se exporta para que el formulario lo importe DE AQUÍ en vez de
+ * escribir el literal: así un typo es un error de compilación y no un submit que se cae en silencio.
+ */
+export const SECTOR_OTRO = "otro" as const;
+
+/**
+ * IDs de sector — coinciden 1:1 con los `id` de src/content/sectores.ts (BUILD-NOTES §3.1), salvo
+ * las dos excepciones documentadas abajo. La lista está copiada a mano: añadir un sector al
+ * contenido sin añadirlo aquí hace que el `z.enum` lo rechace y que el submit del formulario se
+ * caiga EN SILENCIO (RHF no dispara y el botón parece no hacer nada).
+ *
+ * Las dos asimetrías, cada una en un sentido:
+ * - "social" (pro-bono) es válido en el enum pero se filtra del desplegable: no es la industria de
+ *   un prospecto.
+ * - "otro" es al revés: se ofrece en el desplegable pero NO existe en `content/sectores.ts`. Es una
+ *   salida para quien no encaja en las doce industrias (petición del cliente, ago-2026). No se
+ *   añade al contenido porque `sectores` alimenta la sección pública, que promete "doce industrias".
  */
 export const SECTOR_IDS = [
   "automotriz",
@@ -17,7 +32,11 @@ export const SECTOR_IDS = [
   "social",
   "energetico",
   "financiero",
+  SECTOR_OTRO,
 ] as const;
+
+/** Tipo de los ids válidos, para que quien construya opciones no pueda inventarse uno. */
+export type SectorId = (typeof SECTOR_IDS)[number];
 
 /**
  * Rechaza caracteres de control (anti header-injection) en los campos que van a cabeceras del
