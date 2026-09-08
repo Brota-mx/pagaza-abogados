@@ -5,8 +5,10 @@ Proyecto de **Brota Mx**. Standalone.
 
 **Borrador en vivo (Vercel):** https://pagaza-abogados-jegonvas-projects.vercel.app
 
-> ⚠️ Ahora mismo el deploy tiene **Vercel Deployment Protection** activo (pide login de Vercel). Para
-> que el cliente pueda verlo, desactívala en Vercel → Settings → Deployment Protection.
+> ⚠️ La protección de Vercel está en `all_except_custom_domains`: **no aplica a dominios
+> personalizados**. Conectar `pagaza.mx` publica el sitio en ese instante — no hay switch previo que
+> apagar. La URL `*.vercel.app` sí sigue pidiendo login. Detalle y guion:
+> `docs/configuracion-produccion.md`.
 
 ## Stack
 
@@ -88,24 +90,23 @@ la lista completa y las llaves de test de dev.
 
 ### Checklist de go-live (pasos que dependen del cliente/operador)
 
-- [ ] **Desactivar Vercel Deployment Protection** para que el borrador sea público (Settings →
-      Deployment Protection → Vercel Authentication → Disabled o solo Preview).
-- [ ] Crear los servicios en **cuentas de Brota** (Resend, Upstash, Turnstile) y cargar sus llaves
-      en Vercel (Production + Preview).
-- [ ] **Verificar el dominio `pagaza.mx` en Resend** (SPF/DKIM/DMARC) **antes** de cambiar
-      `CONTACT_FROM_EMAIL` de `onboarding@resend.dev` a `no-reply@pagaza.mx`.
-- [ ] Configurar el dominio `pagaza.mx` en Vercel cuando el cliente entregue el DNS; actualizar
-      `NEXT_PUBLIC_SITE_URL`.
-- [ ] 🔴 **Fotografías y semblanzas del equipo.** La sección "Nuestro equipo" está montada con
-      marcadores de posición: el retrato es un monograma y la semblanza dice, en la propia página,
-      que está pendiente. Sólo el nombre y el cargo del socio fundador son datos verificados; NO se
-      han inventado credenciales, años de experiencia ni membresías, y no deben inventarse (ver la
-      regla en `src/content/equipo.ts`). **No desactivar Deployment Protection antes de sustituir
-      esto**, o el sitio público mostrará los marcadores.
-- [ ] **Perfiles de Facebook y X.** Sólo hay Instagram
-      (`https://www.instagram.com/pagaza_abogados`). Cuando el cliente los pase, se añaden en
-      `siteInfo.redes` (`src/content/site.ts`) y aparecen solos en el footer y en el `sameAs` del
-      JSON-LD; no hay que tocar ningún componente.
+> Guion operativo completo con los valores DNS reales: **`docs/configuracion-produccion.md`**.
+
+- [ ] Crear los servicios en **cuentas de Brota** (Resend, Turnstile; Upstash opcional) y cargar sus
+      llaves en Vercel (Production + Preview).
+- [ ] **Verificar el subdominio `send.pagaza.mx` en Resend** (SPF/DKIM) **antes** de cambiar
+      `CONTACT_FROM_EMAIL` de `onboarding@resend.dev` a `no-reply@send.pagaza.mx`. Es un subdominio,
+      no la raíz: la raíz tiene Workspace y su SPF/MX no se tocan.
+- [ ] Configurar el dominio `pagaza.mx` en Vercel cuando el cliente entregue el DNS; revisar
+      `NEXT_PUBLIC_SITE_URL` (Production + Preview). ⚠️ Conectar el apex **publica el sitio** — la
+      protección de Vercel no cubre dominios personalizados. Si se quiere montar sin publicar,
+      cambiar `ssoProtection.deploymentType` a `all`.
+- [x] ~~Fotografías y semblanzas del equipo~~ — cerrado (PR #24/#25): seis bios reales del cliente,
+      retrato por monograma (decisión del cliente, "no van a llevar foto por el momento"). Queda
+      **confirmar 5 de 6 cargos** (derivados de la semblanza; sólo "Socio Fundador" venía explícito).
+- [ ] **Perfil de X.** Facebook ya está (PR #25). Falta sólo X: al llegar, una línea en
+      `siteInfo.redes` (`src/content/site.ts`); aparece solo en el footer y en el `sameAs` del
+      JSON-LD, sin tocar componentes.
 - [ ] **Contenido real del boletín.** La sección Newsletter muestra un envío de EJEMPLO, rotulado
       como tal en la página. Los titulares son temas ilustrativos, no publicaciones existentes.
 - [ ] 🔴 **Validación legal del Aviso de Privacidad y del Aviso Legal** (`src/content/legal.ts`).
