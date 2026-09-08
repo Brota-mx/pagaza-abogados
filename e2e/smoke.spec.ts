@@ -181,14 +181,16 @@ test.describe("secciones", () => {
     await expect(page.locator("footer")).not.toContainText("Alfonso");
   });
 
-  test("las semblanzas del equipo siguen marcadas como provisionales", async ({
+  test("el equipo muestra las seis semblanzas reales, sin marcador provisional", async ({
     page,
   }) => {
-    // Trinquete deliberado: cuando el cliente entregue las semblanzas reales este test se pondrá
-    // rojo y obligará a quitar el marcador a conciencia, en vez de que se quede olvidado en
-    // producción pasando por texto real. Ver la regla dura en src/content/equipo.ts.
+    // El cliente entregó las bios el 7-sep-2026 (work/COMENTARIOS 070926/003. Bios.docx). El
+    // trinquete anterior comprobaba que la sección seguía marcada como provisional; ahora que el
+    // texto es real se invierte: no debe quedar rastro del marcador, y deben estar los seis.
     await page.goto("/es");
-    await expect(page.locator("#equipo")).toContainText("Texto provisional");
+    await expect(page.locator("#equipo li")).toHaveCount(6);
+    await expect(page.locator("#equipo")).not.toContainText("Texto provisional");
+    await expect(page.locator("#equipo")).toContainText("Escuela Libre de Derecho");
   });
 
   test("cada <li> cuelga de su propia lista", async ({ page }) => {
@@ -300,8 +302,8 @@ test.describe("rutas y datos estructurados", () => {
       .textContent();
     const datos = JSON.parse(crudo ?? "{}");
     expect(datos.founder?.name).toBe("Alfonso Pagaza");
-    // La semblanza de la sección es un marcador de posición: no debe filtrarse al dato estructurado.
-    expect(datos.founder?.description).toBeUndefined();
+    // La semblanza ya es texto del cliente (003. Bios.docx, 7-sep-2026), así que sí se publica.
+    expect(datos.founder?.description).toContain("Escuela Libre de Derecho");
     expect(datos.sameAs).toContain("https://www.instagram.com/pagaza_abogados");
   });
 });

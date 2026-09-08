@@ -2,8 +2,6 @@ import Image from "next/image";
 import { siteInfo } from "@/content/site";
 import { t as localize, type Locale } from "@/content/types";
 
-type Region = { region: string; tipo: "nacional" | "internacional" };
-
 /**
  * Posición (% del ancho/alto de la imagen) de cada sede sobre `mapa-mexico.png`, en el mismo
  * orden que `siteInfo.oficinas`. Calculada por proyección Web Mercator de las coordenadas reales
@@ -23,8 +21,9 @@ const PINES_OFICINAS = [
 ];
 
 /**
- * Cobertura geográfica: nota + lista de regiones (contenida, como el resto de la sección) seguida
- * de un mapa real de México a todo lo ancho de la pantalla (tiles CARTO Positron sin etiquetas,
+ * Bloque de oficinas: encabezado + las dos direcciones físicas (contenido, como el resto de la
+ * sección) seguido de un mapa real de México a todo lo ancho de la pantalla (tiles CARTO Positron
+ * sin etiquetas,
  * dominio público/uso libre, recortados y recoloreados a duotono navy/brand una sola vez — ver
  * `public/images/mapa-mexico.png`) con un pin por sede física. Un mapa esquemático dibujado a mano
  * se descartó en una auditoría anterior por representar mal la silueta; este usa geografía real, no
@@ -43,22 +42,12 @@ const PINES_OFICINAS = [
  * `e2e/mapa.spec.ts`, que corre a tres anchos precisamente para fijar esa independencia.
  */
 export function CoverageMap({
-  cobertura,
   labels,
   locale,
 }: {
-  cobertura: Region[];
-  labels: {
-    titulo: string;
-    nacional: string;
-    internacional: string;
-    nota: string;
-  };
+  labels: { titulo: string; nota: string };
   locale: Locale;
 }) {
-  const nacional = cobertura.filter((c) => c.tipo === "nacional");
-  const internacional = cobertura.filter((c) => c.tipo === "internacional");
-
   return (
     <>
       <div className="border-t border-white/15 pt-12">
@@ -68,27 +57,17 @@ export function CoverageMap({
         </p>
         <p className="max-w-md leading-relaxed text-white/70">{labels.nota}</p>
 
-        <dl className="mt-8 grid max-w-md grid-cols-2 gap-8">
-          <div>
-            <dt className="text-steel-soft text-xs font-medium tracking-[0.14em] uppercase">
-              {labels.nacional}
-            </dt>
-            <dd className="mt-2 space-y-1 font-serif text-lg text-white">
-              {nacional.map((c) => (
-                <p key={c.region}>{c.region}</p>
-              ))}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-steel-soft text-xs font-medium tracking-[0.14em] uppercase">
-              {labels.internacional}
-            </dt>
-            <dd className="mt-2 space-y-1 font-serif text-lg text-white">
-              {internacional.map((c) => (
-                <p key={c.region}>{c.region}</p>
-              ))}
-            </dd>
-          </div>
+        <dl className="mt-8 grid gap-8 sm:grid-cols-2">
+          {siteInfo.oficinas.map((oficina) => (
+            <div key={oficina.ciudad.es} className="max-w-md">
+              <dt className="text-steel-soft text-xs font-medium tracking-[0.14em] uppercase">
+                {localize(oficina.ciudad, locale)}
+              </dt>
+              <dd className="mt-2 leading-relaxed text-white/80">
+                {localize(oficina.direccion, locale)}
+              </dd>
+            </div>
+          ))}
         </dl>
       </div>
 

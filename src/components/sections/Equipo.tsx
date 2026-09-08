@@ -9,12 +9,9 @@ import { EquipoMiembro } from "./EquipoMiembro";
  * "Nuestro equipo" — la sección que el cliente pidió enlazada junto a "Newsletter" en la primera
  * pantalla (agosto de 2026).
  *
- * Está montada con el contenido a medias A PROPÓSITO: falta que el cliente entregue fotografías y
- * semblanzas, y se decidió publicar el borrador para que pueda revisar la maqueta. Las tarjetas
- * declaran en texto que su semblanza es provisional — ver la regla dura en `content/equipo.ts`.
- *
- * La retícula es de dos columnas y hoy sólo hay un integrante (no se inventan colegas para
- * rellenar): ocupa la mitad izquierda y lee como decisión, no como hueco.
+ * Seis integrantes con semblanza real del cliente (`work/COMENTARIOS 070926/003. Bios.docx`,
+ * 7-sep-2026). Sin fotografía por ahora ("no van a llevar fotos por el momento"): cada tarjeta
+ * pinta el monograma. Retícula de dos columnas, tres filas.
  */
 export function Equipo({ locale }: { locale: Locale }) {
   return (
@@ -26,16 +23,11 @@ export function Equipo({ locale }: { locale: Locale }) {
           intro={t(equipo.intro, locale)}
         />
 
-        <ul className="mt-14 grid gap-10 md:grid-cols-2">
+        <ul className="mt-14 grid gap-x-10 gap-y-12 md:grid-cols-2">
           {equipo.miembros.map((miembro, i) => (
             <li key={miembro.id}>
               <Reveal delay={Math.min(i, 5) * 60}>
-                <EquipoMiembro
-                  miembro={miembro}
-                  semblanzaPendiente={t(equipo.semblanzaPendiente, locale)}
-                  etiquetaProvisional={t(equipo.etiquetaProvisional, locale)}
-                  locale={locale}
-                />
+                <EquipoMiembro miembro={miembro} locale={locale} />
               </Reveal>
             </li>
           ))}

@@ -206,7 +206,9 @@ Núcleo de credibilidad del sitio. Experiencia real y resultados cuantificables 
 2. **Laboral individual y colectivo:** litigio laboral corporativo y relaciones con sindicatos.
 3. **Corporativo y societario:** constitución, fusiones, adquisiciones y actas de asambleas.
 4. **Ciencias de la vida y publicidad:** cumplimiento COFEPRIS y normas de etiquetado/anuncios.
-5. **Penal (enfoque penal-fiscal):** prevención y defensa en delitos fiscales y de cuello blanco.
+5. **Penal** y **Penal fiscal:** prevención y defensa en delitos fiscales y de cuello blanco. (El
+   cliente pidió el 7-sep-2026 separar la antigua entrada única "Penal (enfoque penal-fiscal)" en
+   estas dos.)
 6. **Derecho regulatorio y cumplimiento (compliance):** gobierno corporativo y mitigación de riesgos.
 7. **Precios de transferencia y avalúos:** estudios de transacciones entre partes relacionadas y
    valuaciones comerciales.
@@ -231,6 +233,38 @@ Núcleo de credibilidad del sitio. Experiencia real y resultados cuantificables 
 - **Correo electrónico principal:** `a@pagaza.mx`
 - **Dirección física:** Prado Sur 525, Lomas de Chapultepec, Alcaldía Miguel Hidalgo, C.P. 11000,
   Ciudad de México (CDMX), México.
+
+---
+
+## 5.1 Equipo
+
+> Semblanzas entregadas por el cliente el 7-sep-2026 (`work/COMENTARIOS 070926/003. Bios.docx`).
+> Transcritas literal. `work/` está gitignored: por eso se copian aquí. Cargo explícito solo el del
+> socio fundador; los demás se derivan de la propia semblanza y están pendientes de confirmar.
+
+- **Alfonso Pagaza — Socio Fundador.** Abogado egresado de la Escuela Libre de Derecho con honores
+  y especialista en Derecho Tributario por la misma institución. Experiencia en asesoría y
+  representación de empresas, inversionistas y grupos empresariales en asuntos nacionales e
+  internacionales de alta complejidad. Práctica en controversia y consultoría tributaria, litigio
+  estratégico, seguridad social, responsabilidad patrimonial del Estado, procedimientos
+  regulatorios y de PLD, comercio exterior y tributación internacional.
+- **Jorge Díaz-Galindo — (Abogado, por confirmar).** Egresado de la UDLAP, con posgrado en Derecho
+  Fiscal de la misma institución. Litigio fiscal y administrativo; seguridad social para empresas y
+  particulares. También consultoría fiscal.
+- **Dafne Sánchez — (Abogada, por confirmar).** Licenciada en Derecho por la Facultad de Derecho de
+  la UNAM. Derecho Fiscal y cumplimiento regulatorio, con énfasis en PLD. Procedimientos de
+  verificación y sancionadores; diseño y revisión de estrategias de cumplimiento.
+- **María José Núñez — Pasante.** Estudiante de octavo semestre de Derecho en la Universidad
+  Anáhuac México, Campus Norte. Pasante en fiscal y administrativo con enfoque en litigio. Amparo,
+  recursos de revocación y procedimientos ante tribunales administrativos y fiscales.
+- **Patricio Duarte — Pasante.** Estudiante de Derecho en la Escuela Libre de Derecho. Pasante en
+  fiscal y administrativo. Controversia fiscal y procedimientos administrativos: fiscalización,
+  determinación de créditos fiscales y procedimientos sancionadores.
+- **David Reyes-Jains — Pasante.** Estudiante de Derecho en la UNAM, Campus Aragón. Materia fiscal
+  y administrativa. Consultoría tributaria y procedimientos de acuerdos conclusivos; análisis de
+  contingencias fiscales.
+
+Fotografías: el cliente indicó que **no llevarán foto por el momento** (7-sep-2026).
 
 ---
 
