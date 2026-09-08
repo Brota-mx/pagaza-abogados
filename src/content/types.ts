@@ -170,8 +170,6 @@ export interface PiezaNewsletter {
 /** Muestra ilustrativa de un envío del boletín (sección Newsletter). */
 export interface NewsletterMuestra {
   etiqueta: LocalizedText;
-  /** Ranura de fecha: se pinta el FORMATO, no un valor. Ver `content/newsletter.ts`. */
-  formatoFecha: LocalizedText;
   piezas: PiezaNewsletter[];
 }
 

@@ -65,16 +65,8 @@ export async function Newsletter({ locale }: { locale: Locale }) {
                     da apariencia de pulsables ni reciben foco. Un hover de elevación aquí sería
                     una promesa falsa. */}
                 <div className="h-full rounded-[4px] border border-white/12 p-6">
-                  <p className="flex items-center gap-2 text-xs font-medium tracking-[0.14em] uppercase">
-                    <span className="text-steel-soft">
-                      {t(pieza.categoria, locale)}
-                    </span>
-                    <span aria-hidden className="text-white/25">
-                      ·
-                    </span>
-                    <span className="text-white/40">
-                      {t(newsletterMuestra.formatoFecha, locale)}
-                    </span>
+                  <p className="text-steel-soft text-xs font-medium tracking-[0.14em] uppercase">
+                    {t(pieza.categoria, locale)}
                   </p>
                   <p className="mt-3 font-serif text-lg leading-snug text-white">
                     {t(pieza.titular, locale)}

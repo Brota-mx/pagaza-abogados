@@ -54,12 +54,16 @@ export const siteInfo: SiteInfo = {
    * (`/p/DbUfzETDfGf/?igsh=…`); aquí se guarda el PERFIL y sin el parámetro de tracking, que es lo
    * que debe abrir un icono del sitio.
    *
-   * Facebook y X: el cliente aún no los ha pasado. Cuando lleguen, se añaden aquí y aparecen solos
-   * en el footer y en el `sameAs` del JSON-LD — no hay que tocar ningún componente. Mientras tanto
-   * NO se inventa un enlace ni se deja un icono muerto.
+   * X: el cliente aún no lo ha pasado. Cuando llegue, se añade aquí y aparece solo en el footer y
+   * en el `sameAs` del JSON-LD — no hay que tocar ningún componente. Mientras tanto NO se inventa
+   * un enlace ni se deja un icono muerto.
+   *
+   * Facebook: el cliente lo pasó el 7-sep-2026 como enlace a perfil por id numérico
+   * (`facebook.com/profile.php?id=…`); es la forma canónica de una página sin username personalizado.
    */
   redes: {
     instagram: "https://www.instagram.com/pagaza_abogados",
+    facebook: "https://www.facebook.com/profile.php?id=61593014333404",
   },
 };
 
