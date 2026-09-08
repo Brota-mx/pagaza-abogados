@@ -53,7 +53,8 @@ así que responder desde el buzón del despacho funciona igual.
 > arriba: A `76.76.21.21` y CNAME `cname.vercel-dns.com.`.
 >
 > ⚠️ **Conectar el apex publica el sitio en ese instante.** La protección de Vercel está en
-> `all_except_custom_domains` — no aplica a dominios personalizados. Ver "Decisión pendiente" abajo.
+> `all_except_custom_domains` — no aplica a dominios personalizados. Los bloqueadores de contenido
+> están cerrados (ver "Publicar" abajo), así que publicar es el plan.
 > `www` está configurado en Vercel como redirect 308 → `pagaza.mx`.
 
 ### 3. DMARC — opcional, recomendado (monitoreo)
@@ -118,19 +119,15 @@ en `/en`.
 
 ---
 
-## Decisión pendiente (antes de conectar el apex)
+## Publicar
 
-Conectar `pagaza.mx` **publica el sitio**. Dos bloqueadores de contenido siguen abiertos:
+Conectar `pagaza.mx` **publica el sitio**. Los dos bloqueadores de contenido que estaban abiertos
+quedaron cerrados por confirmación del cliente (2026-09-08):
 
-- El **Aviso de Privacidad** ([src/content/legal.ts](../src/content/legal.ts)) cita la LFPDPPP con
-  su nombre **anterior a la reforma de marzo-2025** (la autoridad ya no es el INAI). Es redacción
-  del propio cliente; falta que confirme el nombre vigente.
-- **5 de 6 cargos** del equipo se derivaron de la semblanza sin validar (sólo "Socio Fundador" de
-  Alfonso venía explícito).
+- **Aviso de Privacidad** ([src/content/legal.ts](../src/content/legal.ts)) — la redacción es del
+  propio despacho y el cliente confirma que es la que quiere. Sin cambios.
+- **Cargos del equipo** — revisados y confirmados por el despacho. Sin cambios.
 
-Dos salidas, ambas de un clic:
-
-| Opción | Cómo | Efecto |
-|---|---|---|
-| **Publicar ya** | Crear el registro A | El sitio queda público con la corrección legal como pendiente posterior. Hay que decirlo en voz alta en la llamada. |
-| **Conectar sin publicar** | Cambiar `ssoProtection.deploymentType` de `all_except_custom_domains` a `all` en Vercel | Dominio montado y certificado emitido, pero el sitio pide login hasta que el cliente confirme. Se abre después con un cambio. |
+No hay nada que esperar: se pega el DNS en la llamada y el sitio queda público. (Si en el futuro se
+quisiera montar el dominio sin publicar, se cambia `ssoProtection.deploymentType` de
+`all_except_custom_domains` a `all` en Vercel; hoy no aplica.)
