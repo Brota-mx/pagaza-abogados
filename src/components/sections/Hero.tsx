@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
-import { metodologia } from "@/content/metodologia";
 import { siteInfo } from "@/content/site";
 import { t as localize, type Locale } from "@/content/types";
 
@@ -16,15 +15,16 @@ import { t as localize, type Locale } from "@/content/types";
  *    oraciones. Al quedar un solo elemento de texto desaparece el contraste redonda/cursiva que
  *    había entre titular y subhead: "misma tipografía toda", literalmente.
  * 2. "Quitar estos datos, las cifras no nos encantan, poner alguno otro elemento de interés." →
- *    fuera el par 98% / $55M (y con él `StatBlock`, que ya no usaba nadie). En su lugar van las
- *    tres disciplinas de `metodologia`, que dicen qué hace la firma sin recurrir a un número.
+ *    fuera el par 98% / $55M (y con él `StatBlock`, que ya no usaba nadie).
+ *
+ * En agosto de 2026 el hueco lo ocupó una fila con las tres disciplinas de `metodologia`; el
+ * cliente pidió quitarla (nota del 7-sep-2026: "Quitar esta barra que está hasta arriba, no me
+ * gusta"), y también la copia de esa fila que había al pie de Pilares. El Hero queda con la
+ * eyebrow y el slogan, centrados: la tesis, y nada que la diluya.
  *
  * El slogan se lee de `content/site.ts` en vez de `messages/home.headline`: ya vivía ahí (lo usa
- * el Footer) y tenerlo duplicado en dos fuentes era una invitación a que se desincronizaran.
- *
- * ⚠️ Las tres disciplinas se repiten dentro de Pilares, y el slogan se repite en el Footer. Es
- * consecuencia directa de lo que pidió el cliente; si al verlo le pesa, lo que sobra es el
- * sub-bloque de Pilares, no esto.
+ * el Footer) y tenerlo duplicado en dos fuentes era una invitación a que se desincronizaran. Se
+ * repite en el Footer, que era lo que el cliente quería.
  */
 export async function Hero({ locale }: { locale: Locale }) {
   const t = await getTranslations("home");
@@ -61,12 +61,11 @@ export async function Hero({ locale }: { locale: Locale }) {
         P
       </span>
 
-      {/* `justify-between` reparte los tres bloques de arriba abajo: es lo que hace que la frase
-          "llegue hasta el pie de la página" en lugar de quedar centrada con hueco debajo. El
-          padding es asimétrico a propósito: arriba tiene que despejar el Header fijo (81px), abajo
-          se recorta para que la fila de disciplinas quede pegada al pie y el bloque entre en una
-          pantalla de 720px de alto. */}
-      <Container className="relative flex flex-1 flex-col justify-between gap-16 pt-28 pb-16 md:pt-32 md:pb-20">
+      {/* `justify-center` agrupa eyebrow + slogan en el centro vertical de la primera pantalla. El
+          padding superior despeja el Header fijo (81px). Antes había un tercer bloque al pie (la
+          fila de disciplinas) y el reparto era `justify-between`; el cliente pidió quitar esa
+          fila. */}
+      <Container className="relative flex flex-1 flex-col justify-center gap-10 pt-28 pb-16 md:pt-32 md:pb-20">
         <p className="text-steel-soft flex items-center gap-3 text-xs font-medium tracking-[0.18em] uppercase">
           <span aria-hidden className="bg-steel h-px w-10" />
           {t("eyebrow")}
@@ -86,19 +85,6 @@ export async function Hero({ locale }: { locale: Locale }) {
             </a>
           </div>
         </div>
-
-        <ul className="grid gap-x-10 gap-y-5 border-t border-white/10 pt-8 sm:grid-cols-3">
-          {metodologia.disciplinas.map((d) => (
-            <li key={d.numero} className="flex items-baseline gap-3">
-              <span aria-hidden className="text-steel font-serif text-sm">
-                {d.numero}
-              </span>
-              <span className="font-serif text-lg leading-snug text-white/90 md:text-xl">
-                {localize(d.titulo, locale)}
-              </span>
-            </li>
-          ))}
-        </ul>
       </Container>
     </section>
   );

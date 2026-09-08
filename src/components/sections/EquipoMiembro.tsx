@@ -9,13 +9,9 @@ import { t, type Locale, type MiembroEquipo } from "@/content/types";
  */
 export function EquipoMiembro({
   miembro,
-  semblanzaPendiente,
-  etiquetaProvisional,
   locale,
 }: {
   miembro: MiembroEquipo;
-  semblanzaPendiente: string;
-  etiquetaProvisional: string;
   locale: Locale;
 }) {
   return (
@@ -45,19 +41,9 @@ export function EquipoMiembro({
         <p className="text-brand mt-1 text-xs font-medium tracking-[0.14em] uppercase">
           {t(miembro.cargo, locale)}
         </p>
-
-        {miembro.provisional ? (
-          <>
-            {/* El indicador es la PALABRA, no el color: sin esto el marcador dependería de un matiz
-                y fallaría el criterio de "el color nunca como único indicador". */}
-            <p className="border-line text-muted mt-4 inline-block rounded-[2px] border px-1.5 py-0.5 text-[10px] font-medium tracking-[0.14em] uppercase">
-              {etiquetaProvisional}
-            </p>
-            <p className="text-muted mt-2 text-sm leading-relaxed">
-              {semblanzaPendiente}
-            </p>
-          </>
-        ) : null}
+        <p className="text-muted mt-4 text-sm leading-relaxed">
+          {t(miembro.bio, locale)}
+        </p>
       </div>
     </div>
   );

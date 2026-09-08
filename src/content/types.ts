@@ -101,20 +101,11 @@ export interface CompromisoContent {
   cierre: LocalizedText;
 }
 
-/** Disciplina de la metodología de atención integral (3 en total). */
-export interface Disciplina {
-  numero: "01" | "02" | "03";
-  titulo: LocalizedText;
-  descripcion: LocalizedText;
-}
-
-/** Contenido de la sección Metodología (atención integral en cada expediente). */
+/**
+ * Lo que queda de la antigua sección Metodología: solo el alcance de la defensa (los tres niveles
+ * de gobierno), que cierra la sección Pilares. Ver `content/metodologia.ts`.
+ */
 export interface MetodologiaContent {
-  eyebrow: LocalizedText;
-  titulo: LocalizedText;
-  intro: LocalizedText;
-  disciplinas: Disciplina[];
-  /** Alcance de la defensa: los tres niveles de gobierno. */
   esferaDefensa: LocalizedText;
 }
 
@@ -135,23 +126,26 @@ export interface DocumentoLegal {
 }
 
 /**
- * Integrante del equipo. Ver `content/equipo.ts` para las reglas de qué se puede escribir aquí.
+ * Integrante del equipo. Ver `content/equipo.ts` para las reglas de qué se puede escribir aquí:
+ * el nombre, el cargo y la semblanza salen de un documento del cliente, nunca de una redacción
+ * propia.
  */
 export interface MiembroEquipo {
   id: string;
   /** Nombre propio: no se traduce. */
   nombre: string;
-  /** Dato verificado (docs/contenido-fuente.md §5). */
+  /** Del documento del cliente. */
   cargo: LocalizedText;
+  /** Semblanza del documento del cliente (`work/COMENTARIOS 070926/003. Bios.docx`). */
+  bio: LocalizedText;
   /** Monograma que ocupa el retrato mientras el cliente no manda la fotografía. */
   iniciales: string;
   /** Alimenta el `founder` del JSON-LD; sólo uno debería tenerlo. */
   fundador?: boolean;
-  /** `true` ⇒ la semblanza es un marcador de posición y la interfaz lo declara. */
-  provisional: boolean;
   /**
    * Retrato. Obligatoriamente un archivo local en `public/`: la CSP es `img-src 'self' data: blob:`
-   * y `next.config.ts` no declara `remotePatterns`, así que una URL externa no cargaría.
+   * y `next.config.ts` no declara `remotePatterns`, así que una URL externa no cargaría. El cliente
+   * no ha entregado fotografías (7-sep-2026: "no van a llevar fotos por el momento").
    */
   retrato?: { src: string; alt: LocalizedText; width: number; height: number };
 }
@@ -161,10 +155,6 @@ export interface EquipoContent {
   eyebrow: LocalizedText;
   titulo: LocalizedText;
   intro: LocalizedText;
-  /** Rótulo que marca una semblanza como provisional. */
-  etiquetaProvisional: LocalizedText;
-  /** Texto único compartido por todos los miembros provisionales. Ver `content/equipo.ts`. */
-  semblanzaPendiente: LocalizedText;
   miembros: MiembroEquipo[];
 }
 

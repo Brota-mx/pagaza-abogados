@@ -50,15 +50,15 @@ export function legalServiceJsonLd(locale: Locale, description: string) {
     // se cumple la condición. Se deriva de `content/equipo.ts` para que el dato estructurado no
     // pueda divergir de lo que la página muestra.
     //
-    // Sólo nombre y cargo, que son los dos datos verificados. NUNCA la semblanza: hoy es un
-    // marcador de posición y emitirlo como `description` sería exactamente publicar un placeholder
-    // como si fuera dato.
+    // Nombre, cargo y semblanza: los tres del documento del cliente (`003. Bios.docx`, 7-sep-2026).
+    // Hasta esa fecha la semblanza era un marcador y se omitía a propósito; ahora es texto suyo.
     ...(fundador
       ? {
           founder: {
             "@type": "Person",
             name: fundador.nombre,
             jobTitle: t(fundador.cargo, locale),
+            description: t(fundador.bio, locale),
           },
         }
       : {}),

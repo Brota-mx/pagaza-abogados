@@ -51,38 +51,17 @@ export function Pilares({ locale }: { locale: Locale }) {
         </div>
 
         {/*
-          Las tres disciplinas de la metodología cierran la misma pregunta. Van solo con su título:
-          antes llevaban intro + una descripción de dos líneas cada una y sumaban 120 palabras que
-          no vienen de la nota del cliente, sino del brochure. Enunciarlas basta —el "cómo" ya lo
-          explicaron los tres pilares de arriba— y el texto sigue en `metodologia.ts`.
+          Cierre: el alcance de la defensa (los tres niveles de gobierno). Antes esto era el pie de
+          un sub-bloque que además repetía las tres disciplinas de `metodologia.ts` como una fila
+          numerada; el cliente pidió quitar esa fila (nota del 7-sep-2026, misma que en el Hero).
+          Queda solo la frase, con el mismo hairline que las tarjetas de arriba, no una barra.
         */}
-        <div className="mt-20 border-t border-white/15 pt-12">
-          <h3 className="max-w-xl font-serif text-2xl text-white md:text-3xl">
-            {t(metodologia.titulo, locale)}
-          </h3>
-
-          <ol className="mt-8 flex flex-col gap-x-12 gap-y-4 md:flex-row md:items-center">
-            {metodologia.disciplinas.map((d, i) => (
-              <Reveal
-                key={d.numero}
-                as="li"
-                delay={i * 80}
-                className="flex items-baseline gap-3"
-              >
-                <span
-                  aria-hidden
-                  className="text-steel-soft font-serif text-sm"
-                >
-                  {d.numero}
-                </span>
-                <span className="font-serif text-lg text-white">
-                  {t(d.titulo, locale)}
-                </span>
-              </Reveal>
-            ))}
-          </ol>
-
-          <p className="mt-10 max-w-xl border-t border-white/10 pt-6 text-sm leading-relaxed text-white/60">
+        <div className="relative mt-20 border-t border-white/15 pt-8">
+          <span
+            aria-hidden
+            className="bg-steel absolute -top-px left-0 h-px w-12"
+          />
+          <p className="max-w-xl leading-relaxed text-white/70">
             {t(metodologia.esferaDefensa, locale)}
           </p>
         </div>

@@ -1,4 +1,4 @@
-import type { Alianza, Cobertura, SectionIntro } from "./types";
+import type { Alianza, SectionIntro } from "./types";
 
 /**
  * Alianzas estratégicas por materia (9) + cobertura geográfica.
@@ -46,11 +46,20 @@ export const alianzas: Alianza[] = [
       en: "Life sciences & advertising",
     },
   },
+  // El cliente pidió (nota del 7-sep-2026) separar esta entrada en dos: "Ponerle Penal. Solo
+  // penal y otro que diga penal fiscal". Antes era una sola ("Penal (enfoque penal-fiscal)").
   {
     id: "penal",
     nombre: {
-      es: "Penal (enfoque penal-fiscal)",
-      en: "Criminal (tax-crime focus)",
+      es: "Penal",
+      en: "Criminal",
+    },
+  },
+  {
+    id: "penalfiscal",
+    nombre: {
+      es: "Penal fiscal",
+      en: "Tax crime",
     },
   },
   {
@@ -86,29 +95,15 @@ export const alianzas: Alianza[] = [
 ];
 
 /**
- * Cobertura geográfica: red nacional en los estados clave + alianzas transfronterizas.
- * Fuente: docs/contenido-fuente.md §4.2.
+ * Encabezado del bloque bajo las alianzas (CoverageMap). El cliente pidió (nota del 7-sep-2026)
+ * quitar el texto de "Cobertura / Nacional / Internacional" y en su lugar decir que el despacho
+ * tiene dos oficinas en México, con las dos direcciones. Las direcciones se leen de
+ * `siteInfo.oficinas` — no se duplican aquí — y el mapa con los dos pines se conserva.
  */
-export const cobertura: Cobertura[] = [
-  { region: { es: "México", en: "Mexico" }, tipo: "nacional" },
-  {
-    region: { es: "Estados Unidos", en: "United States" },
-    tipo: "internacional",
-  },
-  { region: { es: "Europa", en: "Europe" }, tipo: "internacional" },
-  {
-    region: { es: "Latinoamérica", en: "Latin America" },
-    tipo: "internacional",
-  },
-];
-
-/** Etiquetas del bloque de cobertura (CoverageMap). */
 export const coberturaLabels = {
-  titulo: { es: "Cobertura", en: "Coverage" },
-  nacional: { es: "Nacional", en: "Nationwide" },
-  internacional: { es: "Internacional", en: "International" },
+  titulo: { es: "Nuestras oficinas", en: "Our offices" },
   nota: {
-    es: "Red de corresponsalías y despachos aliados en los estados clave de la República, con alianzas transfronterizas de prestigio.",
-    en: "A network of correspondents and allied firms across Mexico's key states, with prestigious cross-border alliances.",
+    es: "Tenemos dos oficinas en México.",
+    en: "We have two offices in Mexico.",
   },
 } as const;

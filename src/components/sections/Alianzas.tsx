@@ -11,12 +11,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import {
-  alianzas,
-  alianzasIntro,
-  cobertura,
-  coberturaLabels,
-} from "@/content/alianzas";
+import { alianzas, alianzasIntro, coberturaLabels } from "@/content/alianzas";
 import { t, type Locale } from "@/content/types";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -30,6 +25,7 @@ const ICONS: Record<string, LucideIcon> = {
   corporativo: Building2,
   lifesciences: FlaskConical,
   penal: Gavel,
+  penalfiscal: Scale,
   compliance: ShieldCheck,
   preciostransferencia: Scale,
   traduccion: Languages,
@@ -49,14 +45,8 @@ const ICONS: Record<string, LucideIcon> = {
  * el cliente lo pide de vuelta.
  */
 export function Alianzas({ locale }: { locale: Locale }) {
-  const resolvedCobertura = cobertura.map((c) => ({
-    region: t(c.region, locale),
-    tipo: c.tipo,
-  }));
   const labels = {
     titulo: t(coberturaLabels.titulo, locale),
-    nacional: t(coberturaLabels.nacional, locale),
-    internacional: t(coberturaLabels.internacional, locale),
     nota: t(coberturaLabels.nota, locale),
   };
 
@@ -98,11 +88,7 @@ export function Alianzas({ locale }: { locale: Locale }) {
         </ul>
 
         <div className="mt-16">
-          <CoverageMap
-            cobertura={resolvedCobertura}
-            labels={labels}
-            locale={locale}
-          />
+          <CoverageMap labels={labels} locale={locale} />
         </div>
       </Container>
     </section>
