@@ -68,6 +68,31 @@ así que responder desde el buzón del despacho funciona igual.
 
 ---
 
+## Cómo se agrega cada registro en la consola de Google Cloud DNS
+
+Si el cliente no lo ha hecho antes, guiarlo así (él comparte pantalla):
+
+1. Ir a **console.cloud.google.com** → menú → **Network Services → Cloud DNS**.
+2. Clic en la **zona** de `pagaza.mx` (la lista muestra los registros actuales: los MX y el TXT
+   de Google que **no se tocan**).
+3. Botón **ADD STANDARD** (o "Agregar conjunto de registros").
+4. Por cada fila de las tablas de arriba:
+   - **DNS name / Nombre:** sólo la parte de la izquierda (`resend._domainkey.send`, `rsend.send`,
+     `send.send`, `_dmarc`, o `www`). La consola completa sola el `.pagaza.mx`. Para el apex se
+     deja **vacío**.
+   - **Resource record type:** `TXT`, `CNAME` o `A` según la tabla.
+   - **TTL:** `3600` (o 5 min, da igual).
+   - **Value / Routing data:** el valor de la tabla. En los `CNAME` **con punto final**
+     (`send.forge.rmta.net.`). En el TXT de DKIM, pegar toda la cadena `p=MIG...AQAB` en un solo
+     campo.
+   - **CREATE / Crear.**
+5. Repetir para cada fila. No se borra ni edita nada de lo que ya estaba.
+
+Si algo no cuadra en la consola (nombres, un registro que ya existe), **parar y no forzar** —
+mejor lo terminamos después que romper la zona en vivo.
+
+---
+
 ## Después de pegar los registros
 
 1. **Resend** → botón *Verify DNS Records*. Tarda minutos. Cuando pase a `Verified`:
