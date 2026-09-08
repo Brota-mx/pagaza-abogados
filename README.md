@@ -102,19 +102,16 @@ la lista completa y las llaves de test de dev.
       protección de Vercel no cubre dominios personalizados. Si se quiere montar sin publicar,
       cambiar `ssoProtection.deploymentType` a `all`.
 - [x] ~~Fotografías y semblanzas del equipo~~ — cerrado (PR #24/#25): seis bios reales del cliente,
-      retrato por monograma (decisión del cliente, "no van a llevar foto por el momento"). Queda
-      **confirmar 5 de 6 cargos** (derivados de la semblanza; sólo "Socio Fundador" venía explícito).
+      retrato por monograma (decisión del cliente, "no van a llevar foto por el momento"). Cargos
+      revisados y confirmados por el despacho (2026-09-08).
 - [ ] **Perfil de X.** Facebook ya está (PR #25). Falta sólo X: al llegar, una línea en
       `siteInfo.redes` (`src/content/site.ts`); aparece solo en el footer y en el `sameAs` del
       JSON-LD, sin tocar componentes.
 - [ ] **Contenido real del boletín.** La sección Newsletter muestra un envío de EJEMPLO, rotulado
       como tal en la página. Los titulares son temas ilustrativos, no publicaciones existentes.
-- [ ] 🔴 **Validación legal del Aviso de Privacidad y del Aviso Legal** (`src/content/legal.ts`).
-      Están redactados como BORRADOR desde el lado técnico: el inventario de datos y encargados sí
-      está verificado contra el código, pero Alfonso debe revisar y firmar el marco normativo (en
-      marzo de 2025 cambió la LFPDPPP y la autoridad garante), los plazos ARCO y la denominación
-      exacta del responsable. **Sin esto el sitio no debe hacerse público:** los formularios ya
-      recaban datos personales.
+- [x] ~~Validación legal del Aviso de Privacidad y del Aviso Legal~~ (`src/content/legal.ts`) —
+      el texto lo redactó y confirmó el despacho (2026-09-08). El inventario de datos y encargados
+      está verificado contra el código.
 - [ ] Correr **`/security-review`** sobre `/api/contact`, `/api/newsletter` y los headers.
 - [ ] Prueba E2E real: un lead llega a `a@pagaza.mx`; cada modo de falla (A–K) responde su status.
 - [ ] Lighthouse ≥ 95 (Performance/SEO/Best Practices/Accessibility, mobile) sobre el deploy.

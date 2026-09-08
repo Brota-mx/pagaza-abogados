@@ -53,7 +53,8 @@ así que responder desde el buzón del despacho funciona igual.
 > arriba: A `76.76.21.21` y CNAME `cname.vercel-dns.com.`.
 >
 > ⚠️ **Conectar el apex publica el sitio en ese instante.** La protección de Vercel está en
-> `all_except_custom_domains` — no aplica a dominios personalizados. Ver "Decisión pendiente" abajo.
+> `all_except_custom_domains` — no aplica a dominios personalizados. Los bloqueadores de contenido
+> están cerrados (ver "Publicar" abajo), así que publicar es el plan.
 > `www` está configurado en Vercel como redirect 308 → `pagaza.mx`.
 
 ### 3. DMARC — opcional, recomendado (monitoreo)
@@ -64,6 +65,31 @@ así que responder desde el buzón del despacho funciona igual.
 
 > Va en la **raíz**, no bajo `send`. `p=none` es sólo monitoreo: no cambia la entrega de ningún
 > correo, sólo pide reportes. Si el cliente prefiere no añadir nada a la raíz, se omite.
+
+---
+
+## Cómo se agrega cada registro en la consola de Google Cloud DNS
+
+Si el cliente no lo ha hecho antes, guiarlo así (él comparte pantalla):
+
+1. Ir a **console.cloud.google.com** → menú → **Network Services → Cloud DNS**.
+2. Clic en la **zona** de `pagaza.mx` (la lista muestra los registros actuales: los MX y el TXT
+   de Google que **no se tocan**).
+3. Botón **ADD STANDARD** (o "Agregar conjunto de registros").
+4. Por cada fila de las tablas de arriba:
+   - **DNS name / Nombre:** sólo la parte de la izquierda (`resend._domainkey.send`, `rsend.send`,
+     `send.send`, `_dmarc`, o `www`). La consola completa sola el `.pagaza.mx`. Para el apex se
+     deja **vacío**.
+   - **Resource record type:** `TXT`, `CNAME` o `A` según la tabla.
+   - **TTL:** `3600` (o 5 min, da igual).
+   - **Value / Routing data:** el valor de la tabla. En los `CNAME` **con punto final**
+     (`send.forge.rmta.net.`). En el TXT de DKIM, pegar toda la cadena `p=MIG...AQAB` en un solo
+     campo.
+   - **CREATE / Crear.**
+5. Repetir para cada fila. No se borra ni edita nada de lo que ya estaba.
+
+Si algo no cuadra en la consola (nombres, un registro que ya existe), **parar y no forzar** —
+mejor lo terminamos después que romper la zona en vivo.
 
 ---
 
@@ -118,19 +144,15 @@ en `/en`.
 
 ---
 
-## Decisión pendiente (antes de conectar el apex)
+## Publicar
 
-Conectar `pagaza.mx` **publica el sitio**. Dos bloqueadores de contenido siguen abiertos:
+Conectar `pagaza.mx` **publica el sitio**. Los dos bloqueadores de contenido que estaban abiertos
+quedaron cerrados por confirmación del cliente (2026-09-08):
 
-- El **Aviso de Privacidad** ([src/content/legal.ts](../src/content/legal.ts)) cita la LFPDPPP con
-  su nombre **anterior a la reforma de marzo-2025** (la autoridad ya no es el INAI). Es redacción
-  del propio cliente; falta que confirme el nombre vigente.
-- **5 de 6 cargos** del equipo se derivaron de la semblanza sin validar (sólo "Socio Fundador" de
-  Alfonso venía explícito).
+- **Aviso de Privacidad** ([src/content/legal.ts](../src/content/legal.ts)) — la redacción es del
+  propio despacho y el cliente confirma que es la que quiere. Sin cambios.
+- **Cargos del equipo** — revisados y confirmados por el despacho. Sin cambios.
 
-Dos salidas, ambas de un clic:
-
-| Opción | Cómo | Efecto |
-|---|---|---|
-| **Publicar ya** | Crear el registro A | El sitio queda público con la corrección legal como pendiente posterior. Hay que decirlo en voz alta en la llamada. |
-| **Conectar sin publicar** | Cambiar `ssoProtection.deploymentType` de `all_except_custom_domains` a `all` en Vercel | Dominio montado y certificado emitido, pero el sitio pide login hasta que el cliente confirme. Se abre después con un cambio. |
+No hay nada que esperar: se pega el DNS en la llamada y el sitio queda público. (Si en el futuro se
+quisiera montar el dominio sin publicar, se cambia `ssoProtection.deploymentType` de
+`all_except_custom_domains` a `all` en Vercel; hoy no aplica.)
