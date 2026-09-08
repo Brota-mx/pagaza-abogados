@@ -11,7 +11,8 @@ import { EquipoMiembro } from "./EquipoMiembro";
  *
  * Seis integrantes con semblanza real del cliente (`work/COMENTARIOS 070926/003. Bios.docx`,
  * 7-sep-2026). Sin fotografía por ahora ("no van a llevar fotos por el momento"): cada tarjeta
- * pinta el monograma. Retícula de dos columnas, tres filas.
+ * pinta el monograma. Lista plegable en una columna (como Sectores): solo el socio fundador viene
+ * abierto, el resto se abre al hacer clic — lo pidió el cliente el 7-sep-2026.
  */
 export function Equipo({ locale }: { locale: Locale }) {
   return (
@@ -23,11 +24,15 @@ export function Equipo({ locale }: { locale: Locale }) {
           intro={t(equipo.intro, locale)}
         />
 
-        <ul className="mt-14 grid gap-x-10 gap-y-12 md:grid-cols-2">
+        <ul className="border-line mt-14 border-t">
           {equipo.miembros.map((miembro, i) => (
             <li key={miembro.id}>
               <Reveal delay={Math.min(i, 5) * 60}>
-                <EquipoMiembro miembro={miembro} locale={locale} />
+                <EquipoMiembro
+                  miembro={miembro}
+                  open={miembro.fundador === true}
+                  locale={locale}
+                />
               </Reveal>
             </li>
           ))}

@@ -315,9 +315,13 @@ test.describe("redes sociales", () => {
     await expect(
       footer.locator('a[href*="instagram.com/pagaza_abogados"]'),
     ).toHaveCount(1);
-    // Facebook y X aún no los ha pasado el cliente: no debe haber iconos muertos.
+    // Facebook lo pasó el cliente el 7-sep-2026 (perfil por id numérico).
+    await expect(
+      footer.locator('a[href*="facebook.com/profile.php?id=61593014333404"]'),
+    ).toHaveCount(1);
+    // X aún no lo ha pasado: no debe haber iconos muertos.
     await expect(footer.locator('a[href="#"]')).toHaveCount(0);
-    await expect(footer.locator('a[href*="facebook"]')).toHaveCount(0);
+    await expect(footer.locator('a[href*="twitter.com"], a[href*="x.com"]')).toHaveCount(0);
   });
 });
 

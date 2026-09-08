@@ -11,9 +11,10 @@ import type { NewsletterMuestra } from "./types";
  *
  * 1. **Sin fechas.** El ejemplo que mandó el cliente (la sección de publicaciones de Galicia) pone
  *    una fecha en cada tarjeta, pero una fecha concreta convierte la muestra en una noticia falsa
- *    en cuanto alguien la ve fuera de contexto. La ranura se ocupa con el FORMATO (`DD.MM.AAAA`),
- *    que conserva el ritmo tipográfico y es imposible de confundir con un dato — el equivalente
- *    tipográfico de un wireframe. Es bilingüe porque las iniciales cambian (AAAA / YYYY).
+ *    en cuanto alguien la ve fuera de contexto. Se probó ocupar la ranura con el FORMATO
+ *    (`DD.MM.AAAA`) a modo de wireframe tipográfico, pero el cliente lo leyó como algo sin
+ *    terminar ("¿esto va así?", 7-sep-2026), así que la ranura se quitó del todo: la tarjeta va
+ *    solo con la categoría.
  * 2. **Titulares formulados como TEMA, no como suceso.** Nada de cifras, autoridades concretas,
  *    números de criterio ni fechas de publicación. Son asuntos perennes de la práctica fiscal, del
  *    tipo que el despacho efectivamente cubriría.
@@ -25,7 +26,6 @@ export const newsletterMuestra: NewsletterMuestra = {
     es: "Ejemplo de envío — contenido ilustrativo",
     en: "Sample issue — illustrative content",
   },
-  formatoFecha: { es: "DD.MM.AAAA", en: "DD.MM.YYYY" },
   piezas: [
     {
       id: "materialidad",
