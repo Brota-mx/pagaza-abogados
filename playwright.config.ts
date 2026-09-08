@@ -41,5 +41,13 @@ export default defineConfig({
     url: `http://localhost:${PORT}`,
     timeout: 180_000,
     reuseExistingServer: !process.env.CI,
+    // E2E hermético: llaves de PRUEBA de Turnstile (siempre pasan) y sin Resend real, pase lo que
+    // pase en .env.local (ahí viven ahora las llaves de producción). En dev, lib/resend.ts simula
+    // el envío. process.env tiene prioridad sobre .env.local en Next, así que esto gana.
+    env: {
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: "1x00000000000000000000AA",
+      TURNSTILE_SECRET_KEY: "1x0000000000000000000000000000000AA",
+      RESEND_API_KEY: "",
+    },
   },
 });
