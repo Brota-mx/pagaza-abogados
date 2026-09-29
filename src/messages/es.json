@@ -21,7 +21,8 @@
     "contacto": "Contacto",
     "menu": "Menú principal",
     "open": "Abrir menú",
-    "close": "Cerrar menú"
+    "close": "Cerrar menú",
+    "defensaFiscal": "Defensa fiscal"
   },
   "cta": {
     "consulta": "Agendar consulta"
@@ -38,7 +39,8 @@
     "rights": "Todos los derechos reservados.",
     "brotaBy": "Sitio por Brota Mx",
     "avisoPrivacidad": "Aviso de Privacidad",
-    "avisoLegal": "Aviso Legal"
+    "avisoLegal": "Aviso Legal",
+    "servicios": "Servicios fiscales"
   },
   "notFound": {
     "eyebrow": "Error 404",
@@ -102,5 +104,17 @@
     "consentimiento": "Acepto el tratamiento de mis datos conforme al",
     "avisoLink": "Aviso de Privacidad",
     "consentimientoError": "Debes aceptar el Aviso de Privacidad para suscribirte."
+  },
+  "servicioPage": {
+    "inicio": "Inicio",
+    "breadcrumb": "Ruta de navegación",
+    "eyebrow": "Defensa y asesoría fiscal",
+    "consulta": "Agendar consulta",
+    "faq": "Preguntas frecuentes",
+    "relacionados": "Servicios relacionados",
+    "conocerMas": "Conocer más",
+    "explorar": "Explorar nuestros servicios fiscales",
+    "contactoTitulo": "Revisemos tu situación fiscal.",
+    "contactoIntro": "Cuéntanos qué acto recibiste o qué operación necesitas revisar. La primera conversación es confidencial y sin compromiso."
   }
 }

@@ -1,4 +1,25 @@
 import type { SectorId } from "@/lib/validation";
+import type { routing } from "@/i18n/routing";
+
+export type ServicioHref = Exclude<
+  keyof typeof routing.pathnames,
+  "/" | "/aviso-de-privacidad" | "/aviso-legal"
+>;
+
+/** Landing temática bilingüe. Redacción SEO de Codex, sujeta a revisión del cliente. */
+export interface PaginaServicio {
+  id: string;
+  slug: LocalizedText & { es: ServicioHref };
+  titulo: LocalizedText;
+  metaDescription: LocalizedText;
+  intro: LocalizedText[];
+  secciones: { titulo: LocalizedText; parrafos: LocalizedText[] }[];
+  faq: { pregunta: LocalizedText; respuesta: LocalizedText }[];
+  keywordPrincipal: string;
+  keywordsSecundarias: string[];
+  serviciosRelacionados: string[];
+  capacidadRelacionada?: string;
+}
 
 /** Texto bilingüe. Toda cadena de contenido del dominio usa este tipo. */
 export type LocalizedText = { es: string; en: string };

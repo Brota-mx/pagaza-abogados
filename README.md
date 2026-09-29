@@ -62,6 +62,9 @@ Páginas legales con **URL traducida** (`routing.pathnames`): `/es/aviso-de-priv
 Los acordeones (Sectores, Capacidades) usan `<details>` nativo, no Radix: el contenido cerrado
 debe seguir en el HTML para que los casos de éxito sean indexables.
 
+Doce páginas de servicio bilingües amplían la home con contenido y SEO propios.
+Rutas, fuentes y verificación: [docs/seo-servicios.md](docs/seo-servicios.md).
+
 Contenido tipado y bilingüe en `src/content/*`; UI/chrome en `src/messages/{es,en}.json`.
 Ver **`BLUEPRINT.md`** para el detalle.
 

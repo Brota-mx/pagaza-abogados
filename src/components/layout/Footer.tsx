@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { RedesSociales } from "@/components/ui/RedesSociales";
 import { Wordmark } from "@/components/ui/Wordmark";
 import type { Locale } from "@/content/types";
+import { serviciosSeo } from "@/content/servicios-seo";
 
 /**
  * Footer institucional sobre navy. Signature de marca: la "P" de gran tamaño como marca de agua de
@@ -39,7 +40,7 @@ export async function Footer({ locale }: { locale: Locale }) {
         </span>
       </span>
 
-      <Container className="relative grid gap-12 py-16 md:grid-cols-3 md:py-20">
+      <Container className="relative grid gap-12 py-16 md:grid-cols-2 md:py-20 xl:grid-cols-4">
         <div>
           <Wordmark className="text-2xl" sublabel />
           <p className="mt-5 max-w-xs font-serif text-lg leading-relaxed text-white/80 italic">
@@ -59,6 +60,21 @@ export async function Footer({ locale }: { locale: Locale }) {
             >
               {tNav(s.key)}
             </a>
+          ))}
+        </nav>
+
+        <nav aria-label={t("servicios")} className="flex flex-col gap-3">
+          <p className="text-steel-soft mb-2 text-xs font-medium tracking-[0.14em] uppercase">
+            {t("servicios")}
+          </p>
+          {serviciosSeo.map((servicio) => (
+            <Link
+              key={servicio.id}
+              href={servicio.slug.es}
+              className="hover:text-steel-soft focus-visible:ring-offset-navy w-fit rounded-[2px] text-sm text-white/80 transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
+            >
+              {servicio.titulo[locale]}
+            </Link>
           ))}
         </nav>
 
