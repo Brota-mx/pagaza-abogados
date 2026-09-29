@@ -3,7 +3,7 @@ import type { routing } from "@/i18n/routing";
 
 export type ServicioHref = Exclude<
   keyof typeof routing.pathnames,
-  "/" | "/aviso-de-privacidad" | "/aviso-legal"
+  "/" | "/aviso-de-privacidad" | "/aviso-legal" | "/blog" | "/blog/[slug]"
 >;
 
 /** Landing temática bilingüe. Redacción SEO de Codex, sujeta a revisión del cliente. */
@@ -235,4 +235,19 @@ export interface SiteInfo {
   oficinas: Oficina[];
   /** Sólo URLs de perfil reales y verificadas. Ver `RedSocial`. */
   redes?: Partial<Record<RedSocial, string>>;
+}
+
+/** Artículo bilingüe. Autor y fecha sólo con datos editoriales verificados. */
+export interface BlogPost {
+  id: string;
+  slug: LocalizedText;
+  titulo: LocalizedText;
+  metaDescription: LocalizedText;
+  fecha?: string;
+  autor?: string;
+  ejemplo?: boolean;
+  secciones: { titulo?: LocalizedText; parrafos: LocalizedText[] }[];
+  servicioRelacionado?: string;
+  tags: LocalizedText[];
+  fuentes?: { titulo: LocalizedText; url: string }[];
 }

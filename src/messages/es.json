@@ -22,7 +22,8 @@
     "menu": "Menú principal",
     "open": "Abrir menú",
     "close": "Cerrar menú",
-    "defensaFiscal": "Defensa fiscal"
+    "defensaFiscal": "Defensa fiscal",
+    "blog": "Blog"
   },
   "cta": {
     "consulta": "Agendar consulta"
@@ -116,5 +117,20 @@
     "explorar": "Explorar nuestros servicios fiscales",
     "contactoTitulo": "Revisemos tu situación fiscal.",
     "contactoIntro": "Cuéntanos qué acto recibiste o qué operación necesitas revisar. La primera conversación es confidencial y sin compromiso."
+  },
+  "blog": {
+    "titulo": "Análisis fiscal",
+    "descripcion": "Guías y análisis sobre defensa fiscal, documentación y actuaciones de la autoridad.",
+    "inicio": "Inicio",
+    "breadcrumb": "Ruta de navegación",
+    "leer": "Leer artículo",
+    "volver": "Volver al blog",
+    "ejemplo": "Entrada de ejemplo",
+    "avisoEjemplo": "Muestra ilustrativa de contenido. Pendiente de revisión editorial y jurídica del despacho; no constituye asesoría para un caso concreto.",
+    "servicio": "Servicio relacionado",
+    "consulta": "Agendar consulta",
+    "fuentes": "Fuentes de consulta",
+    "tags": "Temas",
+    "eyebrow": "Blog"
   }
 }

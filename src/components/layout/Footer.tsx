@@ -52,6 +52,12 @@ export async function Footer({ locale }: { locale: Locale }) {
           <p className="text-steel-soft mb-2 text-xs font-medium tracking-[0.14em] uppercase">
             {t("sections")}
           </p>
+          <Link
+            href="/blog"
+            className="hover:text-steel-soft w-fit rounded-[2px] text-sm text-white/80 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+          >
+            {tNav("blog")}
+          </Link>
           {NAV_SECTIONS.map((s) => (
             <a
               key={s.id}

@@ -22,7 +22,8 @@
     "menu": "Main menu",
     "open": "Open menu",
     "close": "Close menu",
-    "defensaFiscal": "Tax defense"
+    "defensaFiscal": "Tax defense",
+    "blog": "Blog"
   },
   "cta": {
     "consulta": "Schedule a consultation"
@@ -116,5 +117,20 @@
     "explorar": "Explore our tax services",
     "contactoTitulo": "Let us review your tax situation.",
     "contactoIntro": "Tell us about the notice you received or the transaction you need to review. The initial conversation is confidential and without obligation."
+  },
+  "blog": {
+    "titulo": "Tax insights",
+    "descripcion": "Guides and insights on tax defense, records and actions by tax authorities.",
+    "inicio": "Home",
+    "breadcrumb": "Breadcrumb",
+    "leer": "Read article",
+    "volver": "Back to the blog",
+    "ejemplo": "Sample article",
+    "avisoEjemplo": "Illustrative content sample. Pending editorial and legal review by the firm; it does not constitute advice for a specific case.",
+    "servicio": "Related service",
+    "consulta": "Schedule a consultation",
+    "fuentes": "Reference sources",
+    "tags": "Topics",
+    "eyebrow": "Blog"
   }
 }

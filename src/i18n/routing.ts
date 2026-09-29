@@ -12,6 +12,8 @@ export const routing = defineRouting({
   // que se usa en el código (`<Link href="/aviso-de-privacidad">`); next-intl la reescribe según
   // el locale activo.
   pathnames: {
+    "/blog": "/blog",
+    "/blog/[slug]": "/blog/[slug]",
     "/": "/",
     "/aviso-de-privacidad": {
       es: "/aviso-de-privacidad",

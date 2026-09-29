@@ -4,6 +4,8 @@ import { getPathname } from "@/i18n/navigation";
 import { SITE_URL, sitemapLanguages } from "@/lib/seo";
 import type { Locale } from "@/content/types";
 import { serviciosSeo } from "@/content/servicios-seo";
+import { blogPosts } from "@/content/blog";
+import { blogHref } from "@/content/blog/routes";
 
 /** Rutas legales, con sus URLs traducidas resueltas por next-intl (routing.pathnames). */
 const RUTAS_LEGALES = ["/aviso-de-privacidad", "/aviso-legal"] as const;
@@ -30,6 +32,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
       alternates: { languages },
     })),
+    ...routing.locales.map((locale) => ({
+      url: SITE_URL + getPathname({ href: "/blog", locale }),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+      alternates: {
+        languages: {
+          es: SITE_URL + "/es/blog",
+          en: SITE_URL + "/en/blog",
+          "x-default": SITE_URL + "/es/blog",
+        },
+      },
+    })),
+    ...blogPosts
+      .filter((post) => !post.ejemplo)
+      .flatMap((post) => {
+        const porIdioma = Object.fromEntries(
+          routing.locales.map((locale) => [
+            locale,
+            SITE_URL + getPathname({ href: blogHref(post, locale), locale }),
+          ]),
+        );
+        return routing.locales.map((locale) => ({
+          url: porIdioma[locale],
+          priority: 0.6,
+          alternates: {
+            languages: { ...porIdioma, "x-default": porIdioma.es },
+          },
+        }));
+      }),
     ...RUTAS_LEGALES.flatMap((href) => {
       const porIdioma = Object.fromEntries(
         routing.locales.map((l) => [
