@@ -104,7 +104,7 @@ export function Header() {
 
             <nav
               aria-label={t("menu")}
-              className="hidden items-center gap-8 lg:flex"
+              className="hidden items-center gap-4 xl:flex"
             >
               {NAV_SECTIONS.map((s) => (
                 <a key={s.id} href={ancla(s.id)} className={enlaceNav}>
@@ -112,9 +112,13 @@ export function Header() {
                   <span aria-hidden className={subrayadoNav} />
                 </a>
               ))}
+              <Link href="/abogado-fiscalista" className={enlaceNav}>
+                {t("defensaFiscal")}
+                <span aria-hidden className={subrayadoNav} />
+              </Link>
             </nav>
 
-            <div className="hidden items-center gap-6 lg:flex">
+            <div className="hidden items-center gap-4 xl:flex">
               <LocaleSwitcher />
               <a
                 href={ancla("contacto")}
@@ -130,7 +134,7 @@ export function Header() {
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? t("close") : t("open")}
-              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none lg:hidden"
+              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-[2px] transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:outline-none xl:hidden"
             >
               {open ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -167,7 +171,7 @@ export function Header() {
       {open && (
         <div
           id="mobile-menu"
-          className="border-line bg-surface text-navy border-t lg:hidden"
+          className="border-line bg-surface text-navy max-h-[calc(100dvh-5rem)] overflow-y-auto border-t xl:hidden"
         >
           <Container className="flex flex-col gap-1 py-4">
             {NAV_SECTIONS.map((s) => (
@@ -180,6 +184,13 @@ export function Header() {
                 {t(s.key)}
               </a>
             ))}
+            <Link
+              href="/abogado-fiscalista"
+              onClick={() => setOpen(false)}
+              className="hover:text-brand rounded-[2px] py-3 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+            >
+              {t("defensaFiscal")}
+            </Link>
             <div className="border-line mt-3 flex items-center justify-between border-t pt-4">
               <LocaleSwitcher />
               <a

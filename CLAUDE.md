@@ -18,10 +18,11 @@ Next.js 15 (App Router) + TypeScript strict + Tailwind CSS v4 + next-intl (ES/EN
 
 ### Directory Structure
 
-- `src/app/[locale]/` — Páginas por idioma (home one-page). `layout.tsx` renderiza `<html>`, fuentes y providers.
+- `src/app/(sitio)/[locale]/` — Home one-page, legales y 12 páginas de servicio por idioma. `layout.tsx` renderiza `<html>`, fuentes y providers.
 - `src/app/api/` — Route handlers (p.ej. `contact/route.ts`). Única superficie dinámica.
 - `src/components/{layout,sections,ui,forms}/` — UI por dominio.
 - `src/content/` — **Contenido tipado y bilingüe** (`{ es, en }`): pilares, sectores, alianzas, site. Sin CMS.
+- `src/content/servicios-seo.ts` — Registro de servicios SEO; copy por servicio en `servicios-seo/`. Fuentes y revisión editorial en `docs/seo-servicios.md`.
 - `src/messages/{es,en}.json` — Textos de UI/chrome (nav, formulario, aria) para next-intl.
 - `src/i18n/` — Config de next-intl (`routing`, `request`, `navigation`).
 - `src/lib/` — `resend`, `ratelimit`, `validation` (Zod), `reporter` (Torre), `seo`, `utils`.

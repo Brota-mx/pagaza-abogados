@@ -3,6 +3,7 @@ import { routing } from "@/i18n/routing";
 import { getPathname } from "@/i18n/navigation";
 import { SITE_URL, sitemapLanguages } from "@/lib/seo";
 import type { Locale } from "@/content/types";
+import { serviciosSeo } from "@/content/servicios-seo";
 
 /** Rutas legales, con sus URLs traducidas resueltas por next-intl (routing.pathnames). */
 const RUTAS_LEGALES = ["/aviso-de-privacidad", "/aviso-legal"] as const;
@@ -14,19 +15,17 @@ const RUTAS_LEGALES = ["/aviso-de-privacidad", "/aviso-legal"] as const;
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const languages = sitemapLanguages();
-  const lastModified = new Date();
+  // Sin lastModified: no tenemos una fecha verificada por URL; cada build no es una edición.
 
   return [
     {
       url: SITE_URL,
-      lastModified,
       changeFrequency: "yearly" as const,
       priority: 0.8,
       alternates: { languages },
     },
     ...routing.locales.map((locale) => ({
       url: `${SITE_URL}/${locale}`,
-      lastModified,
       changeFrequency: "monthly" as const,
       priority: 1,
       alternates: { languages },
@@ -40,10 +39,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       );
       return routing.locales.map((locale) => ({
         url: porIdioma[locale],
-        lastModified,
         changeFrequency: "yearly" as const,
         priority: 0.3,
         alternates: { languages: porIdioma },
+      }));
+    }),
+    ...serviciosSeo.flatMap((servicio) => {
+      const porIdioma = Object.fromEntries(
+        routing.locales.map((locale) => [
+          locale,
+          `${SITE_URL}${getPathname({ href: servicio.slug.es, locale })}`,
+        ]),
+      );
+      return routing.locales.map((locale) => ({
+        url: porIdioma[locale],
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+        alternates: { languages: { ...porIdioma, "x-default": porIdioma.es } },
       }));
     }),
   ];

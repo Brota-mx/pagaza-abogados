@@ -2,7 +2,97 @@ import { routing } from "@/i18n/routing";
 import { siteInfo } from "@/content/site";
 import { equipo } from "@/content/equipo";
 import { listaRedes } from "./redes";
-import { t, type Locale } from "@/content/types";
+import { t, type Locale, type PaginaServicio } from "@/content/types";
+import type { Metadata, ResolvingMetadata } from "next";
+import { getPathname } from "@/i18n/navigation";
+
+export async function generateServicioMetadata(
+  servicio: PaginaServicio,
+  locale: Locale,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const href = (l: Locale) =>
+    getPathname({ href: servicio.slug.es, locale: l });
+  const title = t(servicio.titulo, locale);
+  const description = t(servicio.metaDescription, locale);
+  // Next resuelve la ruta de su imagen por convención, incluido el sufijo del segmento.
+  const images = (await parent).openGraph?.images;
+  return {
+    title,
+    description,
+    keywords:
+      locale === "es"
+        ? [servicio.keywordPrincipal, ...servicio.keywordsSecundarias]
+        : [title],
+    alternates: {
+      canonical: href(locale),
+      languages: { es: href("es"), en: href("en"), "x-default": href("es") },
+    },
+    openGraph: {
+      type: "website",
+      siteName: siteInfo.nombre,
+      title,
+      description,
+      url: href(locale),
+      locale: locale === "es" ? "es_MX" : "en_US",
+      alternateLocale: locale === "es" ? "en_US" : "es_MX",
+      images,
+    },
+    twitter: { card: "summary_large_image", title, description, images },
+    robots: { index: true, follow: true },
+  };
+}
+
+export function servicioJsonLd(servicio: PaginaServicio, locale: Locale) {
+  const url = `${SITE_URL}${getPathname({ href: servicio.slug.es, locale })}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: t(servicio.titulo, locale),
+    description: t(servicio.metaDescription, locale),
+    url,
+    provider: { "@id": `${SITE_URL}/#organization` },
+    areaServed: { "@type": "Country", name: "México" },
+  };
+}
+
+export function breadcrumbJsonLd(
+  servicio: PaginaServicio,
+  locale: Locale,
+  inicio: string,
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: inicio,
+        item: `${SITE_URL}/${locale}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t(servicio.titulo, locale),
+        item: `${SITE_URL}${getPathname({ href: servicio.slug.es, locale })}`,
+      },
+    ],
+  };
+}
+
+export function faqJsonLd(servicio: PaginaServicio, locale: Locale) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: servicio.faq.map((faq) => ({
+      "@type": "Question",
+      name: t(faq.pregunta, locale),
+      acceptedAnswer: { "@type": "Answer", text: t(faq.respuesta, locale) },
+    })),
+  };
+}
 
 /** URL canónica del sitio, sin barra final. Fallback seguro para no romper el build si falta env. */
 export const SITE_URL =

@@ -21,7 +21,8 @@
     "contacto": "Contact",
     "menu": "Main menu",
     "open": "Open menu",
-    "close": "Close menu"
+    "close": "Close menu",
+    "defensaFiscal": "Tax defense"
   },
   "cta": {
     "consulta": "Schedule a consultation"
@@ -38,7 +39,8 @@
     "rights": "All rights reserved.",
     "brotaBy": "Site by Brota Mx",
     "avisoPrivacidad": "Privacy Notice",
-    "avisoLegal": "Legal Notice"
+    "avisoLegal": "Legal Notice",
+    "servicios": "Tax services"
   },
   "notFound": {
     "eyebrow": "Error 404",
@@ -102,5 +104,17 @@
     "consentimiento": "I consent to the processing of my data under the",
     "avisoLink": "Privacy Notice",
     "consentimientoError": "You must accept the Privacy Notice to subscribe."
+  },
+  "servicioPage": {
+    "inicio": "Home",
+    "breadcrumb": "Breadcrumb",
+    "eyebrow": "Tax defense and advisory",
+    "consulta": "Schedule a consultation",
+    "faq": "Frequently asked questions",
+    "relacionados": "Related services",
+    "conocerMas": "Learn more",
+    "explorar": "Explore our tax services",
+    "contactoTitulo": "Let us review your tax situation.",
+    "contactoIntro": "Tell us about the notice you received or the transaction you need to review. The initial conversation is confidential and without obligation."
   }
 }
