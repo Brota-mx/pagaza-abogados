@@ -116,6 +116,10 @@ export function Header() {
                 {t("defensaFiscal")}
                 <span aria-hidden className={subrayadoNav} />
               </Link>
+              <Link href="/blog" className={enlaceNav}>
+                {t("blog")}
+                <span aria-hidden className={subrayadoNav} />
+              </Link>
             </nav>
 
             <div className="hidden items-center gap-4 xl:flex">
@@ -190,6 +194,13 @@ export function Header() {
               className="hover:text-brand rounded-[2px] py-3 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
             >
               {t("defensaFiscal")}
+            </Link>
+            <Link
+              href="/blog"
+              onClick={() => setOpen(false)}
+              className="hover:text-brand rounded-[2px] py-3 text-sm focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+            >
+              {t("blog")}
             </Link>
             <div className="border-line mt-3 flex items-center justify-between border-t pt-4">
               <LocaleSwitcher />

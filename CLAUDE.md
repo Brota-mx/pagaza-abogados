@@ -22,6 +22,7 @@ Next.js 15 (App Router) + TypeScript strict + Tailwind CSS v4 + next-intl (ES/EN
 - `src/app/api/` — Route handlers (p.ej. `contact/route.ts`). Única superficie dinámica.
 - `src/components/{layout,sections,ui,forms}/` — UI por dominio.
 - `src/content/` — **Contenido tipado y bilingüe** (`{ es, en }`): pilares, sectores, alianzas, site. Sin CMS.
+- `src/content/blog/` — Registro de artículos bilingües y slugs traducidos; rutas estáticas en `[locale]/blog`. Ejemplos con aviso + `noindex`, fuera del sitemap. Autor/fecha sólo verificados; guía en `docs/seo-blog.md`.
 - `src/content/servicios-seo.ts` — Registro de servicios SEO; copy por servicio en `servicios-seo/`. Fuentes y revisión editorial en `docs/seo-servicios.md`.
 - `src/messages/{es,en}.json` — Textos de UI/chrome (nav, formulario, aria) para next-intl.
 - `src/i18n/` — Config de next-intl (`routing`, `request`, `navigation`).

@@ -4,6 +4,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
+import { useParams } from "next/navigation";
+import { blogRoutes, blogHref } from "@/content/blog/routes";
+import type { Locale } from "@/content/types";
 
 /**
  * Selector ES/EN. Crawlable y sin JS de navegación: cada idioma es un <Link> localizado que
@@ -18,6 +21,11 @@ import { cn } from "@/lib/utils";
 export function LocaleSwitcher() {
   const active = useLocale();
   const pathname = usePathname();
+  const params = useParams();
+  const post =
+    pathname === "/blog/[slug]"
+      ? blogRoutes.find((entry) => entry.slug[active as Locale] === params.slug)
+      : undefined;
   const t = useTranslations("localeSwitcher");
 
   return (
@@ -36,7 +44,13 @@ export function LocaleSwitcher() {
               </span>
             )}
             <Link
-              href={pathname}
+              href={
+                pathname === "/blog/[slug]"
+                  ? post
+                    ? blogHref(post, loc)
+                    : "/blog"
+                  : pathname
+              }
               locale={loc}
               aria-current={isActive ? "true" : undefined}
               className={cn(

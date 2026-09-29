@@ -265,8 +265,8 @@ test("el sitemap incluye 24 servicios con hreflang y sin fechas de build", async
       })),
     }));
   }, xml);
-  expect(urls).toHaveLength(31);
-  expect(new Set(urls.map((url) => url.loc)).size).toBe(31);
+  expect(urls).toHaveLength(33);
+  expect(new Set(urls.map((url) => url.loc)).size).toBe(33);
   const origin = new URL(urls[0].loc).origin;
   for (const servicio of serviciosSeo) {
     for (const locale of routing.locales) {
