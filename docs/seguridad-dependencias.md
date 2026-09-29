@@ -105,6 +105,4 @@ Evidencia local, fuera de Git: `work/verification/audit-security-before.json`,
 `security-*.log`, incluidos `security-e2e-production.log`,
 `security-e2e-development.log` y `security-e2e-map-recheck.log`.
 
-Merge pendiente de la aprobación explícita de Jesús. Sin cambios de DNS,
-hosting, variables de entorno ni envío de leads reales. El vault se actualiza
-después del merge autorizado.
+Sin cambios de DNS, hosting, variables de entorno ni envío de leads reales.
